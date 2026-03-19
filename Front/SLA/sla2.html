@@ -4,390 +4,312 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bits Bytes Store | Hardware Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- VARIÁVEIS DE CORES --- */
         :root {
-            --primary: #ff1a1a;
-            --bg: #0d0d0d;
-            --card-bg: #1a1a1a;
+            --primary: #ff1a1a; /* Vermelho principal */
+            --primary-hover: #ff4d4d;
+            --bg-gradient: radial-gradient(circle at center, #1a1a1a 0%, #080808 100%);
+            --card-bg: #141414;
             --text: #e6e6e6;
-            --success: #00ff88;
+            --success: #00ff88; /* Cor do preço */
         }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            background: var(--bg);
-            color: var(--text);
-        }
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        html { scroll-behavior: smooth; } /* Faz o clique no menu deslizar suavemente */
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg-gradient); background-attachment: fixed; color: var(--text); overflow-x: hidden; }
 
-        /* --- ESTILO DO CABEÇALHO --- */
+        /* --- CABEÇALHO E MENU --- */
         header {
-            background: #1a1a1a;
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 2px solid var(--primary);
+            background: rgba(10, 10, 10, 0.95); padding: 1.2rem 5%; border-bottom: 2px solid var(--primary);
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
         }
+        header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 4px; text-shadow: 0 0 15px rgba(255, 26, 26, 0.4); }
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { color: #888; text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: var(--primary); }
 
-        /* --- BARRA DE PESQUISA E BOTÃO FILTRAR --- */
-        .topo-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            display: flex;
-            gap: 10px;
-            padding: 0 20px;
+        /* --- BOTÃO DO CARRINHO NO MENU --- */
+        .cart-btn-nav { position: relative; cursor: pointer; background: #222; padding: 12px 25px; border-radius: 30px; border: 1px solid #333; font-weight: bold; }
+        #cart-count { background: var(--primary); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; position: absolute; top: -5px; right: -5px; }
+
+        /* --- CARRINHO LATERAL (SIDEBAR) --- */
+        #cart-sidebar {
+            position: fixed; top: 0; right: -450px; width: 400px; height: 100%; background: #0f0f0f;
+            box-shadow: -15px 0 40px rgba(0,0,0,0.9); z-index: 4000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; border-left: 1px solid #222;
         }
+        #cart-sidebar.open { right: 0; } /* Classe que faz o carrinho aparecer */
+        .cart-header { padding: 30px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+        .cart-items-list { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; background: #181818; padding: 15px; border-radius: 15px; border: 1px solid #333; }
+        .cart-item img { width: 65px; height: 65px; object-fit: contain; background: #000; border-radius: 10px; }
+        .qty-controls { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+        .qty-btn { background: var(--primary); color: white; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-        .topo-container input {
-            flex: 1;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background: #222;
-            color: white;
-            outline: none;
-        }
+        /* --- BUSCA E PAINEL DE FILTROS --- */
+        .topo-container { width: 90%; max-width: 1400px; margin: 40px auto 10px; display: flex; gap: 20px; }
+        .topo-container input { flex: 1; padding: 22px 30px; border-radius: 15px; border: 1px solid #333; background: rgba(20, 20, 20, 0.8); color: white; font-size: 1.1rem; outline: none; }
+        .btn-filtro-master { background: var(--primary); color: white; border: none; padding: 0 35px; border-radius: 15px; cursor: pointer; font-weight: 700; text-transform: uppercase; }
 
-        .btn-filtro-master {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* --- PAINEL DE FILTROS --- */
         .painel-filtros {
-            max-width: 1200px;
-            margin: 0 auto 20px;
-            padding: 20px;
-            background: #151515;
-            border-radius: 10px;
-            display: none; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            border: 1px solid #333;
+            width: 90%; max-width: 1400px; margin: 20px auto; padding: 30px;
+            background: rgba(15, 15, 15, 0.95); border-radius: 20px; border: 1px solid #333;
+            display: none; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px;
+        }
+        .filter-group { display: flex; flex-direction: column; gap: 10px; }
+        .filter-group label { font-size: 0.8rem; color: #666; font-weight: 700; text-transform: uppercase; }
+        .painel-filtros select { background: #000; color: white; border: 1px solid #444; padding: 15px; border-radius: 10px; font-family: inherit; }
+
+        /* --- CARDS DE PRODUTOS --- */
+        .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; width: 90%; max-width: 1400px; margin: 50px auto; }
+        .produto { background: var(--card-bg); padding: 30px; border-radius: 25px; border: 1px solid #222; text-align: center; display: flex; flex-direction: column; transition: 0.4s; }
+        .produto:hover { border-color: var(--primary); transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .img-container { width: 100%; height: 250px; background: #080808; border-radius: 20px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .img-produto { max-width: 85%; max-height: 85%; transition: 0.5s ease; }
+        .preco { color: var(--success); font-size: 2.2rem; font-weight: 800; margin: 20px 0; margin-top: auto; }
+        
+        /* BOTÕES DOS PRODUTOS */
+        .btns-produto { display: flex; flex-direction: column; gap: 15px; }
+        .btns-produto button { width: 100%; padding: 22px; border-radius: 15px; border: none; cursor: pointer; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; transition: 0.3s; }
+        .btn-buy { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(255, 26, 26, 0.3); }
+        .btn-info { background: #222; color: #fff; border: 1px solid #444; }
+
+        /* --- SEÇÕES (SOBRE E CONTATO) --- */
+        .section-container { width: 90%; max-width: 1100px; margin: 80px auto; padding: 60px 40px; background: rgba(20, 20, 20, 0.4); border-radius: 25px; border: 1px solid #222; backdrop-filter: blur(10px); }
+        .section-container h2 { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
+        .section-container span { color: var(--primary); }
+        .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .contato-form { display: flex; flex-direction: column; gap: 15px; }
+        .contato-form input, .contato-form textarea { background: #000; border: 1px solid #333; padding: 18px; color: white; border-radius: 12px; font-family: inherit; }
+        
+        /* BOTÃO ENVIAR MENSAGEM (TAMANHO GRANDE) */
+        .btn-submit-contato { 
+            width: 100%; padding: 25px !important; border-radius: 15px !important; 
+            font-size: 1.2rem !important; font-weight: 700; text-transform: uppercase; 
+            cursor: pointer; background: var(--primary); color: white; border: none;
+            box-shadow: 0 8px 20px rgba(255, 26, 26, 0.3); transition: 0.3s;
         }
 
-        .filter-group { display: flex; flex-direction: column; gap: 5px; }
-        .filter-group label { font-size: 0.8rem; color: #888; }
-
-        .painel-filtros select {
-            background: #222; color: white; border: 1px solid #444;
-            padding: 10px; border-radius: 5px; outline: none;
+        /* --- MODAL DE DETALHES --- */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); justify-content: center; align-items: center; z-index: 5000; padding: 20px; }
+        .modal-content { background: #111; border-radius: 30px; display: grid; grid-template-columns: 1fr 1fr; max-width: 1000px; width: 100%; border: 1px solid #333; overflow: hidden; }
+        .modal-info-box { padding: 50px; display: flex; flex-direction: column; }
+        .modal-info-box h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .modal-info-box ul { flex-grow: 1; }
+        .modal-info-box li { padding: 12px 0; border-bottom: 1px solid #222; color: #bbb; list-style: none; }
+        .modal-info-box li::before { content: '→'; color: var(--primary); margin-right: 15px; font-weight: bold; }
+        
+        /* BOTÃO VOLTAR DO MODAL (TAMANHO GRANDE) */
+        .btn-modal-voltar {
+            width: 100%; padding: 25px !important; border-radius: 15px !important;
+            font-size: 1.2rem !important; font-weight: 700; text-transform: uppercase;
+            cursor: pointer; background: var(--primary); color: white; border: none;
+            margin-top: 30px; transition: 0.3s;
         }
 
-        /* --- GRID DE PRODUTOS --- */
-        .container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
+        footer { padding: 60px; text-align: center; color: #444; border-top: 1px solid #222; }
 
-        /* --- CARD DO PRODUTO --- */
-        .produto {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid #222;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            transition: 0.3s;
-        }
-
-        .img-container {
-            width: 100%; height: 200px; background: #111;
-            border-radius: 10px; margin-bottom: 15px;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .img-produto { 
-            max-width: 90%; 
-            max-height: 90%; 
-            object-fit: contain; 
-            /* Adicionada transição suave para a troca de imagens */
-            transition: opacity 0.4s ease-in-out; 
-        }
-
-        .preco { color: var(--success); font-size: 1.6rem; font-weight: bold; margin: 15px 0; }
-
-        .btns-produto { display: flex; gap: 10px; width: 100%; }
-        .btns-produto button { flex: 1; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
-        .btn-buy { background: var(--primary); color: white; }
-        .btn-info { background: #333; color: white; }
-
-        /* --- MODAL DE INFORMAÇÕES --- */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 25px;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
-            max-width: 1000px;
-            width: 95%;
-            border: 1px solid var(--primary);
-        }
-
-        .modal-img-box { background: #111; border-radius: 15px; padding: 20px; display: flex; justify-content: center; }
-        .modal-img-box img { max-width: 100%; max-height: 400px; object-fit: contain; }
-        .modal-info-box h2 { font-size: 2.5rem; color: var(--primary); margin-top: 0; }
-        .modal-info-box ul { padding: 0; list-style: none; font-size: 1.2rem; line-height: 2; color: #ccc; }
-        .modal-info-box li::before { content: "➤ "; color: var(--primary); margin-right: 10px; }
-        .btn-fechar-modal { margin-top: 20px; padding: 15px 25px; background: #333; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
-
-        @media (max-width: 900px) { 
-            .container { grid-template-columns: repeat(2, 1fr); } 
-            .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
-        }
-        @media (max-width: 600px) { .container { grid-template-columns: 1fr; } }
+        /* AJUSTES PARA CELULAR */
+        @media (max-width: 900px) { .modal-content, .contato-grid { grid-template-columns: 1fr; } #cart-sidebar { width: 100%; right: -100%; } }
     </style>
 </head>
 <body>
 
-<header><h1>BITS & BYTES STORE</h1></header>
+<header>
+    <h1>BITS & BYTES STORE</h1>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#produtos">Produtos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+        <div class="cart-btn-nav" onclick="toggleCart()">🛒 Carrinho <span id="cart-count">0</span></div>
+    </nav>
+</header>
 
-<div class="topo-container">
-    <input type="text" id="busca" placeholder="O que você procura hoje?" onkeyup="filtrarProdutos()">
-    <button class="btn-filtro-master" onclick="toggleFiltros()">Filtrar</button>
-</div>
-
-<div class="painel-filtros" id="painelFiltros">
-    <div class="filter-group">
-        <label>1. Categoria</label>
-        <select id="filterTipo" onchange="atualizarSubFiltros()">
-            <option value="">Todos</option>
-            <option value="gpu">Placa de Vídeo</option>
-            <option value="cpu">Processador</option>
-            <option value="ram">Memória RAM</option>
-            <option value="ssd">SSD</option>
-        </select>
+<aside id="cart-sidebar">
+    <div class="cart-header"><h2>Meu Setup</h2><button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:2.5rem; cursor:pointer;">&times;</button></div>
+    <div class="cart-items-list" id="cart-items"></div>
+    <div class="cart-footer" style="padding: 35px; border-top: 1px solid #222;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:25px; font-weight:700; font-size:1.5rem;"><span>Total:</span><span id="cart-total">R$ 0,00</span></div>
+        <button class="btn-buy" style="width:100%; padding:25px;">Finalizar Pedido</button>
     </div>
-    <div class="filter-group">
-        <label>2. Marca</label>
-        <select id="filterMarca" onchange="filtrarProdutos()" disabled>
-            <option value="">Escolha a categoria...</option>
-        </select>
+</aside>
+
+<main id="home">
+    <div class="topo-container">
+        <input type="text" id="busca" placeholder="O que você deseja buildar hoje?" onkeyup="filtrarProdutos()">
+        <button class="btn-filtro-master" onclick="toggleFiltros()">Filtros</button>
     </div>
-    <div class="filter-group">
-        <label>3. Tecnologia</label>
-        <select id="filterTec" onchange="filtrarProdutos()" disabled>
-            <option value="">Escolha a categoria...</option>
-        </select>
+
+    <div class="painel-filtros" id="painelFiltros">
+        <div class="filter-group"><label>Categoria</label><select id="fTipo" onchange="atualizarSubFiltros()"><option value="">Todas</option><option value="gpu">Placa de Vídeo</option><option value="cpu">Processador</option><option value="ram">Memória RAM</option><option value="ssd">SSD</option></select></div>
+        <div class="filter-group"><label>Marca</label><select id="fMarca" onchange="filtrarProdutos()" disabled><option value="">Selecione...</option></select></div>
+        <button onclick="limparFiltros()" style="background:#333; color:white; border:none; border-radius:10px; cursor:pointer; height:55px; align-self:flex-end; font-weight: bold;">RESETAR FILTROS</button>
     </div>
-    <button onclick="limparFiltros()" style="background:#444; color:white; border:none; cursor:pointer; height:40px; align-self:flex-end; border-radius:5px;">Resetar</button>
-</div>
 
-<main class="container" id="lista-produtos">
+    <div class="container" id="produtos">
+        <article class="produto" data-id="1" data-tipo="gpu" data-marca="nvidia" data-info='["12GB GDDR6", "Ray Tracing Gen 2", "Nvidia Ampere Architecture"]'>
+            <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg"></div>
+            <h3>RTX 3060</h3><p>Nvidia Galax</p><span class="preco">R$ 2.199</span>
+            <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(1, 'RTX 3060', 2199, 'https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg')">Adicionar ao Carrinho</button></div>
+        </article>
 
-    <article class="produto" data-tipo="gpu" data-marca="nvidia" data-tec="rtx"
-        data-imgs='["https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg", "https://m.media-amazon.com/images/I/61MbmglleNL._AC_SY450_.jpg"]'
-        data-info='["Modelo: RTX 3060 PC YES", "Memória: 12GB GDDR6", "Boost Clock: 1777 MHz", "Ray Tracing Integrado", "Ótimo desempenho para jogos", "Cor: Preta"]'>
-        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg"></div>
-        <h3>RTX 3060</h3><p>Nvidia Galax</p><span class="preco">R$ 2.199</span>
-        <div class="btns-produto">
-            <button class="btn-info" onclick="abrirModal(this)">Info</button>
-            <button class="btn-buy">Comprar</button>
-        </div>
-    </article>
+        <article class="produto" data-id="2" data-tipo="cpu" data-marca="intel" data-info='["Modelo: i3 14100F", "4 Núcleos / 8 Threads", "Frequência: 4.7GHz Boost"]'>
+            <div class="img-container"><img class="img-produto" src="https://http2.mlstatic.com/D_Q_NP_798243-MLA91535889066_092025-F.webp"></div>
+            <h3>i3 14100F</h3><p>Intel Core</p><span class="preco">R$ 649</span>
+            <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(2, 'i3 14100F', 649, 'https://http2.mlstatic.com/D_Q_NP_798243-MLA91535889066_092025-F.webp')">Adicionar ao Carrinho</button></div>
+        </article>
 
-    <article class="produto" data-tipo="cpu" data-marca="intel" data-tec="core"
-        data-imgs='["https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg", "https://placehold.co/400x400/111/FFF?text=Intel+i3+Caixa"]'
-        data-info='["Modelo: i3 14100F", "Núcleos: 4", "Threads: 8", "Cache: 12MB", "Frequência: 4.7GHz", "Acompanha Cooler"]'>
-        <div class="img-container"><img class="img-produto" src="https://http2.mlstatic.com/D_Q_NP_798243-MLA91535889066_092025-F.webp"></div>
-        <h3>i3 14100F</h3><p>Intel Core</p><span class="preco">R$ 649</span>
-        <div class="btns-produto">
-            <button class="btn-info" onclick="abrirModal(this)">Info</button>
-            <button class="btn-buy">Comprar</button>
-        </div>
-    </article>
+        <article class="produto" data-id="3" data-tipo="ram" data-marca="corsair" data-info='["Capacidade: 16GB", "Frequência: 3200MHz", "Série Vengeance LPX"]'>
+            <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/61S6h8-v3lL._AC_SL1000_.jpg"></div>
+            <h3>Vengeance 16GB</h3><p>Corsair RAM</p><span class="preco">R$ 289</span>
+            <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(3, 'Vengeance 16GB', 289, 'https://m.media-amazon.com/images/I/61S6h8-v3lL._AC_SL1000_.jpg')">Adicionar ao Carrinho</button></div>
+        </article>
 
-    <article class="produto" data-tipo="ram" data-marca="corsair" data-tec="ddr4"
-        data-imgs='["https://m.media-amazon.com/images/I/61S6h8-v3lL._AC_SL1000_.jpg", "https://placehold.co/400x400/111/FFF?text=Corsair+Lado"]'
-        data-info='["Capacidade: 16GB", "Frequência: 3200MHz", "Tipo: DDR4", "Dissipador de Calor Alumínio"]'>
-        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/61S6h8-v3lL._AC_SL1000_.jpg"></div>
-        <h3>Vengeance 16GB</h3><p>Corsair RAM</p><span class="preco">R$ 289</span>
-        <div class="btns-produto">
-            <button class="btn-info" onclick="abrirModal(this)">Info</button>
-            <button class="btn-buy">Comprar</button>
-        </div>
-    </article>
+        <article class="produto" data-id="4" data-tipo="gpu" data-marca="amd" data-info='["Modelo: RX 6600", "8GB GDDR6", "Arquitetura RDNA 2"]'>
+            <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/71uS9C8mSLL._AC_SL1500_.jpg"></div>
+            <h3>RX 6600</h3><p>AMD ASRock</p><span class="preco">R$ 1.399</span>
+            <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(4, 'RX 6600', 1399, 'https://m.media-amazon.com/images/I/71uS9C8mSLL._AC_SL1500_.jpg')">Adicionar ao Carrinho</button></div>
+        </article>
 
-    <article class="produto" data-tipo="gpu" data-marca="amd" data-tec="rx"
-        data-imgs='["https://m.media-amazon.com/images/I/71uS9C8mSLL._AC_SL1500_.jpg", "https://placehold.co/400x400/111/FFF?text=RX+6600+Costas"]'
-        data-info='["Modelo: RX 6600", "Memória: 8GB GDDR6", "Arquitetura: RDNA 2", "PCI Express 4.0"]'>
-        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/71uS9C8mSLL._AC_SL1500_.jpg"></div>
-        <h3>RX 6600</h3><p>AMD ASRock</p><span class="preco">R$ 1.399</span>
-        <div class="btns-produto">
-            <button class="btn-info" onclick="abrirModal(this)">Info</button>
-            <button class="btn-buy">Comprar</button>
-        </div>
-    </article>
+        <article class="produto" data-id="5" data-tipo="cpu" data-marca="amd" data-info='["6 Núcleos / 12 Threads", "Clock Máximo: 4.4GHz", "Cache Total: 35MB"]'>
+            <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/516V7S3Z4LL._AC_SL1000_.jpg"></div>
+            <h3>Ryzen 5 5600</h3><p>AMD Ryzen</p><span class="preco">R$ 899</span>
+            <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(5, 'Ryzen 5 5600', 899, 'https://m.media-amazon.com/images/I/516V7S3Z4LL._AC_SL1000_.jpg')">Adicionar ao Carrinho</button></div>
+        </article>
 
-    <article class="produto" data-tipo="cpu" data-marca="amd" data-tec="ryzen"
-        data-imgs='["https://m.media-amazon.com/images/I/516V7S3Z4LL._AC_SL1000_.jpg", "https://placehold.co/400x400/111/FFF?text=Cooler+Wraith"]'
-        data-info='["Modelo: Ryzen 5 5600", "Núcleos: 6", "Threads: 12", "Frequência: 4.4GHz Boost"]'>
-        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/516V7S3Z4LL._AC_SL1000_.jpg"></div>
-        <h3>Ryzen 5 5600</h3><p>AMD Ryzen</p><span class="preco">R$ 899</span>
-        <div class="btns-produto">
-            <button class="btn-info" onclick="abrirModal(this)">Info</button>
-            <button class="btn-buy">Comprar</button>
-        </div>
-    </article>
-
-    <article class="produto" data-tipo="ssd" data-marca="kingston" data-tec="nvme"
-        data-imgs='["https://m.media-amazon.com/images/I/51p6K1mZpVL._AC_SL1000_.jpg", "https://placehold.co/400x400/111/FFF?text=SSD+Detalhe"]'
-        data-info='["Modelo: NV2", "Capacidade: 1TB", "Leitura: 3500MB/s", "Interface: NVMe M.2"]'>
-        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/51p6K1mZpVL._AC_SL1000_.jpg"></div>
-        <h3>SSD 1TB NV2</h3><p>Kingston Storage</p><span class="preco">R$ 399</span>
-        <div class="btns-produto">
-            <button class="btn-info" onclick="abrirModal(this)">Info</button>
-            <button class="btn-buy">Comprar</button>
-        </div>
-    </article>
-
+        <article class="produto" data-id="6" data-tipo="ssd" data-marca="kingston" data-info='["Capacidade: 1TB", "Leitura: 3500MB/s", "Formato M.2 2280"]'>
+            <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/51p6K1mZpVL._AC_SL1000_.jpg"></div>
+            <h3>SSD 1TB NV2</h3><p>Kingston Storage</p><span class="preco">R$ 399</span>
+            <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(6, 'SSD 1TB NV2', 399, 'https://m.media-amazon.com/images/I/51p6K1mZpVL._AC_SL1000_.jpg')">Adicionar ao Carrinho</button></div>
+        </article>
+    </div>
 </main>
+
+<section id="sobre" class="section-container">
+    <h2>SOBRE A <span>BITS & BYTES</span></h2>
+    <p style="text-align:center; color:#aaa; line-height:2; font-size: 1.1rem;">Especialistas em hardware de alta performance. Oferecemos o que há de melhor em tecnologia para transformar sua experiência gamer e profissional.</p>
+</section>
+
+<section id="contato" class="section-container">
+    <h2>FALE COM <span>A GENTE</span></h2>
+    <div class="contato-grid">
+        <div style="color:#888; font-size:1.1rem;"><p>📍 Av. Tech, 1010 - Cyber City</p><p>📧 contato@bitsbytes.com</p><p>📱 (11) 99999-8888</p></div>
+        <form class="contato-form">
+            <input type="text" placeholder="Nome">
+            <input type="email" placeholder="E-mail">
+            <textarea placeholder="Sua mensagem..." rows="5"></textarea>
+            <button type="button" class="btn-submit-contato">Enviar Mensagem</button>
+        </form>
+    </div>
+</section>
+
+<footer><p>&copy; 2026 Bits & Bytes Store. Alta Performance Garantida.</p></footer>
 
 <div class="modal" id="modal" onclick="if(event.target == this) fecharModal()">
     <div class="modal-content">
-        <div class="modal-img-box">
-            <img id="modalImg" src="">
-        </div>
+        <div style="background:#000; display:flex; align-items:center; justify-content:center; padding:40px;"><img id="modalImg" src="" style="max-width:90%"></div>
         <div class="modal-info-box">
             <h2 id="modalNome"></h2>
             <ul id="modalLista"></ul>
-            <button class="btn-fechar-modal" onclick="fecharModal()">Voltar para a Loja</button>
+            <button class="btn-modal-voltar" onclick="fecharModal()">Voltar à Loja</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- BANCO DE DADOS DOS FILTROS ---
-    const dadosFiltros = {
-        gpu: { marcas: ["nvidia", "amd"], tecs: ["rtx", "rx"] },
-        cpu: { marcas: ["intel", "amd"], tecs: ["core", "ryzen"] },
-        ram: { marcas: ["corsair", "kingston"], tecs: ["ddr4", "ddr5"] },
-        ssd: { marcas: ["kingston", "samsung"], tecs: ["nvme", "sata"] }
-    };
+    /* --- LÓGICA DO CARRINHO --- */
+    let cart = [];
+    const filterData = { gpu: ["nvidia", "amd"], cpu: ["intel", "amd"], ram: ["corsair"], ssd: ["kingston"] };
 
-    // --- FUNÇÃO PARA ABRIR/FECHAR PAINEL DE FILTRO ---
-    function toggleFiltros() {
-        const p = document.getElementById("painelFiltros");
-        p.style.display = (p.style.display === "grid") ? "none" : "grid";
+    // Abre/Fecha a barra lateral do carrinho
+    function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+    
+    // Adiciona item ao array do carrinho e atualiza a tela
+    function addToCart(id, nome, preco, img) {
+        const item = cart.find(i => i.id === id);
+        if (item) { item.quantity++; } else { cart.push({ id, nome, preco, img, quantity: 1 }); }
+        updateCartUI();
+        if(!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
     }
 
-    // --- LOGICA DE FILTRO EM CASCATA ---
-    function atualizarSubFiltros() {
-        const tipo = document.getElementById("filterTipo").value;
-        const sMarca = document.getElementById("filterMarca");
-        const sTec = document.getElementById("filterTec");
-
-        if (!tipo) {
-            sMarca.disabled = sTec.disabled = true;
-            sMarca.innerHTML = sTec.innerHTML = '<option value="">Escolha a categoria</option>';
-            filtrarProdutos(); return;
+    // Muda a quantidade (+ ou -) dentro do carrinho
+    function changeQty(id, delta) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
         }
+        updateCartUI();
+    }
 
-        sMarca.disabled = sTec.disabled = false;
-        sMarca.innerHTML = '<option value="">Todas as Marcas</option>' + 
-            dadosFiltros[tipo].marcas.map(m => `<option value="${m}">${m.toUpperCase()}</option>`).join('');
-        
-        sTec.innerHTML = '<option value="">Todas as Séries</option>' + 
-            dadosFiltros[tipo].tecs.map(t => `<option value="${t}">${t.toUpperCase()}</option>`).join('');
+    // Desenha os itens na tela do carrinho e soma o total
+    function updateCartUI() {
+        const list = document.getElementById('cart-items');
+        const count = document.getElementById('cart-count');
+        const totalEl = document.getElementById('cart-total');
+        list.innerHTML = ''; let total = 0, items = 0;
+        cart.forEach(i => {
+            total += i.preco * i.quantity; items += i.quantity;
+            list.innerHTML += `<div class="cart-item"><img src="${i.img}"><div><h4>${i.nome}</h4><p>R$ ${i.preco}</p><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${i.id}, -1)">-</button><span>${i.quantity}</span><button class="qty-btn" onclick="changeQty(${i.id}, 1)">+</button></div></div></div>`;
+        });
+        count.innerText = items; totalEl.innerText = `R$ ${total.toLocaleString('pt-BR')},00`;
+    }
 
+    /* --- LÓGICA DE FILTROS --- */
+    // Mostra/Esconde o painel de filtros
+    function toggleFiltros() { const p = document.getElementById("painelFiltros"); p.style.display = p.style.display === "grid" ? "none" : "grid"; }
+    
+    // Atualiza o menu de marcas baseado na categoria escolhida
+    function atualizarSubFiltros() {
+        const tipo = document.getElementById("fTipo").value;
+        const sm = document.getElementById("fMarca");
+        if(!tipo) { sm.disabled = true; sm.innerHTML = '<option value="">Marca</option>'; filtrarProdutos(); return; }
+        sm.disabled = false;
+        sm.innerHTML = '<option value="">Marcas</option>' + filterData[tipo].map(m => `<option value="${m}">${m.toUpperCase()}</option>`).join('');
         filtrarProdutos();
     }
 
-    // --- FUNÇÃO DE FILTRAGEM GERAL ---
+    // Filtra os produtos na tela combinando Busca + Categoria + Marca
     function filtrarProdutos() {
-        const busca = document.getElementById("busca").value.toLowerCase();
-        const tipo = document.getElementById("filterTipo").value;
-        const marca = document.getElementById("filterMarca").value;
-        const tec = document.getElementById("filterTec").value;
-
+        const b = document.getElementById("busca").value.toLowerCase();
+        const t = document.getElementById("fTipo").value;
+        const m = document.getElementById("fMarca").value;
         document.querySelectorAll(".produto").forEach(p => {
-            const mBusca = p.innerText.toLowerCase().includes(busca);
-            const mTipo = !tipo || p.dataset.tipo === tipo;
-            const mMarca = !marca || p.dataset.marca === marca;
-            const mTec = !tec || p.dataset.tec === tec;
-
-            p.style.display = (mBusca && mTipo && mMarca && mTec) ? "flex" : "none";
+            const matchB = p.innerText.toLowerCase().includes(b);
+            const matchT = !t || p.dataset.tipo === t;
+            const matchM = !m || p.dataset.marca === m;
+            p.style.display = (matchB && matchT && matchM) ? "flex" : "none";
         });
     }
 
-    // --- LIMPAR TUDO ---
+    // Reseta todos os campos de filtro para o padrão
     function limparFiltros() {
-        document.getElementById("filterTipo").value = "";
         document.getElementById("busca").value = "";
-        atualizarSubFiltros();
+        document.getElementById("fTipo").value = "";
+        const sm = document.getElementById("fMarca");
+        sm.value = "";
+        sm.disabled = true;
+        sm.innerHTML = '<option value="">Marca</option>';
+        filtrarProdutos();
     }
 
-    // --- FUNÇÃO DO MODAL ---
+    /* --- LÓGICA DO MODAL --- */
+    // Pega as informações escondidas no 'data-info' do produto e joga no Modal
     function abrirModal(btn) {
         const p = btn.closest(".produto");
-        const infos = JSON.parse(p.dataset.info);
-        
-        document.getElementById("modalNome").innerText = p.querySelector("h3").innerText;
-        // Pega a imagem que estiver sendo exibida no momento
+        const info = JSON.parse(p.getAttribute("data-info"));
         document.getElementById("modalImg").src = p.querySelector(".img-produto").src;
-        
-        const lista = document.getElementById("modalLista");
-        lista.innerHTML = infos.map(i => `<li>${i}</li>`).join('');
-        
+        document.getElementById("modalNome").innerText = p.querySelector("h3").innerText;
+        document.getElementById("modalLista").innerHTML = info.map(i => `<li>${i}</li>`).join('');
         document.getElementById("modal").style.display = "flex";
     }
-
-    function fecharModal() {
-        document.getElementById("modal").style.display = "none";
-    }
-
-    // --- NOVA FUNÇÃO: SLIDESHOW DE IMAGENS ---
-    const tempoTroca = 3000; // Tempo em milissegundos (3000 = 3 segundos)
-
-    document.querySelectorAll('.produto').forEach(produto => {
-        // Pega a lista de imagens do atributo data-imgs
-        const imagens = JSON.parse(produto.dataset.imgs || "[]");
-        
-        // Se tiver mais de uma imagem, ativa o carrossel
-        if (imagens.length > 1) {
-            let imgIndex = 0;
-            const imgElement = produto.querySelector('.img-produto');
-            
-            setInterval(() => {
-                // Passa para a próxima imagem
-                imgIndex = (imgIndex + 1) % imagens.length;
-                
-                // Efeito de desaparecer
-                imgElement.style.opacity = 0;
-                
-                // Troca a imagem enquanto está invisível e faz aparecer de novo
-                setTimeout(() => {
-                    imgElement.src = imagens[imgIndex];
-                    imgElement.style.opacity = 1;
-                }, 400); // 400ms = tempo da transição definida no CSS
-                
-            }, tempoTroca);
-        }
-    });
-
+    // Fecha o modal
+    function fecharModal() { document.getElementById("modal").style.display = "none"; }
 </script>
-
 </body>
 </html>
