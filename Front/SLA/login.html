@@ -1,169 +1,205 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login BBS</title>
-  <style>
-    /* Fundo geral */
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255, 0, 0, 0.3), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(196, 1, 1, 0.336), transparent 40%),
-        linear-gradient(135deg, #000000, #1a0000, #330000);
-      position: relative;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login | Bits Bytes Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff1a1a;
+            --glass: rgba(15, 15, 15, 0.85);
+            --input-bg: rgba(255, 255, 255, 0.05);
+        }
 
-    /* Listras animadas */
-    body::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0.2) 0px,
-        rgba(0, 0, 0, 0.2) 2px,
-        transparent 2px,
-        transparent 40px
-      );
-      animation: mover 10s linear infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 0, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(196, 1, 1, 0.15), transparent 40%),
+                linear-gradient(135deg, #000000, #0a0a0a, #1a0000);
+            animation: fadeInPage 1s ease-out;
+        }
 
-    @keyframes mover {
-      from { transform: translateX(0); }
-      to { transform: translateX(100px); }
-    }
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
 
-    /* Caixa do login */
-    .login {
-      width: 400px;
-      height: 550px;
-      padding: 20px;
-      background: rgba(247, 112, 112, 0.438);
-      border-radius: 20px;
-      backdrop-filter: blur(25px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        /* --- CONTAINER PRINCIPAL --- */
+        .login {
+            width: 380px;
+            padding: 50px 40px;
+            background: var(--glass);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 1;
+        }
 
-    /* Título do login ajustado verticalmente */
-    .tex {
-      color: white;
-      text-shadow: 0 0 10px red, 0 0 20px red;
-      font-size: 28px;
-      margin-bottom: 10px;  /* mantém distância do form */
-      margin-top: -20px;    /* move o título um pouco mais para cima */
-    }
+        .tex { color: white; font-size: 28px; font-weight: 700; letter-spacing: 3px; margin-bottom: 30px; text-transform: uppercase; }
+        .tex span { color: var(--primary); text-shadow: 0 0 15px rgba(255, 26, 26, 0.5); }
 
-    /* Formulário */
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
+        form { display: flex; flex-direction: column; gap: 15px; }
 
-    input,
-    button {
-      width: 80%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 15px;
-    }
+        input {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
 
-    input {
-      background: rgba(255, 255, 255, 0.3);
-      color: white;
-    }
+        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 26, 26, 0.2); }
 
-    input::placeholder {
-      color: white;
-      opacity: 1;
-    }
+        .btn-entrar {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
 
-    button {
-      background: red;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        .btn-entrar:hover { background: #e60000; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 26, 26, 0.4); }
 
-    button:hover {
-      background: darkred;
-      box-shadow: 0 0 10px red;
-    }
+        /* --- MODAIS (CADASTRO E RECUPERAÇÃO) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
 
-    /* Botões extras */
-    .extra-buttons {
-      display: flex;
-      justify-content: space-between;
-      width: 80%;
-      margin-top: 10px;
-    }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .extra-buttons button {
-      width: 48%;
-      background: red;
-      font-weight: bold;
-    }
+        .modal-content {
+            background: #111;
+            width: 350px;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            text-align: center;
+        }
 
-    .extra-buttons button:hover {
-      background: darkred;
-      box-shadow: 0 0 10px red;
-    }
+        .modal-content h2 { color: white; margin-bottom: 20px; font-size: 20px; }
+        .modal-content p { color: #888; font-size: 13px; margin-bottom: 20px; }
 
-  </style>
+        .btn-close {
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 20px;
+            text-decoration: underline;
+        }
+
+        /* --- LOADER --- */
+        #loader { display: none; flex-direction: column; align-items: center; gap: 20px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255, 26, 26, 0.1); border-left-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .extra-links { display: flex; justify-content: space-between; margin-top: 25px; }
+        .link-btn { background: none; border: none; color: #888; font-family: 'Poppins', sans-serif; font-size: 12px; cursor: pointer; transition: 0.3s; }
+        .link-btn:hover { color: white; }
+        .link-btn.highlight { color: var(--primary); font-weight: 600; }
+    </style>
 </head>
-
 <body>
-  <div class="login">
-    <h1 class="tex">LOGIN BBS</h1>
-    <form>
-      <input type="text" placeholder="Usuário" required />
-      <input type="password" placeholder="Senha" required />
-      <button type="submit">Entrar</button>
 
-      <!-- Novos botões -->
-      <div class="extra-buttons">
-        <button type="button">Cadastrar-se</button>
-        <button type="button">Esqueci senha</button>
-      </div>
-    </form>
-  </div>
-  <script>
-document.querySelector("form").addEventListener("submit", function(e){
-    e.preventDefault();
+    <div class="login" id="loginCard">
+        <h1 class="tex">BBS <span>LOGIN</span></h1>
+        
+        <div id="loader">
+            <div class="spinner"></div>
+            <p style="color: var(--primary); font-weight: 600; font-size: 11px; letter-spacing: 2px;">VERIFICANDO...</p>
+        </div>
 
-    const user = document.querySelector("input[type='text']").value.trim();
-    const pass = document.querySelector("input[type='password']").value.trim();
+        <form id="loginForm">
+            <input type="text" id="user" placeholder="Usuário" required />
+            <input type="password" id="pass" placeholder="Senha" required />
+            <button type="submit" class="btn-entrar">Acessar</button>
 
-    if(user === "admin" && pass === "1234"){
-        localStorage.setItem("logado", "true");
-        window.location.href = "sla2.html";
-    } else {
-        alert("Usuário ou senha inválidos");
-    }
-});
-</script>
+            <div class="extra-links">
+                <button type="button" class="link-btn highlight" onclick="openModal('modalCadastro')">Criar Conta</button>
+                <button type="button" class="link-btn" onclick="openModal('modalSenha')">Esqueceu a senha?</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="modalCadastro" class="modal">
+        <div class="modal-content">
+            <h2>NOVO CADASTRO</h2>
+            <form onsubmit="event.preventDefault(); alert('Conta criada com sucesso! Faça login.'); closeModal('modalCadastro')">
+                <input type="text" placeholder="Nome Completo" required />
+                <input type="email" placeholder="E-mail" required />
+                <input type="password" placeholder="Crie uma Senha" required />
+                <button type="submit" class="btn-entrar">Finalizar Cadastro</button>
+            </form>
+            <button class="btn-close" onclick="closeModal('modalCadastro')">Voltar ao Login</button>
+        </div>
+    </div>
+
+    <div id="modalSenha" class="modal">
+        <div class="modal-content">
+            <h2>RECUPERAR ACESSO</h2>
+            <p>Enviaremos um link de recuperação para o seu e-mail cadastrado.</p>
+            <form onsubmit="event.preventDefault(); alert('Link enviado para o seu e-mail!'); closeModal('modalSenha')">
+                <input type="email" placeholder="Digite seu E-mail" required />
+                <button type="submit" class="btn-entrar">Enviar Link</button>
+            </form>
+            <button class="btn-close" onclick="closeModal('modalSenha')">Voltar ao Login</button>
+        </div>
+    </div>
+
+    <script>
+        // Lógica de Login com Animação
+        document.getElementById("loginForm").addEventListener("submit", function(e){
+            e.preventDefault();
+            const user = document.getElementById("user").value.trim();
+            const pass = document.getElementById("pass").value.trim();
+            
+            if(user === "admin" && pass === "1234"){
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("loader").style.display = "flex";
+                
+                setTimeout(() => {
+                    localStorage.setItem("logado", "true");
+                    document.getElementById("loginCard").style.opacity = "0";
+                    setTimeout(() => { window.location.href = "sla2.html"; }, 500);
+                }, 2000); 
+            } else {
+                alert("Usuário ou senha incorretos!");
+            }
+        });
+
+        // Funções para os Modais
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
 </body>
 </html>
