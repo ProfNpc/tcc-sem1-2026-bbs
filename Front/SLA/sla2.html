@@ -58,7 +58,7 @@
             text-transform: uppercase;
         }
 
-        /* --- PAINEL DE FILTROS (ESCONDIDO POR PADRÃO) --- */
+        /* --- PAINEL DE FILTROS --- */
         .painel-filtros {
             max-width: 1200px;
             margin: 0 auto 20px;
@@ -79,10 +79,10 @@
             padding: 10px; border-radius: 5px; outline: none;
         }
 
-        /* --- GRID DE PRODUTOS (3 COLUNAS) --- */
+        /* --- GRID DE PRODUTOS --- */
         .container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* FORÇA 3 POR FILEIRA */
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             padding: 20px;
             max-width: 1200px;
@@ -107,7 +107,13 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        .img-produto { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .img-produto { 
+            max-width: 90%; 
+            max-height: 90%; 
+            object-fit: contain; 
+            /* Adicionada transição suave para a troca de imagens */
+            transition: opacity 0.4s ease-in-out; 
+        }
 
         .preco { color: var(--success); font-size: 1.6rem; font-weight: bold; margin: 15px 0; }
 
@@ -116,7 +122,7 @@
         .btn-buy { background: var(--primary); color: white; }
         .btn-info { background: #333; color: white; }
 
-        /* --- MODAL DE INFORMAÇÕES (GRANDE) --- */
+        /* --- MODAL DE INFORMAÇÕES --- */
         .modal {
             display: none;
             position: fixed;
@@ -145,8 +151,8 @@
         .modal-info-box h2 { font-size: 2.5rem; color: var(--primary); margin-top: 0; }
         .modal-info-box ul { padding: 0; list-style: none; font-size: 1.2rem; line-height: 2; color: #ccc; }
         .modal-info-box li::before { content: "➤ "; color: var(--primary); margin-right: 10px; }
+        .btn-fechar-modal { margin-top: 20px; padding: 15px 25px; background: #333; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
 
-        /* Responsividade para o Modal e Grid */
         @media (max-width: 900px) { 
             .container { grid-template-columns: repeat(2, 1fr); } 
             .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
@@ -192,8 +198,9 @@
 <main class="container" id="lista-produtos">
 
     <article class="produto" data-tipo="gpu" data-marca="nvidia" data-tec="rtx"
-        data-info='["Modelo: RTX 3060", "Memória: 12GB GDDR6", "Boost Clock: 1777 MHz", "Ray Tracing Integrado"]'>
-        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SL1500_.jpg"></div>
+        data-imgs='["https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg", "https://m.media-amazon.com/images/I/61MbmglleNL._AC_SY450_.jpg"]'
+        data-info='["Modelo: RTX 3060 PC YES", "Memória: 12GB GDDR6", "Boost Clock: 1777 MHz", "Ray Tracing Integrado", "Ótimo desempenho para jogos", "Cor: Preta"]'>
+        <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg"></div>
         <h3>RTX 3060</h3><p>Nvidia Galax</p><span class="preco">R$ 2.199</span>
         <div class="btns-produto">
             <button class="btn-info" onclick="abrirModal(this)">Info</button>
@@ -202,8 +209,9 @@
     </article>
 
     <article class="produto" data-tipo="cpu" data-marca="intel" data-tec="core"
-        data-info='["Modelo: i3 14100F", "Núcleos: 4", "Threads: 8", "Cache: 12MB", "Frequência: 4.7GHz"]'>
-        <div class="img-container"><img class="img-produto" src="https://images.kabum.com.br/produtos/fotos/516244/processador-intel-core-i3-14100f-3-5ghz-4-7ghz-max-turbo-lga-1700-4-nucleos-bx8071514100f_1704895690_gg.jpg"></div>
+        data-imgs='["https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg", "https://placehold.co/400x400/111/FFF?text=Intel+i3+Caixa"]'
+        data-info='["Modelo: i3 14100F", "Núcleos: 4", "Threads: 8", "Cache: 12MB", "Frequência: 4.7GHz", "Acompanha Cooler"]'>
+        <div class="img-container"><img class="img-produto" src="https://http2.mlstatic.com/D_Q_NP_798243-MLA91535889066_092025-F.webp"></div>
         <h3>i3 14100F</h3><p>Intel Core</p><span class="preco">R$ 649</span>
         <div class="btns-produto">
             <button class="btn-info" onclick="abrirModal(this)">Info</button>
@@ -212,6 +220,7 @@
     </article>
 
     <article class="produto" data-tipo="ram" data-marca="corsair" data-tec="ddr4"
+        data-imgs='["https://m.media-amazon.com/images/I/61S6h8-v3lL._AC_SL1000_.jpg", "https://placehold.co/400x400/111/FFF?text=Corsair+Lado"]'
         data-info='["Capacidade: 16GB", "Frequência: 3200MHz", "Tipo: DDR4", "Dissipador de Calor Alumínio"]'>
         <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/61S6h8-v3lL._AC_SL1000_.jpg"></div>
         <h3>Vengeance 16GB</h3><p>Corsair RAM</p><span class="preco">R$ 289</span>
@@ -222,6 +231,7 @@
     </article>
 
     <article class="produto" data-tipo="gpu" data-marca="amd" data-tec="rx"
+        data-imgs='["https://m.media-amazon.com/images/I/71uS9C8mSLL._AC_SL1500_.jpg", "https://placehold.co/400x400/111/FFF?text=RX+6600+Costas"]'
         data-info='["Modelo: RX 6600", "Memória: 8GB GDDR6", "Arquitetura: RDNA 2", "PCI Express 4.0"]'>
         <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/71uS9C8mSLL._AC_SL1500_.jpg"></div>
         <h3>RX 6600</h3><p>AMD ASRock</p><span class="preco">R$ 1.399</span>
@@ -232,6 +242,7 @@
     </article>
 
     <article class="produto" data-tipo="cpu" data-marca="amd" data-tec="ryzen"
+        data-imgs='["https://m.media-amazon.com/images/I/516V7S3Z4LL._AC_SL1000_.jpg", "https://placehold.co/400x400/111/FFF?text=Cooler+Wraith"]'
         data-info='["Modelo: Ryzen 5 5600", "Núcleos: 6", "Threads: 12", "Frequência: 4.4GHz Boost"]'>
         <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/516V7S3Z4LL._AC_SL1000_.jpg"></div>
         <h3>Ryzen 5 5600</h3><p>AMD Ryzen</p><span class="preco">R$ 899</span>
@@ -242,6 +253,7 @@
     </article>
 
     <article class="produto" data-tipo="ssd" data-marca="kingston" data-tec="nvme"
+        data-imgs='["https://m.media-amazon.com/images/I/51p6K1mZpVL._AC_SL1000_.jpg", "https://placehold.co/400x400/111/FFF?text=SSD+Detalhe"]'
         data-info='["Modelo: NV2", "Capacidade: 1TB", "Leitura: 3500MB/s", "Interface: NVMe M.2"]'>
         <div class="img-container"><img class="img-produto" src="https://m.media-amazon.com/images/I/51p6K1mZpVL._AC_SL1000_.jpg"></div>
         <h3>SSD 1TB NV2</h3><p>Kingston Storage</p><span class="preco">R$ 399</span>
@@ -327,12 +339,13 @@
         atualizarSubFiltros();
     }
 
-    // --- FUNÇÃO DO MODAL (ABRIR E CARREGAR DADOS) ---
+    // --- FUNÇÃO DO MODAL ---
     function abrirModal(btn) {
         const p = btn.closest(".produto");
         const infos = JSON.parse(p.dataset.info);
         
         document.getElementById("modalNome").innerText = p.querySelector("h3").innerText;
+        // Pega a imagem que estiver sendo exibida no momento
         document.getElementById("modalImg").src = p.querySelector(".img-produto").src;
         
         const lista = document.getElementById("modalLista");
@@ -344,6 +357,36 @@
     function fecharModal() {
         document.getElementById("modal").style.display = "none";
     }
+
+    // --- NOVA FUNÇÃO: SLIDESHOW DE IMAGENS ---
+    const tempoTroca = 3000; // Tempo em milissegundos (3000 = 3 segundos)
+
+    document.querySelectorAll('.produto').forEach(produto => {
+        // Pega a lista de imagens do atributo data-imgs
+        const imagens = JSON.parse(produto.dataset.imgs || "[]");
+        
+        // Se tiver mais de uma imagem, ativa o carrossel
+        if (imagens.length > 1) {
+            let imgIndex = 0;
+            const imgElement = produto.querySelector('.img-produto');
+            
+            setInterval(() => {
+                // Passa para a próxima imagem
+                imgIndex = (imgIndex + 1) % imagens.length;
+                
+                // Efeito de desaparecer
+                imgElement.style.opacity = 0;
+                
+                // Troca a imagem enquanto está invisível e faz aparecer de novo
+                setTimeout(() => {
+                    imgElement.src = imagens[imgIndex];
+                    imgElement.style.opacity = 1;
+                }, 400); // 400ms = tempo da transição definida no CSS
+                
+            }, tempoTroca);
+        }
+    });
+
 </script>
 
 </body>
