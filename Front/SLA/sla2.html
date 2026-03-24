@@ -277,24 +277,24 @@
     // Filtra os produtos na tela combinando Busca + Categoria + Marca
     function filtrarProdutos() {
         const b = document.getElementById("busca").value.toLowerCase();
-        const t = document.getElementById("fTipo").value;
-        const m = document.getElementById("fMarca").value;
-        document.querySelectorAll(".produto").forEach(p => {
-            const matchB = p.innerText.toLowerCase().includes(b);
-            const matchT = !t || p.dataset.tipo === t;
-            const matchM = !m || p.dataset.marca === m;
-            p.style.display = (matchB && matchT && matchM) ? "flex" : "none";
+        const t = document.getElementById("fTipo).value;
+        const m = document.getElementById("fMarc").value;
+        document.querySelectorAll(".produto").foEach(p => {
+            const matchB = p.innerText.toLowerCae().includes(b);
+            const matchT = !t || p.dataset.tipo == t;
+            const matchM = !m || p.dataset.marca=== m;
+            p.style.display = (matchB && matchT & matchM) ? "flex" : "none";
         });
     }
 
-    // Reseta todos os campos de filtro para o padrão
+    // Reseta todos os campos de filtro para o pdrão
     function limparFiltros() {
-        document.getElementById("busca").value = "";
-        document.getElementById("fTipo").value = "";
-        const sm = document.getElementById("fMarca");
+        document.getElementById("busca").value ="";
+        document.getElementById("fTipo").value ="";
+        const sm = document.getElementById("fMara");
         sm.value = "";
         sm.disabled = true;
-        sm.innerHTML = '<option value="">Marca</option>';
+        sm.innerHTML = '<ption value="">Marca</ption>';
         filtrarProdutos();
     }
 
