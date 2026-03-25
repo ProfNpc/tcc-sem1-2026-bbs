@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bits Bytes Store | Hardware Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-   
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         /* --- VARIÁVEIS DE CORES E ESTILOS PREMIUM --- */
         :root {
@@ -21,7 +23,10 @@
             --success: #00ff88;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -37,19 +42,30 @@
         }
 
         @keyframes moveBg {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
         }
 
         header {
             background: var(--glass-bg);
             padding: 1.2rem 5%;
             border-bottom: 1px solid var(--glass-border);
-            position: sticky; top: 0; z-index: 1000;
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            display: flex; justify-content: space-between; align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
+
         header h1 {
             margin: 0;
             font-size: 1.8rem;
@@ -59,96 +75,306 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
         }
-        nav { display: flex; gap: 30px; align-items: center; }
-        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; transition: 0.3s; }
-        nav a:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
 
         .cart-btn-nav {
-            position: relative; cursor: pointer; background: rgba(255,255,255,0.05);
-            padding: 10px 25px; border-radius: 30px; border: 1px solid var(--glass-border);
-            font-weight: 600; transition: 0.3s;
+            position: relative;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            font-weight: 600;
+            transition: 0.3s;
         }
-        .cart-btn-nav:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,65,108,0.5); }
+
+        .cart-btn-nav:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 65, 108, 0.5);
+        }
+
         #cart-count {
-            background: var(--primary-gradient); color: white; border-radius: 50%;
-            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; position: absolute; top: -8px; right: -8px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -8px;
+            right: -8px;
             box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
         }
 
         #cart-sidebar {
-            position: fixed; top: 0; right: -450px; width: 400px; height: 100%;
-            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(25px);
-            box-shadow: -15px 0 50px rgba(0,0,0,0.8); z-index: 4000;
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 400px;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(25px);
+            box-shadow: -15px 0 50px rgba(0, 0, 0, 0.8);
+            z-index: 4000;
             transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; border-left: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--glass-border);
         }
-        #cart-sidebar.open { right: 0; }
-        .cart-header { padding: 30px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; }
-        .cart-header h2 { margin: 0; }
-        .cart-items-list { flex: 1; overflow-y: auto; padding: 25px; }
-        .cart-items-list::-webkit-scrollbar { width: 6px; }
-        .cart-items-list::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
-        .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border); }
-        .cart-item img { width: 70px; height: 70px; object-fit: contain; background: #fff; padding: 5px; border-radius: 10px; }
-        .cart-item h4 { margin: 0 0 5px 0; font-size: 0.9rem; }
-        .cart-item p { margin: 0; color: var(--success); font-weight: bold; }
-        .qty-controls { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
-        .qty-btn { background: rgba(255,255,255,0.1); color: white; border: none; width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .qty-btn:hover { background: var(--primary); }
 
-        .topo-container { width: 90%; max-width: 1400px; margin: 40px auto 10px; display: flex; gap: 20px; }
+        #cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            margin: 0;
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+        }
+
+        .cart-items-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cart-items-list::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background: #fff;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .cart-item h4 {
+            margin: 0 0 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .cart-item p {
+            margin: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+        }
+
+        .topo-container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 40px auto 10px;
+            display: flex;
+            gap: 20px;
+        }
+
         .topo-container input {
-            flex: 1; padding: 20px 30px; border-radius: 15px; border: 1px solid var(--glass-border);
-            background: var(--glass-bg); color: white; font-size: 1.1rem; outline: none;
-            backdrop-filter: blur(10px); transition: 0.3s;
+            flex: 1;
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
         }
-        .topo-container input:focus { border-color: rgba(255,65,108,0.5); box-shadow: 0 0 15px rgba(255,65,108,0.2); }
+
+        .topo-container input:focus {
+            border-color: rgba(255, 65, 108, 0.5);
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.2);
+        }
+
         .btn-filtro-master {
-            background: var(--primary-gradient); color: white; border: none; padding: 0 35px;
-            border-radius: 15px; cursor: pointer; font-weight: 700; text-transform: uppercase;
-            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.25); transition: 0.3s;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0 35px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.25);
+            transition: 0.3s;
         }
-        .btn-filtro-master:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(255, 65, 108, 0.4); }
+
+        .btn-filtro-master:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 65, 108, 0.4);
+        }
 
         .painel-filtros {
-            width: 90%; max-width: 1400px; margin: 20px auto; padding: 30px; box-sizing: border-box;
-            background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border);
-            display: none; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px;
+            width: 90%;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 30px;
+            box-sizing: border-box;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
             backdrop-filter: blur(15px);
         }
-        .filter-group { display: flex; flex-direction: column; gap: 10px; }
-        .filter-group label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
-        .painel-filtros select {
-            background: rgba(0,0,0,0.5); color: white; border: 1px solid #444;
-            padding: 15px; border-radius: 12px; font-family: inherit; outline: none; transition: 0.3s;
-        }
-        .painel-filtros select:focus { border-color: var(--primary); }
 
-        .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 35px; width: 90%; max-width: 1400px; margin: 50px auto; }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .painel-filtros select {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 12px;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .painel-filtros select:focus {
+            border-color: var(--primary);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 35px;
+            width: 90%;
+            max-width: 1400px;
+            margin: 50px auto;
+        }
+
         .produto {
-            background: var(--card-bg); padding: 25px; border-radius: 24px;
-            border: 1px solid var(--glass-border); text-align: center; display: flex;
-            flex-direction: column; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(10px);
         }
+
         .produto:hover {
-            border-color: rgba(255, 65, 108, 0.5); transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
+            border-color: rgba(255, 65, 108, 0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
-        .produto h3 { margin: 15px 0 5px 0; font-size: 1.4rem; }
-        .produto p { color: var(--text-muted); margin: 0; font-size: 0.9rem; }
+
+        .produto h3 {
+            margin: 15px 0 5px 0;
+            font-size: 1.4rem;
+        }
+
+        .produto p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.9rem;
+        }
 
         /* ── CARROSSEL ── */
         .img-container {
-            width: 100%; height: 220px; background: #fff; border-radius: 18px;
-            margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; padding: 10px; box-sizing: border-box;
+            width: 100%;
+            height: 220px;
+            background: #fff;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 10px;
+            box-sizing: border-box;
             position: relative;
         }
+
         .img-container img {
             position: absolute;
-            max-width: 90%; max-height: 90%;
+            max-width: 90%;
+            max-height: 90%;
             object-fit: contain;
             mix-blend-mode: multiply;
             opacity: 0;
@@ -156,403 +382,833 @@
             pointer-events: none;
             user-select: none;
         }
-        .img-container img.active { opacity: 1; transform: scale(1); }
-        .produto:hover .img-container img.active { transform: scale(1.08); }
+
+        .img-container img.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .produto:hover .img-container img.active {
+            transform: scale(1.08);
+        }
 
         .carousel-progress {
-            position: absolute; bottom: 0; left: 0;
-            width: 100%; height: 3px;
-            background: rgba(0,0,0,0.12);
-            z-index: 5; opacity: 0; transition: opacity 0.3s;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.12);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        .produto:hover .carousel-progress { opacity: 1; }
+
+        .produto:hover .carousel-progress {
+            opacity: 1;
+        }
+
         .carousel-progress-fill {
-            height: 100%; width: 0%;
-            background: var(--primary-gradient); transition: none;
+            height: 100%;
+            width: 0%;
+            background: var(--primary-gradient);
+            transition: none;
         }
+
         .carousel-dots {
-            position: absolute; bottom: 8px; left: 50%;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
             transform: translateX(-50%);
-            display: flex; gap: 5px; z-index: 6;
-            opacity: 0; transition: opacity 0.3s;
+            display: flex;
+            gap: 5px;
+            z-index: 6;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        .produto:hover .carousel-dots { opacity: 1; }
+
+        .produto:hover .carousel-dots {
+            opacity: 1;
+        }
+
         .carousel-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: rgba(255,65,108,0.3);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 65, 108, 0.3);
             transition: background 0.3s, transform 0.3s;
         }
-        .carousel-dot.active { background: var(--primary); transform: scale(1.5); }
 
-        .preco { color: var(--success); font-size: 2rem; font-weight: 800; margin: 20px 0; margin-top: auto; }
-        
-        .btns-produto { display: flex; flex-direction: column; gap: 12px; }
-        .btns-produto button {
-            width: 100%; padding: 18px; border-radius: 12px; border: none;
-            cursor: pointer; font-weight: 600; font-size: 1rem; text-transform: uppercase; transition: 0.3s;
+        .carousel-dot.active {
+            background: var(--primary);
+            transform: scale(1.5);
         }
+
+        .preco {
+            color: var(--success);
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 20px 0;
+            margin-top: auto;
+        }
+
+        .btns-produto {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btns-produto button {
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
         .btn-buy {
-            background: var(--primary-gradient); color: white;
+            background: var(--primary-gradient);
+            color: white;
             box-shadow: 0 8px 20px rgba(255, 65, 108, 0.25);
         }
-        .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(255, 65, 108, 0.4); }
-        .btn-info { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); }
-        .btn-info:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 65, 108, 0.4);
+        }
+
+        .btn-info {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-info:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+        }
 
         .section-container {
-            width: 90%; max-width: 1100px; margin: 80px auto; padding: 60px 50px;
-            background: var(--glass-bg); border-radius: 25px; border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 1100px;
+            margin: 80px auto;
+            padding: 60px 50px;
+            background: var(--glass-bg);
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
-        .section-container h2 { text-align: center; font-size: 2.5rem; margin-top: 0; margin-bottom: 40px; }
+
+        .section-container h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+
         .section-container span {
-            background: var(--primary-gradient); -webkit-background-clip: text;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;}
-        .contato-form { display: flex; flex-direction: column; gap: 15px; }
-        .contato-form input, .contato-form textarea {
-            background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
-            padding: 18px; color: white; border-radius: 12px; font-family: inherit; outline: none; transition: 0.3s;
+
+        .contato-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
-        .contato-form input:focus, .contato-form textarea:focus { border-color: var(--primary); background: rgba(0,0,0,0.6); }
+
+        .contato-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contato-form input,
+        .contato-form textarea {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--glass-border);
+            padding: 18px;
+            color: white;
+            border-radius: 12px;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .contato-form input:focus,
+        .contato-form textarea:focus {
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
         .btn-submit-contato {
-            width: 100%; padding: 22px !important; border-radius: 12px !important;
-            font-size: 1.1rem !important; font-weight: 700; text-transform: uppercase;
-            cursor: pointer; background: var(--primary-gradient); color: white; border: none;
-            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.3); transition: 0.3s; margin-top: 10px;
+            width: 100%;
+            padding: 22px !important;
+            border-radius: 12px !important;
+            font-size: 1.1rem !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.3);
+            transition: 0.3s;
+            margin-top: 10px;
         }
-        .btn-submit-contato:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 65, 108, 0.5); }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); justify-content: center; align-items: center; z-index: 5000; padding: 20px; animation: fadeInModal 0.3s ease; }
-        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .btn-submit-contato:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 65, 108, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+            padding: 20px;
+            animation: fadeInModal 0.3s ease;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
         .modal-content {
-            background: var(--glass-bg); border-radius: 24px; display: grid;
-            grid-template-columns: 1fr 1fr; max-width: 900px; width: 100%;
-            border: 1px solid var(--glass-border); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            transform: scale(0.95); animation: scaleUp 0.3s ease forwards;
+            background: var(--glass-bg);
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 900px;
+            width: 100%;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            transform: scale(0.95);
+            animation: scaleUp 0.3s ease forwards;
         }
-        @keyframes scaleUp { to { transform: scale(1); } }
-        .modal-img-wrapper { background: #fff; display: flex; align-items: center; justify-content: center; padding: 40px; }
-        .modal-info-box { padding: 50px; display: flex; flex-direction: column; background: rgba(15,15,15,0.9); }
-        .modal-info-box h2 { font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; }
-        .modal-info-box ul { flex-grow: 1; padding-left: 0; margin: 0; }
-        .modal-info-box li { padding: 15px 0; border-bottom: 1px solid var(--glass-border); color: #ccc; list-style: none; display: flex; align-items: center;}
-        .modal-info-box li::before { content: '✓'; color: var(--primary); margin-right: 15px; font-weight: bold; font-size: 1.2rem; }
-        .btn-modal-voltar {
-            width: 100%; padding: 20px !important; border-radius: 12px !important;
-            font-size: 1.1rem !important; font-weight: 700; text-transform: uppercase;
-            cursor: pointer; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border);
-            margin-top: 30px; transition: 0.3s;
-        }
-        .btn-modal-voltar:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
-        footer { padding: 40px; text-align: center; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 50px; background: rgba(0,0,0,0.5); }
+        @keyframes scaleUp {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .modal-img-wrapper {
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .modal-info-box {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(15, 15, 15, 0.9);
+        }
+
+        .modal-info-box h2 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .modal-info-box ul {
+            flex-grow: 1;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .modal-info-box li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: #ccc;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-info-box li::before {
+            content: '✓';
+            color: var(--primary);
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-modal-voltar {
+            width: 100%;
+            padding: 20px !important;
+            border-radius: 12px !important;
+            font-size: 1.1rem !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid var(--glass-border);
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+
+        .btn-modal-voltar:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+        }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.5);
+        }
 
         #ai-chat-container {
-            position: fixed; bottom: 30px; right: 30px; z-index: 6000;
-            display: flex; flex-direction: column; align-items: flex-end;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 6000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
+
         #ai-chat-btn {
-            width: 70px; height: 70px; border-radius: 50%; background: var(--primary-gradient);
-            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4); font-size: 1.8rem; transition: 0.3s;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4);
+            font-size: 1.8rem;
+            transition: 0.3s;
         }
-        #ai-chat-btn:hover { transform: scale(1.1) rotate(5deg); }
+
+        #ai-chat-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
         #ai-window {
-            width: 350px; height: 500px; background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: 20px; margin-bottom: 20px; display: none; flex-direction: column;
-            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); animation: slideUp 0.4s ease;
+            width: 350px;
+            height: 500px;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            animation: slideUp 0.4s ease;
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .ai-header { padding: 20px; background: var(--primary-gradient); color: white; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        #ai-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 10px 15px; border-radius: 12px; max-width: 80%; font-size: 0.9rem; line-height: 1.4; }
-        .msg.bot { background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .msg.user { background: var(--primary); align-self: flex-end; border-bottom-right-radius: 2px; color: white; }
-        .ai-input-area { padding: 15px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; }
-        .ai-input-area input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px; color: white; outline: none; }
-        .ai-input-area button { background: var(--primary); border: none; padding: 10px 15px; border-radius: 10px; color: white; cursor: pointer; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ai-header {
+            padding: 20px;
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #ai-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .msg {
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 80%;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .msg.bot {
+            background: rgba(255, 255, 255, 0.05);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .msg.user {
+            background: var(--primary);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+            color: white;
+        }
+
+        .ai-input-area {
+            padding: 15px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-input-area input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 10px;
+            color: white;
+            outline: none;
+        }
+
+        .ai-input-area button {
+            background: var(--primary);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
 
         @media (max-width: 900px) {
-            .modal-content, .contato-grid { grid-template-columns: 1fr; }
-            #cart-sidebar { width: 100%; right: -100%; }
-            .modal-img-wrapper { height: 250px; }
-            .modal-img-wrapper img { max-height: 100%; }
-            .topo-container { flex-direction: column; }
-            #ai-window { width: 90vw; right: 5vw; }
+
+            .modal-content,
+            .contato-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .modal-img-wrapper {
+                height: 250px;
+            }
+
+            .modal-img-wrapper img {
+                max-height: 100%;
+            }
+
+            .topo-container {
+                flex-direction: column;
+            }
+
+            #ai-window {
+                width: 90vw;
+                right: 5vw;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>BBS</h1>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#produtos">Produtos</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#contato">Contato</a>
-        <div class="cart-btn-nav" onclick="toggleCart()">🛒 Carrinho <span id="cart-count">0</span></div>
-    </nav>
-</header>
+    <header>
+        <h1>BBS</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+            <div class="cart-btn-nav" onclick="toggleCart()">🛒 Carrinho <span id="cart-count">0</span></div>
+        </nav>
+    </header>
 
-<aside id="cart-sidebar">
-    <div class="cart-header"><h2>Meu Setup</h2><button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:2.5rem; cursor:pointer; line-height: 1;">&times;</button></div>
-    <div class="cart-items-list" id="cart-items"></div>
-    <div class="cart-footer" style="padding: 30px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:700; font-size:1.4rem;"><span>Total:</span><span id="cart-total">R$ 0,00</span></div>
-        <button class="btn-buy" style="width:100%; padding:20px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border: none;">Finalizar Pedido</button>
-    </div>
-</aside>
+    <aside id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Meu Setup</h2><button onclick="toggleCart()"
+                style="background:none; border:none; color:white; font-size:2.5rem; cursor:pointer; line-height: 1;">&times;</button>
+        </div>
+        <div class="cart-items-list" id="cart-items"></div>
+        <div class="cart-footer"
+            style="padding: 30px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);">
+            <div
+                style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:700; font-size:1.4rem;">
+                <span>Total:</span><span id="cart-total">R$ 0,00</span></div>
+            <button class="btn-buy"
+                style="width:100%; padding:20px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border: none;">Finalizar
+                Pedido</button>
+        </div>
+    </aside>
 
-<div id="ai-chat-container">
-    <div id="ai-window">
-        <div class="ai-header">
-            <span>BBS AI ASSISTANT</span>
-            <button onclick="toggleAI()" style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;">✕</button>
+    <div id="ai-chat-container">
+        <div id="ai-window">
+            <div class="ai-header">
+                <span>BBS AI ASSISTANT</span>
+                <button onclick="toggleAI()"
+                    style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;">✕</button>
+            </div>
+            <div id="ai-messages">
+                <div class="msg bot">Olá! Sou o assistente da Bits &amp; Bytes. Em que posso ajudar na sua build hoje?
+                </div>
+            </div>
+            <div class="ai-input-area">
+                <input type="text" id="ai-input" placeholder="Pergunte algo..."
+                    onkeypress="if(event.key==='Enter') sendAIMessage()">
+                <button onclick="sendAIMessage()">➤</button>
+            </div>
         </div>
-        <div id="ai-messages">
-            <div class="msg bot">Olá! Sou o assistente da Bits &amp; Bytes. Em que posso ajudar na sua build hoje?</div>
-        </div>
-        <div class="ai-input-area">
-            <input type="text" id="ai-input" placeholder="Pergunte algo..." onkeypress="if(event.key==='Enter') sendAIMessage()">
-            <button onclick="sendAIMessage()">➤</button>
-        </div>
-    </div>
-    <button id="ai-chat-btn" onclick="toggleAI()">🤖</button>
-</div>
-
-<main id="home">
-    <div class="topo-container">
-        <input type="text" id="busca" placeholder="O que você deseja buildar hoje?" onkeyup="filtrarProdutos()">
-        <button class="btn-filtro-master" onclick="toggleFiltros()">Filtros</button>
-    </div>
-
-    <div class="painel-filtros" id="painelFiltros">
-        <div class="filter-group"><label>Categoria</label>
-            <select id="fTipo" onchange="atualizarSubFiltros()">
-                <option value="">Todas</option>
-                <option value="gpu">Placa de Vídeo</option>
-                <option value="cpu">Processador</option>
-                <option value="ram">Memória RAM</option>
-                <option value="ssd">SSD</option>
-            </select>
-        </div>
-        <div class="filter-group"><label>Marca</label>
-            <select id="fMarca" onchange="filtrarProdutos()" disabled>
-                <option value="">Selecione...</option>
-            </select>
-        </div>
-        <button onclick="limparFiltros()" style="background:rgba(255,255,255,0.05); color:white; border:1px solid var(--glass-border); border-radius:12px; cursor:pointer; height:52px; align-self:flex-end; font-weight: 600; transition: 0.3s;">RESETAR FILTROS</button>
+        <button id="ai-chat-btn" onclick="toggleAI()">🤖</button>
     </div>
 
-    <div class="container" id="produtos">
+    <main id="home">
+        <div class="topo-container">
+            <input type="text" id="busca" placeholder="O que você deseja buildar hoje?" onkeyup="filtrarProdutos()">
+            <button class="btn-filtro-master" onclick="toggleFiltros()">Filtros</button>
+        </div>
 
-        <!-- Produto 1 · RTX 3060
-             Adicione quantas <img> quiser — a primeira leva class="active" -->
-        <article class="produto" data-id="1" data-tipo="gpu" data-marca="nvidia"
-            data-info='["12GB GDDR6","Ray Tracing Gen 2","Nvidia Ampere Architecture", "DlSS (uso de IA para aumentar quantidade de quadros)", "3x saídas DP e 1x HDMI"]'>
-            <div class="img-container">
-                <img class="active" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg" alt="RTX 3060">
-                <img src="https://http2.mlstatic.com/D_NQ_NP_2X_980529-MLA107201149934_032026-F.webp" alt="RTX 3060 lateral">
-                <img src="https://http2.mlstatic.com/D_NQ_NP_2X_834806-MLA107201120168_032026-F.webp" alt="RTX 3060 caixa">
-                <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-                <div class="carousel-dots"></div>
+        <div class="painel-filtros" id="painelFiltros">
+            <div class="filter-group"><label>Categoria</label>
+                <select id="fTipo" onchange="atualizarSubFiltros()">
+                    <option value="">Todas</option>
+                    <option value="gpu">Placa de Vídeo</option>
+                    <option value="cpu">Processador</option>
+                    <option value="ram">Memória RAM</option>
+                    <option value="ssd">SSD</option>
+                    <option value="mãe">Placa Mãe</option>
+                </select>
             </div>
-            <h3>RTX 3060</h3><p>Nvidia PCYES</p>
-            <span class="preco">R$ 2.199</span>
-            <div class="btns-produto">
-                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-                <button class="btn-buy" onclick="addToCart(1,'RTX 3060',2199,'https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg')">Adicionar ao Carrinho</button>
+            <div class="filter-group"><label>Marca</label>
+                <select id="fMarca" onchange="filtrarProdutos()" disabled>
+                    <option value="">Selecione...</option>
+                </select>
             </div>
-        </article>
+            <button onclick="limparFiltros()"
+                style="background:rgba(255,255,255,0.05); color:white; border:1px solid var(--glass-border); border-radius:12px; cursor:pointer; height:52px; align-self:flex-end; font-weight: 600; transition: 0.3s;">RESETAR
+                FILTROS</button>
+        </div>
 
-        <!-- Produto 2 · i3 14100F -->
-        <article class="produto" data-id="2" data-tipo="cpu" data-marca="intel"
-            data-info='["Modelo: i3 14100F","4 Núcleos / 8 Threads","Frequência: 4.7GHz Boost", "Ótimo custo Beneficio", "Suporta DDR4 e DDR5" , "Bom para Jogos e uso Casual"]'>
-            <div class="img-container">
-                <img class="active" src="https://http2.mlstatic.com/D_NQ_NP_2X_916864-MLA91552714356_092025-F.webp" alt="i3 14100F">
-                <img src="https://http2.mlstatic.com/D_NQ_NP_2X_931313-MLU74157118502_012024-F.webp" alt="i3 14100F box">
-                <img src="https://http2.mlstatic.com/D_NQ_NP_2X_802515-MLA84108428976_052025-F.webp" alt="i3 14100F detalhe">
-                <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-                <div class="carousel-dots"></div>
-            </div>
-            <h3>Core i3 14100F</h3><p>Intel</p>
-            <span class="preco">R$ 699,99</span>
-            <div class="btns-produto">
-                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-                <button class="btn-buy" onclick="addToCart(2,'Core i3 14100F',659,'https://m.media-amazon.com/images/I/61s7KOdVliL._AC_SY450_.jpg')">Adicionar ao Carrinho</button>
-            </div>
-        </article>
+        <div class="container" id="produtos">
 
-        <!-- Produto 3 · RAM DDR4 16GB -->
-        <article class="produto" data-id="3" data-tipo="ram" data-marca="kingston"
-            data-info='["2 pentes de 8GB DDR4 para ativar dual channel" ,"3200MHz","CL16 Latency","XMP 2.0 Profile"]'>
-            <div class="img-container">
-                <img class="active" src="https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg" alt="RAM Kingston">
-                <img src="https://m.media-amazon.com/images/I/61aDeyMWIsL._AC_SX679_.jpg" alt="RAM detalhe">
-                <img src="https://m.media-amazon.com/images/I/61YnO6zifHL._AC_SX679_.jpg" alt="RAM caixa">
-                <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-                <div class="carousel-dots"></div>
-            </div>
-            <h3>HyperX 16GB (2 pentes de 8gb)</h3><p>Kingston DDR4 3200MHz</p>
-            <span class="preco">R$ 329</span>
-            <div class="btns-produto">
-                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-                <button class="btn-buy" onclick="addToCart(3,'HyperX 16GB DDR4',329,'https://m.media-amazon.com/images/I/61gHF5OM6HL._AC_SY450_.jpg')">Adicionar ao Carrinho</button>
-            </div>
-        </article>
+            <article class="produto" data-id="1" data-tipo="gpu" data-marca="nvidia"
+                data-info='["12GB GDDR6","Ray Tracing Gen 2","Nvidia Ampere Architecture", "DlSS", "3x saídas DP e 1x HDMI"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg"
+                        alt="RTX 3060">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_2X_980529-MLA107201149934_032026-F.webp"
+                        alt="RTX 3060 lateral">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>RTX 3060</h3>
+                <p>Nvidia PCYES</p>
+                <span class="preco">R$ 2.199</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(1,'RTX 3060',2199,'https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
 
-        <!-- Produto 4 · SSD NVMe -->
-        <article class="produto" data-id="4" data-tipo="ssd" data-marca="kingston"
-            data-info='["1TB NVMe M.2","Leitura: 3500 MB/s","Gravação: 2900 MB/s"]'>
-            <div class="img-container">
-                <img class="active" src="https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg" alt="SSD Kingston NV2">
-                <img src="https://m.media-amazon.com/images/I/71QVd4FLxJL._AC_SX679_.jpg" alt="SSD detalhe">
-                <img src="https://http2.mlstatic.com/D_NQ_NP_2X_772287-MLA99556916018_122025-F.webp" alt="SSD caixa">
-                <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-                <div class="carousel-dots"></div>
-            </div>
-            <h3>SSD NV2 1TB</h3><p>Kingston NVMe M.2</p>
-            <span class="preco">R$ 750,00</span>
-            <div class="btns-produto">
-                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-                <button class="btn-buy" onclick="addToCart(4,'SSD NV2 1TB',419,'https://m.media-amazon.com/images/I/71WBdGIcjQL._AC_SY450_.jpg')">Adicionar ao Carrinho</button>
-            </div>
-        </article>
+            <article class="produto" data-id="2" data-tipo="cpu" data-marca="intel"
+                data-info='["4 Núcleos / 8 Threads","4.7GHz Boost", "Suporta DDR4 e DDR5"]'>
+                <div class="img-container">
+                    <img class="active"
 
+         src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg"
+                        alt="RTX 3060">
+                    <img src="https://http2.mlstatic.com/D_NQ_NP_2X_980529-MLA107201149934_032026-F.webp"
+                        alt="RTX 3060 lateral">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>Core i3 14100F</h3>
+                <p>Intel</p>
+                <span class="preco">R$ 699,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(2,'Core i3 14100F', 699.99, 'https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+            <article class="produto" data-id="3" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg" alt="RAM">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(3,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+            <article class="produto" data-id="4" data-tipo="ssd" data-marca="kingston"
+                data-info='["1TB NVMe M.2","Leitura: 3500 MB/s"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg" alt="SSD">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>SSD NV2 1TB</h3>
+                <p>Kingston NVMe M.2</p>
+                <span class="preco">R$ 750,00</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(4,'SSD NV2 1TB',750,'https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+            <article class="produto" data-id="5" data-tipo="mãe" data-marca="Gigabyte"
+                data-info='["B550M Gaming X WIFI6", "Suporte Ryzen 5000"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/81YwWAnIrtL._AC_SX679_.jpg"
+                        alt="Placa Mae">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>B550M Gaming X</h3>
+                <p>Gigabyte</p>
+                <span class="preco">R$ 1700,00</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(5, 'Gigabyte B550M', 1700, 'https://m.media-amazon.com/images/I/81YwWAnIrtL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+            <article class="produto" data-id="6" data-tipo="ssd" data-marca="kingston"
+                data-info='["1TB NVMe M.2","Leitura: 5000 MB/s"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg"
+                        alt="SSD NV3">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>SSD NV3 1TB</h3>
+                <p>Kingston NVMe M.2</p>
+                <span class="preco">R$ 900,00</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(6,'SSD NV3 1TB', 900, 'https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+            <article class="produto" data-id="7" data-tipo="gpu" data-marca="nvidia"
+                data-info='["GDDR7","8GB de Vram","DLLS4 IA de última geração para geração de framese alta fidelidade visual","2x Fans para melhor resfriamento",""]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/81kjbWXg-NL._AC_SX522_.jpg"
+                        alt="SSD NV3">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>SSD NV3 1TB</h3>
+                <p>Kingston NVMe M.2</p>
+                <span class="preco">R$ 900,00</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(6,'SSD NV3 1TB', 900, 'https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+
+        </div>
+
+
+
+
+        <!-- SEÇÃO SOBRE -->
+        <section class="section-container" id="sobre">
+            <h2>Sobre a <span>Bits Bytes Store</span></h2>
+            <p style="text-align:center; color:var(--text-muted); max-width:700px; margin: 0 auto; line-height:1.8;">
+                Somos especialistas em hardware premium para entusiastas e profissionais. Nossa missão é entregar
+                componentes de alta performance com suporte técnico especializado, para que sua build seja perfeita do
+                início ao fim.
+            </p>
+        </section>
+
+        <!-- SEÇÃO CONTATO -->
+        <section class="section-container" id="contato">
+            <h2>Fale <span>Conosco</span></h2>
+            <div class="contato-grid">
+                <div>
+                    <h3 style="margin-top:0;">Informações de Contato</h3>
+                    <p style="color:var(--text-muted); line-height:2;">
+                        📧 contato@bitsbytes.store<br>
+                        📞 (11) 9 9999-0000<br>
+                        📍 São Paulo, SP<br>
+                        🕐 Seg–Sex: 9h às 18h
+                    </p>
+                </div>
+                <form class="contato-form" onsubmit="return false;">
+                    <input type="text" placeholder="Seu nome">
+                    <input type="email" placeholder="Seu e-mail">
+                    <textarea rows="4" placeholder="Sua mensagem..."></textarea>
+                    <button class="btn-submit-contato">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE DETALHES -->
+    <div class="modal" id="modal" onclick="if(event.target===this)fecharModal()">
+        <div class="modal-content">
+            <div class="modal-img-wrapper">
+                <img id="modal-img" src="" alt="" style="max-width:100%; max-height:300px; object-fit:contain;">
+            </div>
+            <div class="modal-info-box">
+                <h2 id="modal-title"></h2>
+                <ul id="modal-specs"></ul>
+                <button class="btn-modal-voltar" onclick="fecharModal()">← Voltar</button>
+            </div>
+        </div>
     </div>
 
-    <!-- SEÇÃO SOBRE -->
-    <section class="section-container" id="sobre">
-        <h2>Sobre a <span>Bits Bytes Store</span></h2>
-        <p style="text-align:center; color:var(--text-muted); max-width:700px; margin: 0 auto; line-height:1.8;">
-            Somos especialistas em hardware premium para entusiastas e profissionais. Nossa missão é entregar componentes de alta performance com suporte técnico especializado, para que sua build seja perfeita do início ao fim.
-        </p>
-    </section>
+    <footer>
+        <p>© 2025 Bits Bytes Store · Todos os direitos reservados.</p>
+    </footer>
 
-    <!-- SEÇÃO CONTATO -->
-    <section class="section-container" id="contato">
-        <h2>Fale <span>Conosco</span></h2>
-        <div class="contato-grid">
-            <div>
-                <h3 style="margin-top:0;">Informações de Contato</h3>
-                <p style="color:var(--text-muted); line-height:2;">
-                    📧 contato@bitsbytes.store<br>
-                    📞 (11) 9 9999-0000<br>
-                    📍 São Paulo, SP<br>
-                    🕐 Seg–Sex: 9h às 18h
-                </p>
-            </div>
-            <form class="contato-form" onsubmit="return false;">
-                <input type="text" placeholder="Seu nome">
-                <input type="email" placeholder="Seu e-mail">
-                <textarea rows="4" placeholder="Sua mensagem..."></textarea>
-                <button class="btn-submit-contato">Enviar Mensagem</button>
-            </form>
-        </div>
-    </section>
-</main>
+    <script>
+        /* ── CARROSSEL NO HOVER ── */
+        const CAROUSEL_INTERVAL = 1500;
 
-<!-- MODAL DE DETALHES -->
-<div class="modal" id="modal" onclick="if(event.target===this)fecharModal()">
-    <div class="modal-content">
-        <div class="modal-img-wrapper">
-            <img id="modal-img" src="" alt="" style="max-width:100%; max-height:300px; object-fit:contain;">
-        </div>
-        <div class="modal-info-box">
-            <h2 id="modal-title"></h2>
-            <ul id="modal-specs"></ul>
-            <button class="btn-modal-voltar" onclick="fecharModal()">← Voltar</button>
-        </div>
-    </div>
-</div>
+        document.querySelectorAll('.produto').forEach(card => {
+            const container = card.querySelector('.img-container');
+            const images = [...container.querySelectorAll('img')];
+            const fill = container.querySelector('.carousel-progress-fill');
+            const dotsWrap = container.querySelector('.carousel-dots');
 
-<footer>
-    <p>© 2025 Bits Bytes Store · Todos os direitos reservados.</p>
-</footer>
+            if (images.length < 2) return;
 
-<script>
-/* ── CARROSSEL NO HOVER ── */
-const CAROUSEL_INTERVAL = 1500;
+            images.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                dotsWrap.appendChild(d);
+            });
+            const dots = [...dotsWrap.querySelectorAll('.carousel-dot')];
 
-document.querySelectorAll('.produto').forEach(card => {
-    const container = card.querySelector('.img-container');
-    const images    = [...container.querySelectorAll('img')];
-    const fill      = container.querySelector('.carousel-progress-fill');
-    const dotsWrap  = container.querySelector('.carousel-dots');
+            let current = 0, timer = null;
 
-    if (images.length < 2) return;
+            function goTo(idx) {
+                images[current].classList.remove('active');
+                dots[current].classList.remove('active');
+                current = (idx + images.length) % images.length;
+                images[current].classList.add('active');
+                dots[current].classList.add('active');
+                animFill();
+            }
 
-    images.forEach((_, i) => {
-        const d = document.createElement('div');
-        d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-        dotsWrap.appendChild(d);
-    });
-    const dots = [...dotsWrap.querySelectorAll('.carousel-dot')];
+            function animFill() {
+                fill.style.transition = 'none';
+                fill.style.width = '0%';
+                fill.getBoundingClientRect();
+                fill.style.transition = `width ${CAROUSEL_INTERVAL}ms linear`;
+                fill.style.width = '100%';
+            }
 
-    let current = 0, timer = null;
+            function start() { animFill(); timer = setInterval(() => goTo(current + 1), CAROUSEL_INTERVAL); }
 
-    function goTo(idx) {
-        images[current].classList.remove('active');
-        dots[current].classList.remove('active');
-        current = (idx + images.length) % images.length;
-        images[current].classList.add('active');
-        dots[current].classList.add('active');
-        animFill();
-    }
+            function stop() {
+                clearInterval(timer); timer = null;
+                images[current].classList.remove('active'); dots[current].classList.remove('active');
+                current = 0;
+                images[0].classList.add('active'); dots[0].classList.add('active');
+                fill.style.transition = 'none'; fill.style.width = '0%';
+            }
 
-    function animFill() {
-        fill.style.transition = 'none';
-        fill.style.width = '0%';
-        fill.getBoundingClientRect();
-        fill.style.transition = `width ${CAROUSEL_INTERVAL}ms linear`;
-        fill.style.width = '100%';
-    }
+            card.addEventListener('mouseenter', start);
+            card.addEventListener('mouseleave', stop);
+        });
 
-    function start() { animFill(); timer = setInterval(() => goTo(current + 1), CAROUSEL_INTERVAL); }
+        /* ── CARRINHO ── */
+        let cart = {};
 
-    function stop() {
-        clearInterval(timer); timer = null;
-        images[current].classList.remove('active'); dots[current].classList.remove('active');
-        current = 0;
-        images[0].classList.add('active'); dots[0].classList.add('active');
-        fill.style.transition = 'none'; fill.style.width = '0%';
-    }
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
 
-    card.addEventListener('mouseenter', start);
-    card.addEventListener('mouseleave', stop);
-});
+        function addToCart(id, name, price, img) {
+            if (cart[id]) { cart[id].qty++; } else { cart[id] = { name, price, img, qty: 1 }; }
+            renderCart();
+            document.getElementById('cart-sidebar').classList.add('open');
+        }
 
-/* ── CARRINHO ── */
-let cart = {};
+        function changeQty(id, delta) {
+            cart[id].qty += delta;
+            if (cart[id].qty <= 0) delete cart[id];
+            renderCart();
+        }
 
-function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+        function renderCart() {
+            const list = document.getElementById('cart-items');
+            const count = document.getElementById('cart-count');
+            const total = document.getElementById('cart-total');
+            let html = '', totalVal = 0, totalQty = 0;
 
-function addToCart(id, name, price, img) {
-    if (cart[id]) { cart[id].qty++; } else { cart[id] = { name, price, img, qty: 1 }; }
-    renderCart();
-    document.getElementById('cart-sidebar').classList.add('open');
-}
-
-function changeQty(id, delta) {
-    cart[id].qty += delta;
-    if (cart[id].qty <= 0) delete cart[id];
-    renderCart();
-}
-
-function renderCart() {
-    const list = document.getElementById('cart-items');
-    const count = document.getElementById('cart-count');
-    const total = document.getElementById('cart-total');
-    let html = '', totalVal = 0, totalQty = 0;
-
-    Object.entries(cart).forEach(([id, item]) => {
-        totalVal += item.price * item.qty;
-        totalQty += item.qty;
-        html += `
+            Object.entries(cart).forEach(([id, item]) => {
+                totalVal += item.price * item.qty;
+                totalQty += item.qty;
+                html += `
         <div class="cart-item">
             <img src="${item.img}" alt="${item.name}">
             <div style="flex:1;">
@@ -565,92 +1221,93 @@ function renderCart() {
                 </div>
             </div>
         </div>`;
-    });
+            });
 
-    list.innerHTML = html || '<p style="color:var(--text-muted);text-align:center;margin-top:40px;">Seu carrinho está vazio.</p>';
-    count.textContent = totalQty;
-    total.textContent = 'R$ ' + totalVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-}
+            list.innerHTML = html || '<p style="color:var(--text-muted);text-align:center;margin-top:40px;">Seu carrinho está vazio.</p>';
+            count.textContent = totalQty;
+            total.textContent = 'R$ ' + totalVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        }
 
-/* ── MODAL ── */
-function abrirModal(btn) {
-    const card  = btn.closest('.produto');
-    const info  = JSON.parse(card.dataset.info || '[]');
-    const img   = card.querySelector('.img-container img.active').src;
-    const title = card.querySelector('h3').textContent;
-    document.getElementById('modal-img').src = img;
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-specs').innerHTML = info.map(i => `<li>${i}</li>`).join('');
-    document.getElementById('modal').style.display = 'flex';
-}
+        /* ── MODAL ── */
+        function abrirModal(btn) {
+            const card = btn.closest('.produto');
+            const info = JSON.parse(card.dataset.info || '[]');
+            const img = card.querySelector('.img-container img.active').src;
+            const title = card.querySelector('h3').textContent;
+            document.getElementById('modal-img').src = img;
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-specs').innerHTML = info.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('modal').style.display = 'flex';
+        }
 
-function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 
-/* ── FILTROS ── */
-const marcasPorTipo = {
-    gpu: ['nvidia','amd'], cpu: ['intel','amd'],
-    ram: ['kingston','corsair','crucial'], ssd: ['kingston','samsung','wd']
-};
+        /* ── FILTROS ── */
+        const marcasPorTipo = {
+            gpu: ['nvidia', 'amd'], cpu: ['intel', 'amd'],
+            ram: ['kingston', 'corsair', 'crucial'], ssd: ['kingston', 'samsung', 'wd']
+        };
 
-function toggleFiltros() {
-    const p = document.getElementById('painelFiltros');
-    p.style.display = p.style.display === 'grid' ? 'none' : 'grid';
-}
+        function toggleFiltros() {
+            const p = document.getElementById('painelFiltros');
+            p.style.display = p.style.display === 'grid' ? 'none' : 'grid';
+        }
 
-function atualizarSubFiltros() {
-    const tipo = document.getElementById('fTipo').value;
-    const select = document.getElementById('fMarca');
-    select.innerHTML = '<option value="">Todas</option>';
-    if (tipo && marcasPorTipo[tipo]) {
-        marcasPorTipo[tipo].forEach(m => {
-            select.innerHTML += `<option value="${m}">${m.charAt(0).toUpperCase()+m.slice(1)}</option>`;
-        });
-        select.disabled = false;
-    } else { select.disabled = true; }
-    filtrarProdutos();
-}
+        function atualizarSubFiltros() {
+            const tipo = document.getElementById('fTipo').value;
+            const select = document.getElementById('fMarca');
+            select.innerHTML = '<option value="">Todas</option>';
+            if (tipo && marcasPorTipo[tipo]) {
+                marcasPorTipo[tipo].forEach(m => {
+                    select.innerHTML += `<option value="${m}">${m.charAt(0).toUpperCase() + m.slice(1)}</option>`;
+                });
+                select.disabled = false;
+            } else { select.disabled = true; }
+            filtrarProdutos();
+        }
 
-function filtrarProdutos() {
-    const busca = document.getElementById('busca').value.toLowerCase();
-    const tipo  = document.getElementById('fTipo').value;
-    const marca = document.getElementById('fMarca').value;
-    document.querySelectorAll('.produto').forEach(p => {
-        const nome = p.querySelector('h3').textContent.toLowerCase();
-        const desc = p.querySelector('p').textContent.toLowerCase();
-        const ok = (!busca || nome.includes(busca) || desc.includes(busca))
-                && (!tipo  || p.dataset.tipo  === tipo)
-                && (!marca || p.dataset.marca === marca);
-        p.style.display = ok ? 'flex' : 'none';
-    });
-}
+        function filtrarProdutos() {
+            const busca = document.getElementById('busca').value.toLowerCase();
+            const tipo = document.getElementById('fTipo').value;
+            const marca = document.getElementById('fMarca').value;
+            document.querySelectorAll('.produto').forEach(p => {
+                const nome = p.querySelector('h3').textContent.toLowerCase();
+                const desc = p.querySelector('p').textContent.toLowerCase();
+                const ok = (!busca || nome.includes(busca) || desc.includes(busca))
+                    && (!tipo || p.dataset.tipo === tipo)
+                    && (!marca || p.dataset.marca === marca);
+                p.style.display = ok ? 'flex' : 'none';
+            });
+        }
 
-function limparFiltros() {
-    document.getElementById('busca').value = '';
-    document.getElementById('fTipo').value = '';
-    document.getElementById('fMarca').innerHTML = '<option value="">Selecione...</option>';
-    document.getElementById('fMarca').disabled = true;
-    filtrarProdutos();
-}
+        function limparFiltros() {
+            document.getElementById('busca').value = '';
+            document.getElementById('fTipo').value = '';
+            document.getElementById('fMarca').innerHTML = '<option value="">Selecione...</option>';
+            document.getElementById('fMarca').disabled = true;
+            filtrarProdutos();
+        }
 
-/* ── AI CHAT ── */
-function toggleAI() {
-    const win = document.getElementById('ai-window');
-    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-}
+        /* ── AI CHAT ── */
+        function toggleAI() {
+            const win = document.getElementById('ai-window');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+        }
 
-function sendAIMessage() {
-    const input = document.getElementById('ai-input');
-    const text  = input.value.trim();
-    if (!text) return;
-    const msgs = document.getElementById('ai-messages');
-    msgs.innerHTML += `<div class="msg user">${text}</div>`;
-    input.value = '';
-    setTimeout(() => {
-        msgs.innerHTML += `<div class="msg bot">Obrigado pela sua pergunta! Nossa equipe técnica pode te ajudar melhor pelo chat ao vivo ou e-mail. 😊</div>`;
-        msgs.scrollTop = msgs.scrollHeight;
-    }, 800);
-    msgs.scrollTop = msgs.scrollHeight;
-}
-</script>
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const text = input.value.trim();
+            if (!text) return;
+            const msgs = document.getElementById('ai-messages');
+            msgs.innerHTML += `<div class="msg user">${text}</div>`;
+            input.value = '';
+            setTimeout(() => {
+                msgs.innerHTML += `<div class="msg bot">Obrigado pela sua pergunta! Nossa equipe técnica pode te ajudar melhor pelo chat ao vivo ou e-mail. 😊</div>`;
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 800);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+    </script>
 </body>
+
 </html>
