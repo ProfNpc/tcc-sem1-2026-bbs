@@ -72,6 +72,7 @@
         
         .tex span { 
             background: var(--primary-gradient);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 5px 20px rgba(255, 65, 108, 0.4); 
@@ -308,7 +309,7 @@
                 setTimeout(() => {
                     localStorage.setItem("logado", "true");
                     document.getElementById("loginCard").style.opacity = "0";
-                    setTimeout(() => { window.location.href = "nsei.html"; }, 500);
+                    setTimeout(() => { window.location.href = "web.html"; }, 500);
                 }, 2000); 
             } else {
                 alert("Usuário ou senha incorretos!");
