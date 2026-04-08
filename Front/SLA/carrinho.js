@@ -1,13 +1,11 @@
-// js/carrinho.js
+let valorFreteGlobal = 0;
 
 async function calcularFrete() {
-    // 1. Mapeia os elementos do seu HTML
     const inputCep = document.getElementById('cep-cart');
     const displayResultado = document.getElementById('resultado-frete');
     const displayValorFrete = document.getElementById('valor-frete-display');
     const displayTotal = document.getElementById('cart-total');
 
-    // 2. Limpa o CEP (deixa só números)
     const cep = inputCep.value.replace(/\D/g, '');
 
     if (cep.length !== 8) {
@@ -20,7 +18,6 @@ async function calcularFrete() {
     displayResultado.style.color = "#888";
 
     try {
-        // 3. Busca o endereço na API
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
 
@@ -30,28 +27,35 @@ async function calcularFrete() {
             return;
         }
 
-        // --- LÓGICA DE SOMA ---
-        
-        // 4. Define o valor do frete (ex: 15.90)
-        const valorFrete = 15.90; 
+        const valorFrete = 15.90;
 
-        // 5. Pega o Total que já está na tela e transforma em número
-        // Remove "R$", pontos de milhar e troca a vírgula por ponto decimal
-        let textoTotalCripto = displayTotal.innerText.replace('R$', '').trim();
-        textoTotalCripto = textoTotalCripto.replace(/\./g, '').replace(',', '.');
-        
-        const subtotalProdutos = parseFloat(textoTotalCripto) || 0;
+        // pega total atual
+        let textoTotal = displayTotal.innerText.replace('R$', '').trim();
+        textoTotal = textoTotal.replace(/\./g, '').replace(',', '.');
 
-        // 6. Soma tudo
-        const novoTotal = subtotalProdutos + valorFrete;
+        let totalAtual = parseFloat(textoTotal) || 0;
 
-        // 7. Devolve os valores formatados para o HTML
+        // remove frete antigo antes de somar o novo
+        totalAtual = totalAtual - valorFreteGlobal;
+
+        // atualiza frete global
+        valorFreteGlobal = valorFrete;
+
+        // soma corretamente (produtos + frete apenas 1x)
+        const novoTotal = totalAtual + valorFreteGlobal;
+
         displayResultado.innerText = `🚚 Entrega para ${data.localidade} - ${data.uf}`;
         displayResultado.style.color = "#4caf50";
 
-        // Formata para o padrão de moeda brasileiro (R$ 0,00)
-        displayValorFrete.innerText = valorFrete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        displayTotal.innerText = novoTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        displayValorFrete.innerText = valorFreteGlobal.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+
+        displayTotal.innerText = novoTotal.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
 
     } catch (error) {
         displayResultado.innerText = "Erro ao calcular frete.";

@@ -867,13 +867,16 @@
                 right: 5vw;
             }
         }
+   html {
+    scroll-behavior: smooth;
+}
     </style>
 </head>
 
 <body>
 
     <header>
-        <h1>BBS</h1>
+<h1 onclick="voltarTopo()" style="cursor: pointer;">BBS</h1>
         <nav>
             <a href="#home">Home</a>
             <a href="#produtos">Produtos</a>
@@ -1392,9 +1395,15 @@
             }, 800);
             msgs.scrollTop = msgs.scrollHeight;
         }
+
+        function voltarTopo() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
     </script>
 
-    <script src="frete.js"></script>
     <script src="chatbot.js"></script>
     <script src="carrinho.js"></script>
 

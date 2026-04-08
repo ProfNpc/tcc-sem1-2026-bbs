@@ -1,6 +1,5 @@
 const respostasBase = {
     "Placas de Vídeo": "Temos RTX 3060, 4060 e a linha RX da AMD. Qual série te interessa?",
-    "Calcular Frete": "O frete é calculado direto no seu carrinho (Meu Setup). Entregamos em todo o Brasil!",
     "Formas de Pagamento": "Aceitamos PIX com 10% de desconto ou cartão em até 12x sem juros.",
     "Status do Pedido": "Para ver seu pedido, entre na área 'Minha Conta' ou chame no WhatsApp."
 };
@@ -20,7 +19,8 @@ function toggleAIChat() {
 
 function mostrarOpcoesIniciais() {
     const texto = "Olá! Como posso te ajudar hoje? Escolha uma opção:";
-    const opcoes = ["Placas de Vídeo", "Calcular Frete", "Formas de Pagamento"];
+    // Removido "Calcular Frete" da lista abaixo
+    const opcoes = ["Placas de Vídeo", "Formas de Pagamento", "Status do Pedido"];
     adicionarMensagemBot(texto, opcoes);
 }
 
@@ -69,29 +69,4 @@ function adicionarMensagemBot(texto, opcoes = []) {
 }
 
 function adicionarMensagem(texto, tipo) {
-    const msgArea = document.getElementById('ai-messages');
-    const div = document.createElement('div');
-    div.className = `msg ${tipo}`;
-    div.innerText = texto;
-    msgArea.appendChild(div);
-    msgArea.scrollTop = msgArea.scrollHeight;
-}// Dentro do js/chatbot.js
-
-async function validarCepChat() {
-    const input = document.getElementById('cep-input-chat');
-    const msgArea = document.getElementById('ai-messages');
-    
-    // Chama a função que está lá no outro arquivo (frete.js)
-    const resultado = await calcularValorFrete(input.value);
-
-    if (!resultado.sucesso) {
-        adicionarMensagemBot("Ops! " + resultado.msg, ["Tentar novamente"]);
-        return;
-    }
-
-    adicionarMensagem(input.value, 'user');
-    
-    const respostaBot = `Ótima notícia! O frete para ${resultado.cidade}-${resultado.uf} fica em R$ ${resultado.valor.replace('.',',')} com entrega em ${resultado.prazo} dias.`;
-    
-    adicionarMensagemBot(respostaBot, ["Comprar agora", "Voltar ao Menu"]);
-}
+    const msgArea = document.getElementById('ai-messages)
