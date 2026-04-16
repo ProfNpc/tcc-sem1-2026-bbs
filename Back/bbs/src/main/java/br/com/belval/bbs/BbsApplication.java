@@ -7,7 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BbsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BbsApplication.class, args);
+		
+		public static void main(String[] args) {
+		SpringApplication.run(BbsApplication.class, args)
 	}
+		@GetMapping("/eco")
+		public String eco() {
+			return "eco!";
+		}
 
 }
