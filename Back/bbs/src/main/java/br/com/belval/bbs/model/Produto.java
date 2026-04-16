@@ -95,6 +95,9 @@ public class Produto {
 		p.setId(223);
 		Integer id = p.getId();
 				System.out.println("id"+id);
+				
+
 	}
+	
 }
 
