@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login | Bits Bytes Store</title>
 
     <!-- Fontes: Chakra Petch (títulos) + Outfit (corpo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <style>
+
+        .subtitle {
+  color: rgb(107, 114, 128);
+}
 
         /* ════════════════════════════════
            VARIÁVEIS GLOBAIS
         ════════════════════════════════ */
         :root {
-            --red:        #ff0022;
-            --red-hot:    #e01f35;
-            --red-glow:   rgba(172, 21, 41, 0.5);
-            --grad:       linear-gradient(135deg, #ac1529 0%, #7a0d1c 100%);
-            --bg:         #0b0b0b;
-            --card-bg:    rgba(10, 10, 10, 0.92);
-            --border:     rgba(255, 255, 255, 0.06);
-            --input-bg:   rgba(255, 255, 255, 0.04);
-            --text:       #f0f0f0;
-            --muted:      #555;
+            --red: #ff0022;
+            --red-hot: #e01f35;
+            --red-glow: rgba(172, 21, 41, 0.5);
+            --grad: linear-gradient(135deg, #ac1529 0%, #7a0d1c 100%);
+            --bg: #0b0b0b;
+            --card-bg: rgba(10, 10, 10, 0.92);
+            --border: rgba(255, 255, 255, 0.06);
+            --input-bg: rgba(255, 255, 255, 0.04);
+            --text: #f0f0f0;
+            --muted: #555;
             --font-title: 'Chakra Petch', 'Courier New', monospace;
-            --font-body:  'Outfit', 'Trebuchet MS', sans-serif;
-            --bounce:     cubic-bezier(0.34, 1.56, 0.64, 1);
-            --ease:       cubic-bezier(0.4, 0, 0.2, 1);
+            --font-body: 'Outfit', 'Trebuchet MS', sans-serif;
+            --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         /* ════════════════════════════════
            BODY — fundo escuro base
@@ -68,25 +81,32 @@
         ════════════════════════════════ */
         .login-card {
             position: relative;
-            z-index: 2;
+            z-index: 10;
             width: 100%;
             max-width: 400px;
-            padding: 52px 44px 44px;
+            padding: 60px 44px 44px;
             background: var(--card-bg);
             border-radius: 28px;
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             backdrop-filter: blur(32px) saturate(160%);
             -webkit-backdrop-filter: blur(32px) saturate(160%);
             box-shadow:
-                0 40px 80px rgba(0,0,0,0.8),
-                inset 0 1px 0 rgba(212, 0, 0, 0.04),
-                0 0 0 1px rgba(255, 255, 255, 0.08);
+                0 40px 80px rgba(116, 30, 30, 0.8),
+                inset 0 1px 0 rgba(187, 23, 2, 0.438),
+                0 0 0 1px rgba(179, 49, 49, 0.89);
             animation: cardIn 0.7s var(--bounce) both;
         }
 
         @keyframes cardIn {
-            from { opacity: 0; transform: translateY(28px) scale(0.96); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(80px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(2) scale(1, 5);
+            }
         }
 
         /* Permite animar ângulo do conic-gradient */
@@ -104,18 +124,16 @@
             content: '';
             position: absolute;
             inset: -1px;
-            border-radius: px;
+            border-radius: 20px;
             padding: 2px;
-            background: conic-gradient(
-                from var(--angle),
-                transparent         0deg,
-                transparent         290deg,
-                rgba(172,21,41,0.3) 320deg,
-                #e01f35             348deg,
-                #ff6080             354deg,
-                #e01f35             358deg,
-                transparent         360deg
-            );
+            background: conic-gradient(from var(--angle),
+                    transparent 0deg,
+                    transparent 290deg,
+                    rgb(253, 0, 0) 320deg,
+                    #fdfdfd 348deg,
+                    #ff6080 354deg,
+                    #e01f35 358deg,
+                    transparent 360deg);
             -webkit-mask:
                 linear-gradient(#fff 0 0) content-box,
                 linear-gradient(#fff 0 0);
@@ -125,8 +143,11 @@
             z-index: 0;
         }
 
-        @keyframes borderSpin { to { --angle: 360deg; } }
-
+        @keyframes borderSpin {
+            to {
+                --angle: 360deg;
+            }
+        }
         /* ════════════════════════════════
            LOGO
         ════════════════════════════════ */
@@ -137,7 +158,7 @@
             letter-spacing: 8px;
             text-transform: uppercase;
             text-align: center;
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 9px;
             position: relative;
             z-index: 1;
@@ -186,12 +207,14 @@
             transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
         }
 
-        input::placeholder { color: var(--muted); }
+        input::placeholder {
+            color: var(--muted);
+        }
 
         input:focus {
-            border-color: rgba(172,21,41,0.6);
-            background: rgba(255,255,255,0.06);
-            box-shadow: 0 0 0 4px rgba(172,21,41,0.1);
+            border-color: rgba(172, 21, 41, 0.6);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(172, 21, 41, 0.1);
         }
 
         /* ════════════════════════════════
@@ -211,7 +234,7 @@
             text-transform: uppercase;
             cursor: pointer;
             margin-top: 10px;
-            box-shadow: 0 8px 24px rgba(172,21,41,0.3);
+            box-shadow: 0 8px 24px rgba(172, 21, 41, 0.3);
             transition: transform 0.25s var(--bounce), box-shadow 0.3s;
             position: relative;
             overflow: hidden;
@@ -220,16 +243,27 @@
         .btn-entrar::after {
             content: '';
             position: absolute;
-            top: -50%; left: -60%;
-            width: 40%; height: 200%;
-            background: rgba(255,255,255,0.15);
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.15);
             transform: skewX(-20deg);
             transition: left 0.5s var(--ease);
         }
 
-        .btn-entrar:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(172,21,41,0.5); }
-        .btn-entrar:hover::after { left: 130%; }
-        .btn-entrar:active { transform: translateY(-1px); }
+        .btn-entrar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(172, 21, 41, 0.5);
+        }
+
+        .btn-entrar:hover::after {
+            left: 130%;
+        }
+
+        .btn-entrar:active {
+            transform: translateY(-1px);
+        }
 
         /* ════════════════════════════════
            LINKS EXTRAS
@@ -251,9 +285,19 @@
             transition: color 0.25s;
         }
 
-        .link-btn:hover { color: var(--text); }
-        .link-btn.highlight { color: var(--red-hot); font-weight: 600; }
-        .link-btn.highlight:hover { filter: brightness(1.3); text-decoration: underline; }
+        .link-btn:hover {
+            color: var(--text);
+        }
+
+        .link-btn.highlight {
+            color: var(--red-hot);
+            font-weight: 600;
+        }
+
+        .link-btn.highlight:hover {
+            filter: brightness(1.3);
+            text-decoration: underline;
+        }
 
         /* ════════════════════════════════
            LOADER
@@ -269,14 +313,19 @@
         }
 
         .spinner {
-            width: 48px; height: 48px;
-            border: 3px solid rgba(172,21,41,0.15);
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(172, 21, 41, 0.15);
             border-top-color: var(--red-hot);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .loader-text {
             font-family: var(--font-title);
@@ -286,7 +335,17 @@
             animation: blink 1.2s ease-in-out infinite;
         }
 
-        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
 
         /* ════════════════════════════════
            MODAIS
@@ -295,7 +354,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.75);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             z-index: 100;
@@ -304,17 +363,25 @@
             animation: fadeIn 0.3s var(--ease);
         }
 
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
 
         .modal-content {
             position: relative;
-            background: rgba(10,10,10,0.97);
+            background: rgba(10, 10, 10, 0.97);
             width: 100%;
             max-width: 390px;
             padding: 48px 40px 40px;
             border-radius: 24px;
             border: 1px solid var(--border);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(172,21,41,0.08);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(172, 21, 41, 0.08);
             text-align: center;
             box-sizing: border-box;
             animation: cardIn 0.4s var(--bounce);
@@ -323,7 +390,9 @@
         .modal-content::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 2px;
             border-radius: 24px 24px 0 0;
             background: var(--grad);
@@ -346,7 +415,9 @@
             line-height: 1.6;
         }
 
-        .modal-content form { gap: 12px; }
+        .modal-content form {
+            gap: 12px;
+        }
 
         .btn-close {
             background: none;
@@ -359,10 +430,13 @@
             transition: color 0.3s;
         }
 
-        .btn-close:hover { color: var(--text); text-decoration: underline; }
-
+        .btn-close:hover {
+            color: var(--text);
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Canvas do fundo animado (z-index: 1) -->
@@ -371,20 +445,20 @@
     <!-- Card principal (z-index: 2) -->
     <div class="login-card" id="loginCard">
         <h1 class="logo">BBS <span>Login</span></h1>
-        <p class="subtitle">Hardware Premium</p>
-
+ <p class="subtitle" style="color: rgb(255, 255, 255);">Hardwares Premium</p>
         <div id="loader">
             <div class="spinner"></div>
             <p class="loader-text">VERIFICANDO...</p>
         </div>
 
         <form id="loginForm">
-            <input type="text"     id="user" placeholder="Usuário" required />
-            <input type="password" id="pass" placeholder="Senha"   required />
+            <input type="text" id="user" placeholder="Usuário" required />
+            <input type="password" id="pass" placeholder="Senha" required />
             <button type="submit" class="btn-entrar">Acessar</button>
             <div class="extra-links">
-                <button type="button" class="link-btn highlight" onclick="openModal('modalCadastro')">Criar Conta</button>
-                <button type="button" class="link-btn"           onclick="openModal('modalSenha')">Esqueceu a senha?</button>
+                <button type="button" class="link-btn highlight" onclick="openModal('modalCadastro')">Criar
+                    Conta</button>
+                <button type="button" class="link-btn" onclick="openModal('modalSenha')">Esqueceu a senha?</button>
             </div>
         </form>
     </div>
@@ -395,8 +469,8 @@
             <h2>Novo Cadastro</h2>
             <p>Preencha os dados para criar sua conta.</p>
             <form onsubmit="event.preventDefault(); alert('Conta criada! Faça login.'); closeModal('modalCadastro')">
-                <input type="text"     placeholder="Nome Completo"  required />
-                <input type="email"    placeholder="E-mail"         required />
+                <input type="text" placeholder="Nome Completo" required />
+                <input type="email" placeholder="E-mail" required />
                 <input type="password" placeholder="Crie uma Senha" required />
                 <button type="submit" class="btn-entrar" style="margin-top:8px">Finalizar Cadastro</button>
             </form>
@@ -426,17 +500,16 @@
            com linhas quando ficam próximos.
         ════════════════════════════════ */
         const canvas = document.getElementById('bg-canvas');
-        const ctx    = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d');
 
         let W, H, pts;
 
-        const QTD      = 80;     // quantidade de pontos
+        const QTD = 150;     // quantidade de pontos
         const DIST_MAX = 130;    // distância máxima para desenhar linha
-        const VEL      = 0.45;   // velocidade dos pontos
-        const COR      = '172,21,41';  // cor vermelha da marca
-
+        const VEL = 2;   // velocidade dos pontos
+        const COR = '239,68,68';
         function resize() {
-            W = canvas.width  = window.innerWidth;
+            W = canvas.width = window.innerWidth;
             H = canvas.height = window.innerHeight;
         }
 
@@ -444,11 +517,11 @@
             pts = [];
             for (let i = 0; i < QTD; i++) {
                 pts.push({
-                    x:  Math.random() * W,
-                    y:  Math.random() * H,
+                    x: Math.random() * W,
+                    y: Math.random() * H,
                     vx: (Math.random() - 0.5) * VEL,
                     vy: (Math.random() - 0.5) * VEL,
-                    r:  1.5 + Math.random() * 1.5
+                    r: 1.5 + Math.random() * 1.5
                 });
             }
         }
@@ -473,9 +546,9 @@
 
                 // Conecta com pontos próximos
                 for (let j = i + 1; j < pts.length; j++) {
-                    const q    = pts[j];
-                    const dx   = p.x - q.x;
-                    const dy   = p.y - q.y;
+                    const q = pts[j];
+                    const dx = p.x - q.x;
+                    const dy = p.y - q.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
                     if (dist < DIST_MAX) {
@@ -484,7 +557,7 @@
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(q.x, q.y);
                         ctx.strokeStyle = `rgba(${COR},${alpha})`;
-                        ctx.lineWidth   = 0.8;
+                        ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }
                 }
@@ -501,7 +574,7 @@
         /* ════════════════════════════════
            LOGIN
         ════════════════════════════════ */
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
             e.preventDefault();
             const user = document.getElementById("user").value.trim();
             const pass = document.getElementById("pass").value.trim();
@@ -509,7 +582,7 @@
             if (user === "admin" && pass === "1234") {
                 const form = document.getElementById("loginForm");
                 form.style.transition = "opacity 0.3s";
-                form.style.opacity    = "0";
+                form.style.opacity = "0";
 
                 setTimeout(() => {
                     form.style.display = "none";
@@ -519,12 +592,12 @@
                 setTimeout(() => {
                     localStorage.setItem("logado", "true");
                     document.getElementById("loginCard").style.transition = "opacity 0.5s";
-                    document.getElementById("loginCard").style.opacity    = "0";
+                    document.getElementById("loginCard").style.opacity = "0";
                     setTimeout(() => { window.location.href = "index.html"; }, 500);
                 }, 2200);
 
             } else {
-                alert("Usuário ou senha incorretos!");  
+                alert("Usuário ou senha incorretos!");
             }
         });
 
@@ -538,14 +611,15 @@
         function closeModal(id) {
             const m = document.getElementById(id);
             m.style.transition = "opacity 0.3s";
-            m.style.opacity    = "0";
+            m.style.opacity = "0";
             setTimeout(() => { m.style.display = "none"; m.style.opacity = "1"; }, 300);
         }
 
-        window.onclick = function(e) {
+        window.onclick = function (e) {
             if (e.target.classList.contains('modal')) closeModal(e.target.id);
         }
 
     </script>
 </body>
+
 </html>
