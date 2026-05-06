@@ -30,7 +30,7 @@ public class cliente {
     }
  
     public String getEndereco() {
-        return enderecoo;
+        return endereco;
     }
  
     public void setEndereco(String endereco) {
