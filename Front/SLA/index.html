@@ -255,6 +255,7 @@
             box-shadow: 0 0 15px rgba(255, 65, 108, 0.2);
         }
 
+
         .btn-filtro-master {
             background: var(--primary-gradient);
             color: white;
@@ -322,7 +323,16 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 35px;
             width: 90%;
-            max-width: 1400px;
+            max-width: 1900px;
+            margin: 50px auto;
+        }
+
+         .containerr {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 35px;
+            width: 90%;
+            max-width: 1900px;
             margin: 50px auto;
         }
 
@@ -876,7 +886,7 @@
 <body>
 
     <header>
-<h1 onclick="voltarTopo()" style="cursor: pointer;">BBS</h1>
+<h1 onclick="recarregar()" style="cursor: pointer;">BBS</h1>
         <nav>
             <a href="#home">Home</a>
             <a href="#produtos">Produtos</a>
@@ -1182,8 +1192,239 @@
                         ao Carrinho</button>
                 </div>
             </article>
-        </div>
+       
 
+
+          <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article> 
+
+
+
+
+
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>  
+
+
+
+
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+
+
+
+
+
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+
+
+
+
+
+
+
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+
+
+
+
+
+
+
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+
+
+
+
+
+
+
+
+
+
+            <article class="produto" data-id="9" data-tipo="ram" data-marca="kingston"
+                data-info='["2 pentes de 8GB DDR4","3200MHz","XMP 2.0"]'>
+                <div class="img-container">
+                    <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="RAM">
+                    <img src="https://m.media-amazon.com/images/I/51FEpVvCkhL._AC_SX679_.jpg" alt="RAM lateral">
+                    <img src="https://img.terabyteshop.com.br/archive/2249627428/Sem%20LED%20(6).jpg" alt="RAM de lado">
+                    <div class="carousel-progress">
+                        <div class="carousel-progress-fill"></div>
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+                <h3>HyperX 16GB</h3>
+                <p>Kingston DDR4 3200MHz</p>
+                <span class="preco">R$ 1099,99</span>
+                <div class="btns-produto">
+                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                    <button class="btn-buy"
+                        onclick="addToCart(9,'HyperX 16GB DDR4',1099,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar
+                        ao Carrinho</button>
+                </div>
+            </article>
+
+ </div>
 
         <!--<article class="produto" data-id="X"<(Numero do produto só somar +1 ao anterior) data-tipo="ssd"<(aqui vc deve verificar qual o tipo do produto e colocar as opções seja ela ssd,mãe,gpu(placa de video),cpu(Processador),Ram(memoria ram) data-marca="kingston"<(nome da marca tbm para filtrar os produtos)
                 data-info='[XXX]'>(descrição do produto sempre colocar dessa maneira ["XXX","XXX","XXX"]
@@ -1451,6 +1692,11 @@ Bits and Bytes Store — tecnologia ao seu alcance, com qualidade e suporte que 
 
     <script src="chatbot.js"></script>
     <script src="carrinho.js"></script>
+   <script>
+function recarregar() {
+  location.reload();
+}
+</script>
 
 </body>
 
