@@ -2,7 +2,7 @@ package br.com.belval.bbs.model;
  
 import java.util.Objects;
  
-public class cliente {
+public class Cliente {
  
     private Integer idCliente;
     private String nome;
@@ -10,7 +10,7 @@ public class cliente {
     private String senha;
     private String comprasAnteriores;
  
-    public cliente() {
+    public Cliente() {
     }
  
     public Integer getIdCliente() {
@@ -64,7 +64,7 @@ public class cliente {
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        cliente other = (cliente) obj;
+        Cliente other = (Cliente) obj;
         return Objects.equals(idCliente, other.idCliente);
     }
  
@@ -78,7 +78,7 @@ public class cliente {
     }
  
     public static void main(String[] args) {
-        cliente c = new cliente();
+        Cliente c = new Cliente();
         c.setIdCliente(1);
         c.setNome("João");
         c.setEndereco("Rua A, 123");
