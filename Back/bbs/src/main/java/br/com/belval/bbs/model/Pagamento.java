@@ -27,15 +27,7 @@ public class Pagamento {
 
     public Double getValor() {
         return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
-    public LocalDate getDataPagamento() {
-        return dataPagamento;
-    }
+        }
 
     public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
