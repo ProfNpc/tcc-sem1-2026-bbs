@@ -1,43 +1,22 @@
-let valorFreteGlobal = 0; // Esta variável impede o frete de somar infinitamente
-
 async function calcularFrete() {
-    const inputCep = document.getElementById('cep-cart').value;
-    const displayFrete = document.getElementById('valor-frete-display');
+    const inputCep = document.getElementById('cep-cart');
     const displayResultado = document.getElementById('resultado-frete');
-    const displayTotal = document.getElementById('cart-total');
-
-    if (inputCep.length < 8) {
-        displayResultado.innerText = "CEP Inválido";
-        return;
-    }
-
-    // Simulando o cálculo (Substitua pela sua lógica de API se tiver)
-    // Aqui estou fixando 15.90 apenas para exemplo
-    const valorCalculado = 15.90; 
-
-    // AQUI ESTÁ O SEGREDO: 
-    // Nós SUBSTITUÍMOS o valor global, nunca somamos (+=)
-    valorFreteGlobal = valorCalculado;
-
-    // Atualiza a interface
-    displayFrete.innerText = `R$ ${valorFreteGlobal.toFixed(2).replace('.', ',')}`;
-    displayResultado.innerText = "Frete calculado com sucesso!";
-    
-    // Chama a função que atualiza o TOTAL GERAL do carrinho
-    atualizarTotalCarrinho();
+    const displayValorFrete = document.getElementById('valor-frete-display');
+    const cep = inputCep.value.replace(/\D/g, '');
+    if (cep.length !== 8) { displayResultado.innerText = "CEP inválido!"; displayResultado.style.color = "#ff416c"; return; }
+    displayResultado.innerText = "Calculando..."; displayResultado.style.color = "#888";
+    try {
+        const data = await (await fetch(`https://viacep.com.br/ws/${cep}/json/`)).json();
+        if (data.erro) { displayResultado.innerText = "CEP não encontrado!"; displayResultado.style.color = "#ff416c"; return; }
+        valorFreteGlobal = 15.90;
+        displayValorFrete.innerText = valorFreteGlobal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        displayResultado.innerText = `🚚 Entrega para ${data.localidade} - ${data.uf}`;
+        displayResultado.style.color = "#4caf50";
+        atualizarTotalCarrinho();
+    } catch(e) { displayResultado.innerText = "Erro ao calcular frete."; }
 }
 function atualizarTotalCarrinho() {
-    let subtotalProdutos = 0;
-
-    // 1. Soma apenas o valor dos produtos que estão no array do carrinho
-    // (Certifique-se que o nome da sua variável de itens seja 'cart')
-    cart.forEach(item => {
-        subtotalProdutos += item.price * item.quantity;
-    });
-
-    // 2. O Total é a soma LIMPA: Produtos + Frete Global
-    const totalGeral = subtotalProdutos + valorFreteGlobal;
-
-    // 3. Exibe no HTML
-    document.getElementById('cart-total').innerText = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+    let subtotal = 0;
+    Object.values(cart).forEach(item => subtotal += item.price * item.qty);
+    document.getElementById('cart-total').innerText = (subtotal + valorFreteGlobal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }

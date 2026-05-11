@@ -1,7 +1,25 @@
 /* ── CARROSSEL DE CATEGORIAS ── */
         function scrollCat(btn, dir) {
             const row = btn.parentElement.querySelector('.categoria-row');
-            row.scrollBy({ left: dir * 640, behavior: 'smooth' });
+            const dist = dir * (row.offsetWidth * 0.82);
+            const start = row.scrollLeft;
+            const end   = start + dist;
+            const duration = 480;
+            let startTime = null;
+
+            function easeInOut(t) {
+                return t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+            }
+
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                const elapsed = ts - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                row.scrollLeft = start + dist * easeInOut(progress);
+                if (progress < 1) requestAnimationFrame(step);
+            }
+
+            requestAnimationFrame(step);
         }
 
         /* ── CARROSSEL NO HOVER ── */
@@ -57,28 +75,38 @@
 
         /* ── CARRINHO ── */
         let cart = {};
+        let cartOrder = []; // tracks insertion order
 
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
 
         function addToCart(id, name, price, img) {
-            if (cart[id]) { cart[id].qty++; } else { cart[id] = { name, price, img, qty: 1 }; }
+            if (cart[id]) {
+                cart[id].qty++;
+            } else {
+                cart[id] = { name, price, img, qty: 1 };
+                cartOrder.unshift(id); // novo item vai pro topo
+            }
             renderCart();
             document.getElementById('cart-sidebar').classList.add('open');
         }
 
         function changeQty(id, delta) {
             cart[id].qty += delta;
-            if (cart[id].qty <= 0) delete cart[id];
+            if (cart[id].qty <= 0) {
+                delete cart[id];
+                cartOrder = cartOrder.filter(i => i != id);
+            }
             renderCart();
         }
 
         function renderCart() {
-            const list = document.getElementById('cart-items');
+            const list  = document.getElementById('cart-items');
             const count = document.getElementById('cart-count');
-            const total = document.getElementById('cart-total');
             let html = '', totalVal = 0, totalQty = 0;
 
-            Object.entries(cart).forEach(([id, item]) => {
+            cartOrder.forEach(id => {
+                const item = cart[id];
+                if (!item) return;
                 totalVal += item.price * item.qty;
                 totalQty += item.qty;
                 html += `
@@ -86,7 +114,7 @@
             <img src="${item.img}" alt="${item.name}">
             <div style="flex:1;">
                 <h4>${item.name}</h4>
-                <p>R$ ${(item.price * item.qty).toLocaleString('pt-BR')}</p>
+                <p>R$ ${(item.price * item.qty).toLocaleString('pt-BR', {minimumFractionDigits:2})}</p>
                 <div class="qty-controls">
                     <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
                     <span>${item.qty}</span>
@@ -98,7 +126,13 @@
 
             list.innerHTML = html || '<p style="color:var(--text-muted);text-align:center;margin-top:40px;">Seu carrinho está vazio.</p>';
             count.textContent = totalQty;
-            total.textContent = 'R$ ' + totalVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+            if (totalQty === 0) valorFreteGlobal = 0;
+            const total = totalVal + (typeof valorFreteGlobal !== 'undefined' ? valorFreteGlobal : 0);
+            document.getElementById('cart-total').innerText = total.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+            const freteEl = document.getElementById('valor-frete-display');
+            if (freteEl) freteEl.innerText = (typeof valorFreteGlobal !== 'undefined' ? valorFreteGlobal : 0)
+                .toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
         }
 
         /* ── MODAL ── */
@@ -117,9 +151,19 @@
 
         /* ── FILTROS ── */
         const marcasPorTipo = {
-            gpu: ['nvidia', 'Amd'], cpu: ['Intel', 'Amd'],
-            ram: ['Kingston', 'Corsair', 'Crucial'], ssd: ['Kingston', 'Samsung', 'wd']       ,       fonte: ['Corsair','Redragon','Thermaltake', 'Be Quiet!']
-
+            gpu:      ['Nvidia','AMD'],
+            cpu:      ['Intel','AMD'],
+            ram:      ['Kingston','Corsair','Crucial'],
+            ssd:      ['Kingston','Samsung','Western Digital'],
+            mãe:      ['Gigabyte','ASUS','MSI'],
+            fonte:    ['Corsair','Seasonic'],
+            cooler:   ['Cooler Master','DeepCool','be quiet!','NZXT'],
+            gabinete: ['NZXT','Corsair','Fractal Design','Lian Li'],
+            monitor:  ['Samsung','LG','AOC'],
+            mouse:    ['SteelSeries','Logitech','Razer'],
+            teclado:  ['Redragon','Logitech','Corsair'],
+            headset:  ['Razer','HyperX','Logitech'],
+            mousepad: ['Redragon','SteelSeries','Logitech'],
         };
 
         function toggleFiltros() {
@@ -142,17 +186,17 @@
 
         function filtrarProdutos() {
             const busca = document.getElementById('busca').value.toLowerCase();
-            const tipo = document.getElementById('fTipo').value;
-            const marca = document.getElementById('fMarca').value;
+            const tipo  = document.getElementById('fTipo').value;
+            const marca = document.getElementById('fMarca').value.toLowerCase();
             document.querySelectorAll('.produto').forEach(p => {
-                const nome = p.querySelector('h3').textContent.toLowerCase();
-                const desc = p.querySelector('p').textContent.toLowerCase();
+                const nome  = p.querySelector('h3').textContent.toLowerCase();
+                const desc  = p.querySelector('p').textContent.toLowerCase();
+                const pMarca = (p.dataset.marca || '').toLowerCase();
                 const ok = (!busca || nome.includes(busca) || desc.includes(busca))
-                    && (!tipo || p.dataset.tipo === tipo)
-                    && (!marca || p.dataset.marca === marca);
+                    && (!tipo  || p.dataset.tipo === tipo)
+                    && (!marca || pMarca === marca);
                 p.style.display = ok ? 'flex' : 'none';
             });
-            // Esconder seções sem produtos visíveis
             document.querySelectorAll('.categoria-secao').forEach(sec => {
                 const visivel = [...sec.querySelectorAll('.produto')].some(p => p.style.display !== 'none');
                 sec.style.display = visivel ? '' : 'none';

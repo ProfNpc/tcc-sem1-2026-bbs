@@ -844,69 +844,108 @@
             margin: 50px auto;
         }
         .categoria-secao {
-            margin-bottom: 60px;
+            margin-bottom: 70px;
         }
         .categoria-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding: 0 5px;
-        }
-        .cat-titulo {
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--text-muted);
-            white-space: nowrap;
+            gap: 22px;
+            margin-bottom: 30px;
         }
         .cat-linha {
             flex: 1;
             height: 1px;
-            background: var(--glass-border);
+            background: linear-gradient(90deg, rgba(255,65,108,0.45), transparent);
+        }
+        .cat-linha.right {
+            background: linear-gradient(270deg, rgba(255,65,108,0.45), transparent);
+        }
+        .cat-titulo-wrap {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .cat-titulo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            background: linear-gradient(90deg, #fff 0%, #ff416c 55%, #ff4b2b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            line-height: 1.1;
+        }
+        .cat-subtag {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,65,108,0.45);
         }
         .categoria-row-wrapper {
             position: relative;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
         .cat-arrow {
             flex-shrink: 0;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            font-size: 1.3rem;
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,65,108,0.3);
+            color: rgba(255,255,255,0.75);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
             display: flex;
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(10px);
         }
+        .cat-arrow svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.2s;
+        }
         .cat-arrow:hover {
             background: var(--primary-gradient);
             border-color: transparent;
-            transform: scale(1.1);
-            box-shadow: 0 0 18px rgba(255, 65, 108, 0.45);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,65,108,0.4);
+        }
+        .cat-arrow:hover svg {
+            transform: translateX(-2px);
+        }
+        .cat-arrow:last-child:hover svg {
+            transform: translateX(2px);
+        }
+        .cat-arrow:active {
+            transform: scale(0.94);
         }
         .cat-arrow:disabled {
-            opacity: 0.25;
+            opacity: 0.18;
             cursor: default;
             transform: none;
+            box-shadow: none;
         }
         .categoria-row {
             flex: 1;
             display: flex;
             gap: 25px;
             overflow-x: hidden;
-            scroll-behavior: smooth;
-            padding: 10px 5px 20px;
+            padding: 10px 4px 22px;
         }
         .categoria-row .produto {
             flex: 0 0 300px;
