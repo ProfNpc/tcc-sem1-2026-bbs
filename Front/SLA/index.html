@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="pt-BR">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8" />
@@ -14,7 +14,7 @@
 <body>
 
     <header>
-<h1 onclick="recarregar()" style="cursor: pointer;">BBS</h1>
+        <h1 onclick="recarregar()" style="cursor: pointer;">BBS</h1>
         <nav>
             <a href="#home">Home</a>
             <a href="#produtos">Produtos</a>
@@ -29,45 +29,53 @@
     </header>
 
     <aside id="cart-sidebar">
-    <div class="cart-header">
-        <h2>Meu Setup</h2>
-        <button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:2.5rem; cursor:pointer; line-height: 1;">&times;</button>
-    </div>
+        <div class="cart-header">
+            <h2>Meu Setup</h2>
+            <button onclick="toggleCart()"
+                style="background:none; border:none; color:white; font-size:2.5rem; cursor:pointer; line-height: 1;">&times;</button>
+        </div>
 
-    <div class="cart-items-list" id="cart-items"></div>
+        <div class="cart-items-list" id="cart-items"></div>
 
-    <div class="cart-footer" style="padding: 30px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);">
-        
-        <div class="frete-secao" style="margin-bottom: 20px;">
-            <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">CALCULAR ENTREGA</p>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="cep-cart" placeholder="00000-000" maxlength="9" 
-                    style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; padding: 12px; color: white; outline: none; font-size: 0.9rem;">
-                <button onclick="calcularFrete()" 
-                    style="background: #ff416c; border: none; border-radius: 8px; color: white; padding: 0 20px; cursor: pointer; font-weight: bold; transition: 0.3s;"
-                    onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">OK</button>
+        <div class="cart-footer"
+            style="padding: 30px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);">
+
+            <div class="frete-secao" style="margin-bottom: 20px;">
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">
+                    CALCULAR ENTREGA</p>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="cep-cart" placeholder="00000-000" maxlength="9"
+                        style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; padding: 12px; color: white; outline: none; font-size: 0.9rem;">
+                    <button onclick="calcularFrete()"
+                        style="background: #ff416c; border: none; border-radius: 8px; color: white; padding: 0 20px; cursor: pointer; font-weight: bold; transition: 0.3s;"
+                        onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">OK</button>
+                </div>
+                <p id="resultado-frete"
+                    style="margin-top: 10px; font-size: 0.85rem; color: #4caf50; min-height: 1.2rem;"></p>
             </div>
-            <p id="resultado-frete" style="margin-top: 10px; font-size: 0.85rem; color: #4caf50; min-height: 1.2rem;"></p>
-        </div>
 
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:1rem; color: #bbb;">
-            <span>Frete:</span>
-            <span id="valor-frete-display">R$ 0,00</span>
-        </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:1rem; color: #bbb;">
+                <span>Frete:</span>
+                <span id="valor-frete-display">R$ 0,00</span>
+            </div>
 
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:700; font-size:1.4rem;">
-            <span>Total:</span>
-            <span id="cart-total">R$ 0,00</span>
-        </div>
+            <div
+                style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:700; font-size:1.4rem;">
+                <span>Total:</span>
+                <span id="cart-total">R$ 0,00</span>
+            </div>
 
-        <button class="btn-buy" style="width:100%; padding:20px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border: none;">
-            Finalizar Pedido
-        </button>
-    </div>
-</aside>
+            <button class="btn-buy"
+                style="width:100%; padding:20px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border: none;">
+                Finalizar Pedido
+            </button>
+        </div>
+    </aside>
 
     <!-- OVERLAY -->
-    <div id="perfil-overlay" onclick="togglePerfilPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3999;backdrop-filter:blur(4px);"></div>
+    <div id="perfil-overlay" onclick="togglePerfilPanel()"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3999;backdrop-filter:blur(4px);">
+    </div>
 
     <!-- PAINEL DO CLIENTE -->
     <aside id="perfil-sidebar">
@@ -98,7 +106,8 @@
                 </div>
                 <div class="pp-field">
                     <label>Senha</label>
-                    <input type="password" id="pp-login-senha" placeholder="••••••••" onkeypress="if(event.key==='Enter')ppLogin()">
+                    <input type="password" id="pp-login-senha" placeholder="••••••••"
+                        onkeypress="if(event.key==='Enter')ppLogin()">
                 </div>
                 <button class="pp-btn-primary" onclick="ppLogin()">Entrar</button>
             </div>
@@ -120,7 +129,8 @@
                 </div>
                 <div class="pp-field">
                     <label>Confirmar senha</label>
-                    <input type="password" id="pp-cad-senha2" placeholder="Repita a senha" onkeypress="if(event.key==='Enter')ppCadastrar()">
+                    <input type="password" id="pp-cad-senha2" placeholder="Repita a senha"
+                        onkeypress="if(event.key==='Enter')ppCadastrar()">
                 </div>
                 <button class="pp-btn-primary" onclick="ppCadastrar()">Criar Conta</button>
             </div>
@@ -209,7 +219,8 @@
                         </div>
                         <div style="display:flex;gap:10px;margin-top:4px;">
                             <button class="pp-btn-primary" style="flex:1;" onclick="salvarEndereco()">Salvar</button>
-                            <button class="pp-btn-outline" style="flex:1;" onclick="toggleFormEndereco()">Cancelar</button>
+                            <button class="pp-btn-outline" style="flex:1;"
+                                onclick="toggleFormEndereco()">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -242,22 +253,23 @@
     </aside>
 
     <button class="ai-toggle-btn" onclick="toggleAIChat()">
-    <span style="font-size: 1.5rem;">🤖</span>
-</button>
+        <span style="font-size: 1.5rem;">🤖</span>
+    </button>
 
-<div id="ai-chat-container">
-    <div class="ai-header">
-        <span>BBS Assistente</span>
-        <button onclick="toggleAIChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:1.2rem;">&times;</button>
+    <div id="ai-chat-container">
+        <div class="ai-header">
+            <span>BBS Assistente</span>
+            <button onclick="toggleAIChat()"
+                style="background:none; border:none; color:white; cursor:pointer; font-size:1.2rem;">&times;</button>
+        </div>
+        <div id="ai-messages">
+            <div class="msg bot">Olá! Como posso ajudar no seu setup hoje?</div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="ai-user-input" placeholder="Pergunte algo..." onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendAIMessage()">Enviar</button>
+        </div>
     </div>
-    <div id="ai-messages">
-        <div class="msg bot">Olá! Como posso ajudar no seu setup hoje?</div>
-    </div>
-    <div class="ai-input-area">
-        <input type="text" id="ai-user-input" placeholder="Pergunte algo..." onkeypress="handleChatKeyPress(event)">
-        <button onclick="sendAIMessage()">Enviar</button>
-    </div>
-</div>
 
     <main id="home">
         <div class="topo-container">
@@ -319,1107 +331,1599 @@
 
 
 
-        
+
         <div class="categorias-wrap" id="produtos">
 
-        <!-- ══ PLACAS DE VÍDEO ══ -->
-        <section class="categoria-secao" id="cat-gpu">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Placas de Vídeo</h2>
-                    <span class="cat-subtag">GPU · Graphics Cards</span>
+            <!-- ══ PLACAS DE VÍDEO ══ -->
+            <section class="categoria-secao" id="cat-gpu">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Placas de Vídeo</h2>
+                        <span class="cat-subtag">GPU · Graphics Cards</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    
+                    <div class="categoria-row">
 
+                        
 <article class="produto" data-id="1" data-tipo="gpu" data-marca="Nvidia"
-    data-info='["12GB GDDR6 192-bit", "Boost Clock 1777 MHz", "Ray Tracing Gen 2", "DLSS 2.0", "3x DisplayPort + 1x HDMI 2.1", "TDP: 170W"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg" alt="RTX 3060 12GB">
-        <img src="https://http2.mlstatic.com/D_NQ_NP_2X_980529-MLA107201149934_032026-F.webp" alt="RTX 3060 12GB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RTX 3060 12GB</h3>
-    <p>Nvidia PCYES</p>
-    <span class="preco">R$ 2.199,00</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(1,'RTX 3060 12GB',2199,'https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["12GB GDDR6 192-bit", "Boost Clock 1777 MHz", "Ray Tracing Gen 2", "DLSS 2.0", "3x DisplayPort + 1x HDMI 2.1", "TDP: 170W"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg"
+                                    alt="RTX 3060 12GB">
+                                <img src="https://http2.mlstatic.com/D_NQ_NP_2X_980529-MLA107201149934_032026-F.webp"
+                                    alt="RTX 3060 12GB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RTX 3060 12GB</h3>
+                            <p>Nvidia PCYES</p>
+                            <span class="preco">R$ 2.199,00</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(1,'RTX 3060 12GB',2199,'https://m.media-amazon.com/images/I/61B8S-xnakL._AC_SY450_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
+                        
 </article>
 
 <article class="produto" data-id="7" data-tipo="gpu" data-marca="Nvidia"
-    data-info='["8GB GDDR6 128-bit", "Boost Clock 2460 MHz", "DLSS 3.0 Frame Generation", "Ada Lovelace Architecture", "3x DisplayPort 1.4a + 1x HDMI 2.1", "TDP: 115W"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/81kjbWXg-NL._AC_SX522_.jpg" alt="RTX 4060 8GB">
-        <img src="https://m.media-amazon.com/images/I/71kGqf5ISSL._AC_SX679_.jpg" alt="RTX 4060 8GB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RTX 4060 8GB</h3>
-    <p>Nvidia ASUS</p>
-    <span class="preco">R$ 1.899,00</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(7,'RTX 4060 8GB',1899,'https://m.media-amazon.com/images/I/81kjbWXg-NL._AC_SX522_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["8GB GDDR6 128-bit", "Boost Clock 2460 MHz", "DLSS 3.0 Frame Generation", "Ada Lovelace Architecture", "3x DisplayPort 1.4a + 1x HDMI 2.1", "TDP: 115W"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/81kjbWXg-NL._AC_SX522_.jpg"
+                                    alt="RTX 4060 8GB">
+                                <img src="https://m.media-amazon.com/images/I/71kGqf5ISSL._AC_SX679_.jpg"
+                                    alt="RTX 4060 8GB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RTX 4060 8GB</h3>
+                            <p>Nvidia ASUS</p>
+                            <span class="preco">R$ 1.899,00</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(7,'RTX 4060 8GB',1899,'https://m.media-amazon.com/images/I/81kjbWXg-NL._AC_SX522_.jpg')">Adicionar
+                                    ao Carrinho</button>
+</div>
 </article>
 
-<article class="produto" data-id="15" data-tipo="gpu" data-marca="Nvidia"
-    data-info='["12GB GDDR6X 192-bit", "Boost Clock 2475 MHz", "DLSS 3.5 com Ray Reconstruction", "Frame Generation de 3ª Geração", "3x DisplayPort 1.4a + 1x HDMI 2.1", "TDP: 220W"]'>
-    <div class="img-container">
-        <img class="active" src="https://img.terabyteshop.com.br/produto/g/placa-de-video-gigabyte-nvidia-geforce-rtx-4070-super-windforce-oc-12gb-gddr6x-dlss-ray-tracing-gv-n407swf3oc-12gd_186122.jpg" alt="RTX 4070 SUPER 12GB">
-        <img src="https://m.media-amazon.com/images/I/71Kb0hmUx0L._AC_SX679_.jpg" alt="RTX 4070 SUPER 12GB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RTX 4070 SUPER 12GB</h3>
-    <p>Nvidia Gigabyte</p>
-    <span class="preco">R$ 4.499,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(15,'RTX 4070 SUPER 12GB',4499.99,'https://img.terabyteshop.com.br/produto/g/placa-de-video-gigabyte-nvidia-geforce-rtx-4070-super-windforce-oc-12gb-gddr6x-dlss-ray-tracing-gv-n407swf3oc-12gd_186122.jpg')">Adicionar ao Carrinho</button>
-    </div>
+
+ <article class="produto" data-id="15" data-tipo="gpu" data-marca="Nvidia"
+                            data-info='["12GB GDDR6X 192-bit", "Boost Clock 2475 MHz", "DLSS 3.5 com Ray Reconstruction", "Frame Generation de 3ª Geração", "3x DisplayPort 1.4a + 1x HDMI 2.1", "TDP: 220W"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://img.terabyteshop.com.br/produto/g/placa-de-video-gigabyte-nvidia-geforce-rtx-4070-super-windforce-oc-12gb-gddr6x-dlss-ray-tracing-gv-n407swf3oc-12gd_186122.jpg"
+                                    alt="RTX 4070 SUPER 12GB">
+                                <img src="https://m.media-amazon.com/images/I/71Kb0hmUx0L._AC_SX679_.jpg"
+                                    alt="RTX 4070 SUPER 12GB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RTX 4070 SUPER 12GB</h3>
+                            <p>Nvidia Gigabyte</p>
+                            <span class="preco">R$ 4.499,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(15,'RTX 4070 SUPER 12GB',4499.99,'https://img.terabyteshop.com.br/produto/g/placa-de-video-gigabyte-nvidia-geforce-rtx-4070-super-windforce-oc-12gb-gddr6x-dlss-ray-tracing-gv-n407swf3oc-12gd_186122.jpg')">Adicionar
+                                    ao Carrinho</button>
+</div>
 </article>
 
-<article class="produto" data-id="16" data-tipo="gpu" data-marca="Nvidia"
-    data-info='["24GB GDDR6X 384-bit", "Boost Clock 2520 MHz", "Melhor GPU para 4K Gaming", "DLSS 3.5 + Ray Tracing Gen 3", "3x DisplayPort 1.4a + 2x HDMI 2.1", "TDP: 450W"]'>
-    <div class="img-container">
-        <img class="active" src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242974_gg.jpg" alt="RTX 5090 24GB">
-              <img src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242976_gg.jpg" alt="RTX 5090 24GB">
-        <img  src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242977_gg.jpg">
-        <img  src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242978_gg.jpg">
-        <img  src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242979_gg.jpg">
+                        <article class="produto" data-id="16" data-tipo="gpu" data-marca="Nvidia"
+                            data-info='["24GB GDDR6X 384-bit", "Boost Clock 2520 MHz", "Melhor GPU para 4K Gaming", "DLSS 3.5 + Ray Tracing Gen 3", "3x DisplayPort 1.4a + 2x HDMI 2.1", "TDP: 450W"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242974_gg.jpg"
+                                    alt="RTX 5090 24GB">
+                                <img src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242976_gg.jpg"
+                                    alt="RTX 5090 24GB">
+                                <img
+                                    src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242977_gg.jpg">
+                                <img
+                                    src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242978_gg.jpg">
+                                <img
+                                    src="https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242979_gg.jpg">
 
-        <img src="https://m.media-amazon.com/images/I/71dRMi5ZXSL._AC_SX679_.jpg" alt="RTX 5090 24GB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RTX 5090 24GB</h3>
-    <p>Gigabyte RTX 5090 AORUS MASTER</p>
-    <span class="preco">R$ 26.999,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(16,'RTX 5090 24GB',26999.99,'https://m.media-amazon.com/images/I/61+n0EqVaXL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
-</article>
+                                <img src="https://m.media-amazon.com/images/I/71dRMi5ZXSL._AC_SX679_.jpg"
+                                    alt="RTX 5090 24GB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RTX 5090 24GB</h3>
+                            <p>Gigabyte RTX 5090 AORUS MASTER</p>
+                            <span class="preco">R$ 26.999,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(16,'RTX 5090 24GB',26999.99,'https://images1.kabum.com.br/produtos/fotos/704641/placa-de-video-rtx-5090-aorus-master-32g-gigabyte-nvidia-geforce-32gb-gddr7-512bits-rgb-dlss-ray-tracing-gv-n5090aorus-m-32gd_1738242974_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
+                        </article>
+
 
 <article class="produto" data-id="27" data-tipo="gpu" data-marca="AMD"
-    data-info='["8GB GDDR6 128-bit", "Boost Clock 2655 MHz", "AMD RDNA 3 Architecture", "FSR 3.0 Frame Generation", "2x DisplayPort 2.1 + 1x HDMI 2.1", "TDP: 165W"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71I9PpVm6bL._AC_SX679_.jpg" alt="RX 7600 8GB">
-        <img src="https://m.media-amazon.com/images/I/71D-Xnfj8yL._AC_SX679_.jpg" alt="RX 7600 8GB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RX 7600 8GB</h3>
-    <p>AMD Sapphire</p>
-    <span class="preco">R$ 1.699,00</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(27,'RX 7600 8GB',1699,'https://m.media-amazon.com/images/I/71I9PpVm6bL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["8GB GDDR6 128-bit", "Boost Clock 2655 MHz", "AMD RDNA 3 Architecture", "FSR 3.0 Frame Generation", "2x DisplayPort 2.1 + 1x HDMI 2.1", "TDP: 165W"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images7.kabum.com.br/produtos/fotos/475647/placa-de-video-rx-7600-gaming-oc-8g-radeon-gigabyte-8gb-gddr6-128bits-rgb-gv-r76gaming-oc-8gd_1698435450_gg.jpg"
+                                    alt="RX 7600 8GB">
+                                <img src="https://images7.kabum.com.br/produtos/fotos/475647/placa-de-video-rx-7600-gaming-oc-8g-radeon-gigabyte-8gb-gddr6-128bits-rgb-gv-r76gaming-oc-8gd_1698435453_gg.jpg"
+                                    alt="RX 7600 8GB 2">
+                                <img src="https://images7.kabum.com.br/produtos/fotos/475647/placa-de-video-rx-7600-gaming-oc-8g-radeon-gigabyte-8gb-gddr6-128bits-rgb-gv-r76gaming-oc-8gd_1698435454_gg.jpg"
+                                    alt="RX 7600 8GB 2">
+                                <img src="https://m.media-amazon.com/images/I/71D-Xnfj8yL._AC_SX679_.jpg"
+                                    alt="RX 7600 8GB 2">
+
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RX 7600 8GB</h3>
+                            <p>AMD Radeon</p>
+                            <span class="preco">R$ 1.699,00</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(27,'RX 7600 8GB',1699,'https://images7.kabum.com.br/produtos/fotos/475647/placa-de-video-rx-7600-gaming-oc-8g-radeon-gigabyte-8gb-gddr6-128bits-rgb-gv-r76gaming-oc-8gd_1698435450_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="28" data-tipo="gpu" data-marca="Nvidia"
-    data-info='["16GB GDDR6 128-bit", "Boost Clock 2535 MHz", "Ada Lovelace Architecture", "DLSS 3.0 Frame Generation", "3x DisplayPort 1.4a + 1x HDMI 2.1", "TDP: 165W"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71Y8mFY1qCL._AC_SX679_.jpg" alt="RTX 4060 Ti 16GB">
-        <img src="https://m.media-amazon.com/images/I/81I-OZC7SQL._AC_SX679_.jpg" alt="RTX 4060 Ti 16GB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RTX 4060 Ti 16GB</h3>
-    <p>Nvidia MSI</p>
-    <span class="preco">R$ 3.299,00</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(28,'RTX 4060 Ti 16GB',3299,'https://m.media-amazon.com/images/I/71Y8mFY1qCL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
-</article>
+                            data-info='["16GB GDDR7 128-bit", "Boost Clock 2800 MHz", "Ada Lovelace Architecture", "DLSS 4.0 Frame Generation", "3x DisplayPort 1.4a + 1x HDMI 2.1", "TDP: 180W"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images2.kabum.com.br/produtos/fotos/761532/placa-de-video-asus-dual-rtx5060ti-o8g-90yv0mp2-m0na00_1744739054_gg.jpg"
+                                    alt="RTX 5060 Ti 16GB">
+                                <img src="https://images2.kabum.com.br/produtos/fotos/761532/placa-de-video-asus-dual-rtx5060ti-o8g-90yv0mp2-m0na00_1744739046_gg.jpg"
+                                    alt="RTX 5060 Ti 16GB 2">
+                                <img src="https://images2.kabum.com.br/produtos/fotos/761532/placa-de-video-asus-dual-rtx5060ti-o8g-90yv0mp2-m0na00_1744739047_gg.jpg"
+                                    alt="RTX 5060 Ti 16GB 2">
+                                <img src="https://images2.kabum.com.br/produtos/fotos/761532/placa-de-video-asus-dual-rtx5060ti-o8g-90yv0mp2-m0na00_1744739048_gg.jpg"
+                                    alt="RTX 5060 Ti 16GB 2">
+
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RTX 5060 Ti 16GB</h3>
+                            <p>Nvidia Asus</p>
+                            <span class="preco">R$ 3.299,00</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(28,'RTX 5060 Ti 16GB',3299,'https://images2.kabum.com.br/produtos/fotos/761532/placa-de-video-asus-dual-rtx5060ti-o8g-90yv0mp2-m0na00_1744739054_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
+                        </article>
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
+</section>
 
 
-        
-        <!-- ══ PROCESSADORES ══ -->
-        <section class="categoria-secao" id="cat-cpu">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Processadores</h2>
-                    <span class="cat-subtag">CPU · Computing Power</span>
+
+            <!-- ══ PROCESSADORES ══ -->
+            <section class="categoria-secao" id="cat-cpu">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Processadores</h2>
+                        <span class="cat-subtag">CPU · Computing Power</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="2" data-tipo="cpu" data-marca="Intel"
-    data-info='["4 Núcleos / 8 Threads", "Clock Base 3.5GHz / Boost 4.7GHz", "Cache 12MB Smart", "Sem gráfico integrado", "Suporte DDR4 e DDR5", "Socket LGA1700"]'>
-    <div class="img-container">
-        <img class="active" src="https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg" alt="Core i3-14100F">
-        <img src="https://m.media-amazon.com/images/I/61yFjPXJanL._AC_SX679_.jpg" alt="Core i3-14100F 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Core i3-14100F</h3>
-    <p>Intel</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(2,'Core i3-14100F',699.99,'https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["4 Núcleos / 8 Threads", "Clock Base 3.5GHz / Boost 4.7GHz", "Cache 12MB Smart", "Sem gráfico integrado", "Suporte DDR4 e DDR5", "Socket LGA1700"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg"
+                                    alt="Core i3-14100F">
+                                <img src="https://m.media-amazon.com/images/I/61yFjPXJanL._AC_SX679_.jpg"
+                                    alt="Core i3-14100F 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Core i3-14100F</h3>
+                            <p>Intel</p>
+                            <span class="preco">R$ 699,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(2,'Core i3-14100F',699.99,'https://images6.kabum.com.br/produtos/fotos/904656/processador-intel-core-i3-14100f-ate-4-70-ghz-cache-12mb-nucleos-4-threads-8-bx8071514100f_1754335112_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="11" data-tipo="cpu" data-marca="Intel"
-    data-info='["10 Núcleos (6P+4E) / 16 Threads", "Clock Boost até 4.9GHz", "Cache 20MB", "Suporte DDR4 e DDR5", "Compatível com coolers LGA1700", "Socket LGA1700"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/51F04b+xS2L._AC_SY450_.jpg" alt="Core i5-12600K">
-        <img src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="Core i5-12600K 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Core i5-12600K</h3>
-    <p>Intel</p>
-    <span class="preco">R$ 1.199,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(11,'Core i5-12600K',1199.99,'https://m.media-amazon.com/images/I/51F04b+xS2L._AC_SY450_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["10 Núcleos (6P+4E) / 16 Threads", "Clock Boost até 4.9GHz", "Cache 20MB", "Suporte DDR4 e DDR5", "Compatível com coolers LGA1700", "Socket LGA1700"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/51F04b+xS2L._AC_SY450_.jpg"
+                                    alt="Core i5-12600K">
+                                <img src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg"
+                                    alt="Core i5-12600K 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Core i5-12600K</h3>
+                            <p>Intel</p>
+                            <span class="preco">R$ 1.199,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(11,'Core i5-12600K',1199.99,'https://m.media-amazon.com/images/I/51F04b+xS2L._AC_SY450_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="10" data-tipo="cpu" data-marca="AMD"
-    data-info='["6 Núcleos / 12 Threads", "Clock Base 3.5GHz / Boost 4.4GHz", "Cache L3 32MB", "Suporte DDR4 até 3200MHz", "Cooler Wraith Stealth Incluso", "Socket AM4"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg" alt="Ryzen 5 5600">
-        <img src="https://m.media-amazon.com/images/I/51F04b+xS2L._AC_SY450_.jpg" alt="Ryzen 5 5600 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Ryzen 5 5600</h3>
-    <p>AMD</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(10,'Ryzen 5 5600',699.99,'https://m.media-amazon.com/images/I/614ZZYefLjL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["6 Núcleos / 12 Threads", "Clock Base 3.5GHz / Boost 4.4GHz", "Cache L3 32MB", "Suporte DDR4 até 3200MHz", "Cooler Wraith Stealth Incluso", "Socket AM4"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/51So7GoGvxL._AC_SX450_.jpg"
+                                    alt="Ryzen 5 5600">
+                                <img src="https://m.media-amazon.com/images/I/51k++KwUPXL._AC_SX450_.jpg"
+                                    alt="Ryzen 5 5600 2">
+                                <img src="https://m.media-amazon.com/images/I/515fiUhBVeL._AC_SL1500_.jpg"
+                                    alt="Ryzen 5 5600 2">
+
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Ryzen 5 5600</h3>
+                            <p>AMD</p>
+                            <span class="preco">R$ 699,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(10,'Ryzen 5 5600',699.99,'https://m.media-amazon.com/images/I/51So7GoGvxL._AC_SX450_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="29" data-tipo="cpu" data-marca="AMD"
-    data-info='["8 Núcleos / 16 Threads", "Clock Base 4.5GHz / Boost 5.4GHz", "Cache L3 32MB", "Suporte DDR5 até 5200MHz", "Arquitetura Zen 4 5nm", "Socket AM5"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/51Cc2HcHm4L._AC_SX679_.jpg" alt="Ryzen 7 7700X">
-        <img src="https://m.media-amazon.com/images/I/71D3kXFwvVL._AC_SX679_.jpg" alt="Ryzen 7 7700X 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Ryzen 7 7700X</h3>
-    <p>AMD</p>
-    <span class="preco">R$ 1.799,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(29,'Ryzen 7 7700X',1799.99,'https://m.media-amazon.com/images/I/51Cc2HcHm4L._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["8 Núcleos / 16 Threads", "Clock Base 4.5GHz / Boost 5.4GHz", "Cache L3 32MB", "Suporte DDR5 até 5200MHz", "Arquitetura Zen 4 5nm", "Socket AM5"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/51Cc2HcHm4L._AC_SX679_.jpg"
+                                    alt="Ryzen 7 7700X">
+                                <img src="https://m.media-amazon.com/images/I/71D3kXFwvVL._AC_SX679_.jpg"
+                                    alt="Ryzen 7 7700X 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Ryzen 7 7700X</h3>
+                            <p>AMD</p>
+                            <span class="preco">R$ 1.799,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(29,'Ryzen 7 7700X',1799.99,'https://m.media-amazon.com/images/I/51Cc2HcHm4L._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="30" data-tipo="cpu" data-marca="Intel"
-    data-info='["16 Núcleos (8P+8E) / 24 Threads", "Clock Boost até 5.4GHz", "Cache 30MB", "Suporte DDR4 e DDR5", "Alto desempenho em criação de conteúdo", "Socket LGA1700"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/51gq6PH5YRL._AC_SX679_.jpg" alt="Core i7-13700K">
-        <img src="https://m.media-amazon.com/images/I/61yFjPXJanL._AC_SX679_.jpg" alt="Core i7-13700K 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Core i7-13700K</h3>
-    <p>Intel</p>
-    <span class="preco">R$ 2.499,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(30,'Core i7-13700K',2499.99,'https://m.media-amazon.com/images/I/51gq6PH5YRL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["16 Núcleos (8P+8E) / 24 Threads", "Clock Boost até 5.4GHz", "Cache 30MB", "Suporte DDR4 e DDR5", "Alto desempenho em criação de conteúdo", "Socket LGA1700"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/51gq6PH5YRL._AC_SX679_.jpg"
+                                    alt="Core i7-13700K">
+                                <img src="https://m.media-amazon.com/images/I/61yFjPXJanL._AC_SX679_.jpg"
+                                    alt="Core i7-13700K 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Core i7-13700K</h3>
+                            <p>Intel</p>
+                            <span class="preco">R$ 2.499,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(30,'Core i7-13700K',2499.99,'https://m.media-amazon.com/images/I/51gq6PH5YRL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ MEMÓRIA RAM ══ -->
-        <section class="categoria-secao" id="cat-ram">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Memória RAM</h2>
-                    <span class="cat-subtag">DDR4 · DDR5</span>
+            </section>
+            
+            <!-- ══ MEMÓRIA RAM ══ -->
+            <section class="categoria-secao" id="cat-ram">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Memória RAM</h2>
+                        <span class="cat-subtag">DDR4 · DDR5</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="3" data-tipo="ram" data-marca="Kingston"
-    data-info='["2x 8GB DDR4 Kit", "Clock 3200MHz CL16", "XMP 2.0 Compatível", "Baixo Perfil para Coolers Grandes", "Plug and Play sem configuração", "Compatível Intel e AMD"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71DM-4hEsmL._AC_SX679_.jpg" alt="Fury Beast 16GB DDR4">
-        <img src="https://m.media-amazon.com/images/I/81GCqBHO2dL._AC_SX679_.jpg" alt="Fury Beast 16GB DDR4 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Fury Beast 16GB DDR4</h3>
-    <p>Kingston</p>
-    <span class="preco">R$ 279,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(3,'Kingston Fury Beast 16GB DDR4',279.99,'https://m.media-amazon.com/images/I/71DM-4hEsmL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["2x 8GB DDR4 Kit", "Clock 3200MHz CL16", "XMP 2.0 Compatível", "Baixo Perfil para Coolers Grandes", "Plug and Play sem configuração", "Compatível Intel e AMD"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71DM-4hEsmL._AC_SX679_.jpg"
+                                    alt="Fury Beast 16GB DDR4">
+                                <img src="https://m.media-amazon.com/images/I/81GCqBHO2dL._AC_SX679_.jpg"
+                                    alt="Fury Beast 16GB DDR4 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Fury Beast 16GB DDR4</h3>
+                            <p>Kingston</p>
+                            <span class="preco">R$ 279,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(3,'Kingston Fury Beast 16GB DDR4',279.99,'https://m.media-amazon.com/images/I/71DM-4hEsmL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
 
 <article class="produto" data-id="12" data-tipo="ram" data-marca="Corsair"
-    data-info='["2x 8GB DDR4 Kit", "Clock 3200MHz CL16", "XMP 2.0 Certificado", "Dissipador de Calor Alumínio", "Design Ultra Low Profile", "Compatível Intel e AMD"]'>
-    <div class="img-container">
-        <img class="active" src="https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/c/m/cmk16gx4m1e3200c162.jpg" alt="Vengeance LPX 16GB DDR4">
-        <img src="https://m.media-amazon.com/images/I/81L5eE5-9FL._AC_SX679_.jpg" alt="Vengeance LPX 16GB DDR4 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Vengeance LPX 16GB DDR4</h3>
-    <p>Corsair</p>
-    <span class="preco">R$ 299,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(12,'Corsair Vengeance LPX 16GB DDR4',299.99,'https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/c/m/cmk16gx4m1e3200c162.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["2x 8GB DDR4 Kit", "Clock 3200MHz CL16", "XMP 2.0 Certificado", "Dissipador de Calor Alumínio", "Design Ultra Low Profile", "Compatível Intel e AMD"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/c/m/cmk16gx4m1e3200c162.jpg"
+                                    alt="Vengeance LPX 16GB DDR4">
+                                <img src="https://m.media-amazon.com/images/I/81L5eE5-9FL._AC_SX679_.jpg"
+                                    alt="Vengeance LPX 16GB DDR4 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Vengeance LPX 16GB DDR4</h3>
+                            <p>Corsair</p>
+                            <span class="preco">R$ 299,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(12,'Corsair Vengeance LPX 16GB DDR4',299.99,'https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/c/m/cmk16gx4m1e3200c162.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="31" data-tipo="ram" data-marca="Kingston"
-    data-info='["2x 16GB DDR5 Kit", "Clock 6000MHz CL36", "XMP 3.0 e EXPO Compatível", "Alta Velocidade para Plataformas AM5 e LGA1700", "Ideal para Jogos e Criação de Conteúdo", "Socket AM5 / LGA1700"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71bS0cioT2L._AC_SX679_.jpg" alt="Fury Beast 32GB DDR5">
-        <img src="https://m.media-amazon.com/images/I/61Yz+JNMXAL._AC_SX679_.jpg" alt="Fury Beast 32GB DDR5 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Fury Beast 32GB DDR5</h3>
-    <p>Kingston</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(31,'Kingston Fury Beast 32GB DDR5',699.99,'https://m.media-amazon.com/images/I/71bS0cioT2L._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["2x 16GB DDR5 Kit", "Clock 6000MHz CL36", "XMP 3.0 e EXPO Compatível", "Alta Velocidade para Plataformas AM5 e LGA1700", "Ideal para Jogos e Criação de Conteúdo", "Socket AM5 / LGA1700"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71bS0cioT2L._AC_SX679_.jpg"
+                                    alt="Fury Beast 32GB DDR5">
+                                <img src="https://m.media-amazon.com/images/I/61Yz+JNMXAL._AC_SX679_.jpg"
+                                    alt="Fury Beast 32GB DDR5 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Fury Beast 32GB DDR5</h3>
+                            <p>Kingston</p>
+                            <span class="preco">R$ 699,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(31,'Kingston Fury Beast 32GB DDR5',699.99,'https://m.media-amazon.com/images/I/71bS0cioT2L._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="32" data-tipo="ram" data-marca="Crucial"
-    data-info='["2x 16GB DDR4 Kit", "Clock 3200MHz CL22", "Compatível com Intel XMP 2.0", "Confiabilidade Micron DRAM", "Garantia Vitalícia", "Compatível Intel e AMD"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg" alt="Crucial Pro 32GB DDR4">
-        <img src="https://m.media-amazon.com/images/I/71DM-4hEsmL._AC_SX679_.jpg" alt="Crucial Pro 32GB DDR4 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Crucial Pro 32GB DDR4</h3>
-    <p>Crucial</p>
-    <span class="preco">R$ 399,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(32,'Crucial Pro 32GB DDR4',399.99,'https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["2x 16GB DDR4 Kit", "Clock 3200MHz CL22", "Compatível com Intel XMP 2.0", "Confiabilidade Micron DRAM", "Garantia Vitalícia", "Compatível Intel e AMD"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg"
+                                    alt="Crucial Pro 32GB DDR4">
+                                <img src="https://m.media-amazon.com/images/I/71DM-4hEsmL._AC_SX679_.jpg"
+                                    alt="Crucial Pro 32GB DDR4 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Crucial Pro 32GB DDR4</h3>
+                            <p>Crucial</p>
+                            <span class="preco">R$ 399,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(32,'Crucial Pro 32GB DDR4',399.99,'https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ SSDS ══ -->
-        <section class="categoria-secao" id="cat-ssd">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">SSDs</h2>
-                    <span class="cat-subtag">NVMe · M.2 · SATA</span>
+            </section>
+            <!-- ══ SSDS ══ -->            <!-- ══ SSDS ══ -->            <!-- ══ SSDS ══ -->
+            <!-- ══ SSDS ══ -->            <!-- ══ SSDS ══ -->            <!-- ══ SSDS ══ -->
+
+
+
+            <section class="categoria-secao" id="cat-ssd">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">SSDs</h2>
+                        <span class="cat-subtag">NVMe · M.2 · SATA</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="4" data-tipo="ssd" data-marca="Kingston"
-    data-info='["1TB de Capacidade", "Interface NVMe PCIe 4.0 x4", "Leitura Sequencial: 3500 MB/s", "Gravação Sequencial: 2100 MB/s", "Fator de Forma M.2 2280", "Garantia 3 anos"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg" alt="NV2 1TB NVMe M.2">
-        <img src="https://m.media-amazon.com/images/I/61eMXK3RXZL._AC_SX679_.jpg" alt="NV2 1TB NVMe M.2 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>NV2 1TB NVMe M.2</h3>
-    <p>Kingston</p>
-    <span class="preco">R$ 289,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(4,'Kingston NV2 1TB',289.99,'https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["1TB de Capacidade", "Interface NVMe PCIe 4.0 x4", "Leitura Sequencial: 3500 MB/s", "Gravação Sequencial: 2100 MB/s", "Fator de Forma M.2 2280", "Garantia 3 anos"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg"
+                                    alt="NV2 1TB NVMe M.2">
+                                <img src="https://m.media-amazon.com/images/I/61eMXK3RXZL._AC_SX679_.jpg"
+                                    alt="NV2 1TB NVMe M.2 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>NV2 1TB NVMe M.2</h3>
+                            <p>Kingston</p>
+                            <span class="preco">R$ 289,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(4,'Kingston NV2 1TB',289.99,'https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="6" data-tipo="ssd" data-marca="Kingston"
-    data-info='["1TB de Capacidade", "Interface NVMe PCIe 4.0 x4", "Leitura Sequencial: 6000 MB/s", "Gravação Sequencial: 4000 MB/s", "Fator de Forma M.2 2280", "Nova Geração vs NV2"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg" alt="NV3 1TB NVMe M.2">
-        <img src="https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg" alt="NV3 1TB NVMe M.2 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>NV3 1TB NVMe M.2</h3>
-    <p>Kingston</p>
-    <span class="preco">R$ 329,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(6,'Kingston NV3 1TB',329.99,'https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["1TB de Capacidade", "Interface NVMe PCIe 4.0 x4", "Leitura Sequencial: 6000 MB/s", "Gravação Sequencial: 4000 MB/s", "Fator de Forma M.2 2280", "Nova Geração vs NV2"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg"
+                                    alt="NV3 1TB NVMe M.2">
+                                <img src="https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg"
+                                    alt="NV3 1TB NVMe M.2 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>NV3 1TB NVMe M.2</h3>
+                            <p>Kingston</p>
+                            <span class="preco">R$ 329,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(6,'Kingston NV3 1TB',329.99,'https://m.media-amazon.com/images/I/71c5uuoM1bL._AC_SX522_.jpg')">Adicionar
+                                    ao Carrinho</button>
+</div>
 </article>
+
 
 <article class="produto" data-id="33" data-tipo="ssd" data-marca="Samsung"
-    data-info='["1TB de Capacidade", "Interface NVMe PCIe 3.0 x4", "Leitura Sequencial: 3500 MB/s", "Gravação Sequencial: 3300 MB/s", "Tecnologia V-NAND 3-bit MLC", "Garantia 5 anos"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71yz0BvMAFL._AC_SX679_.jpg" alt="970 EVO Plus 1TB">
-        <img src="https://m.media-amazon.com/images/I/71h-lMVkGgL._AC_SX679_.jpg" alt="970 EVO Plus 1TB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>970 EVO Plus 1TB</h3>
-    <p>Samsung</p>
-    <span class="preco">R$ 399,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(33,'Samsung 970 EVO Plus 1TB',399.99,'https://m.media-amazon.com/images/I/71yz0BvMAFL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["1TB de Capacidade", "Interface NVMe PCIe 3.0 x4", "Leitura Sequencial: 3500 MB/s", "Gravação Sequencial: 3300 MB/s", "Tecnologia V-NAND 3-bit MLC", "Garantia 5 anos"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71yz0BvMAFL._AC_SX679_.jpg"
+                                    alt="970 EVO Plus 1TB">
+                                <img src="https://m.media-amazon.com/images/I/71h-lMVkGgL._AC_SX679_.jpg"
+                                    alt="970 EVO Plus 1TB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>970 EVO Plus 1TB</h3>
+                            <p>Samsung</p>
+                            <span class="preco">R$ 399,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(33,'Samsung 970 EVO Plus 1TB',399.99,'https://m.media-amazon.com/images/I/71yz0BvMAFL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
 
 <article class="produto" data-id="34" data-tipo="ssd" data-marca="Western Digital"
-    data-info='["1TB de Capacidade", "Interface NVMe PCIe 4.0 x4", "Leitura Sequencial: 7300 MB/s", "Gravação Sequencial: 6600 MB/s", "Ideal para PS5 e PC Gaming", "Garantia 5 anos"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg" alt="WD Black SN850X 1TB">
-        <img src="https://m.media-amazon.com/images/I/61m50lXx4BL._AC_SX679_.jpg" alt="WD Black SN850X 1TB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>WD Black SN850X 1TB</h3>
-    <p>Western Digital</p>
-    <span class="preco">R$ 499,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(34,'WD Black SN850X 1TB',499.99,'https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["1TB de Capacidade", "Interface NVMe PCIe 4.0 x4", "Leitura Sequencial: 7300 MB/s", "Gravação Sequencial: 6600 MB/s", "Ideal para PS5 e PC Gaming", "Garantia 5 anos"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg"
+                                    alt="WD Black SN850X 1TB">
+                                <img src="https://m.media-amazon.com/images/I/61m50lXx4BL._AC_SX679_.jpg"
+                                    alt="WD Black SN850X 1TB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>WD Black SN850X 1TB</h3>
+                            <p>Western Digital</p>
+                            <span class="preco">R$ 499,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(34,'WD Black SN850X 1TB',499.99,'https://m.media-amazon.com/images/I/61-H0-ONWOL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ PLACAS MÃE ══ -->
-        <section class="categoria-secao" id="cat-mae">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Placas Mãe</h2>
-                    <span class="cat-subtag">Motherboards</span>
+            </section>
+            <!-- ══ PLACAS MÃE ══ -->            <!-- ══ PLACAS MÃE ══ -->            <!-- ══ PLACAS MÃE ══ -->
+            <!-- ══ PLACAS MÃE ══ -->            <!-- ══ PLACAS MÃE ══ -->            <!-- ══ PLACAS MÃE ══ -->
+            <!-- ══ PLACAS MÃE ══ -->            <!-- ══ PLACAS MÃE ══ -->            <!-- ══ PLACAS MÃE ══ -->
+
+
+
+
+            <section class="categoria-secao" id="cat-mae">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Placas Mãe</h2>
+                        <span class="cat-subtag">Motherboards</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
+
 
 <article class="produto" data-id="5" data-tipo="mãe" data-marca="Gigabyte"
-    data-info='["Socket AM4 — Ryzen 3000/5000", "Chipset AMD B550", "Suporte DDR4 até 4733MHz (OC)", "Wi-Fi 6 e Bluetooth 5.0", "2x M.2 NVMe + 4x SATA III", "Micro-ATX"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/81YwWAnIrtL._AC_SX679_.jpg" alt="B550M Gaming X WIFI">
-        <img src="https://m.media-amazon.com/images/I/71mHGbzfKpL._AC_SX679_.jpg" alt="B550M Gaming X WIFI 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>B550M Gaming X WIFI</h3>
-    <p>Gigabyte</p>
-    <span class="preco">R$ 899,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(5,'Gigabyte B550M Gaming X',899.99,'https://m.media-amazon.com/images/I/81YwWAnIrtL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Socket AM4 — Ryzen 3000/5000", "Chipset AMD B550", "Suporte DDR4 até 4733MHz (OC)", "Wi-Fi 6 e Bluetooth 5.0", "2x M.2 NVMe + 4x SATA III", "Micro-ATX"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/81YwWAnIrtL._AC_SX679_.jpg"
+                                    alt="B550M Gaming X WIFI">
+                                <img src="https://m.media-amazon.com/images/I/71mHGbzfKpL._AC_SX679_.jpg"
+                                    alt="B550M Gaming X WIFI 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>B550M Gaming X WIFI</h3>
+                            <p>Gigabyte</p>
+                            <span class="preco">R$ 899,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(5,'Gigabyte B550M Gaming X',899.99,'https://m.media-amazon.com/images/I/81YwWAnIrtL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="35" data-tipo="mãe" data-marca="ASUS"
-    data-info='["Socket LGA1700 — Intel 12ª/13ª Geração", "Chipset Intel B660", "Suporte DDR4 até 4800MHz", "2x M.2 NVMe + 4x SATA III", "USB 3.2 Gen 2 no painel traseiro", "Micro-ATX Robusto"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/81k+z4vPDSL._AC_SX679_.jpg" alt="TUF Gaming B660M-Plus">
-        <img src="https://m.media-amazon.com/images/I/71mHGbzfKpL._AC_SX679_.jpg" alt="TUF Gaming B660M-Plus 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>TUF Gaming B660M-Plus</h3>
-    <p>ASUS</p>
-    <span class="preco">R$ 1.099,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(35,'ASUS TUF B660M-Plus',1099.99,'https://m.media-amazon.com/images/I/81k+z4vPDSL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Socket LGA1700 — Intel 12ª/13ª Geração", "Chipset Intel B660", "Suporte DDR4 até 4800MHz", "2x M.2 NVMe + 4x SATA III", "USB 3.2 Gen 2 no painel traseiro", "Micro-ATX Robusto"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/81k+z4vPDSL._AC_SX679_.jpg"
+                                    alt="TUF Gaming B660M-Plus">
+                                <img src="https://m.media-amazon.com/images/I/71mHGbzfKpL._AC_SX679_.jpg"
+                                    alt="TUF Gaming B660M-Plus 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>TUF Gaming B660M-Plus</h3>
+                            <p>ASUS</p>
+                            <span class="preco">R$ 1.099,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(35,'ASUS TUF B660M-Plus',1099.99,'https://m.media-amazon.com/images/I/81k+z4vPDSL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="36" data-tipo="mãe" data-marca="MSI"
-    data-info='["Socket AM5 — Ryzen 7000/8000", "Chipset AMD B650", "Suporte DDR5 até 7800MHz (OC)", "Wi-Fi 6E e Bluetooth 5.3", "3x M.2 NVMe + 4x SATA III", "ATX com VRM Robusto 14+2 Fases"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg" alt="MAG B650 Tomahawk WiFi">
-        <img src="https://m.media-amazon.com/images/I/81k+z4vPDSL._AC_SX679_.jpg" alt="MAG B650 Tomahawk WiFi 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>MAG B650 Tomahawk WiFi</h3>
-    <p>MSI</p>
-    <span class="preco">R$ 1.499,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(36,'MSI MAG B650 Tomahawk WiFi',1499.99,'https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Socket AM5 — Ryzen 7000/8000", "Chipset AMD B650", "Suporte DDR5 até 7800MHz (OC)", "Wi-Fi 6E e Bluetooth 5.3", "3x M.2 NVMe + 4x SATA III", "ATX com VRM Robusto 14+2 Fases"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg"
+                                    alt="MAG B650 Tomahawk WiFi">
+                                <img src="https://m.media-amazon.com/images/I/81k+z4vPDSL._AC_SX679_.jpg"
+                                    alt="MAG B650 Tomahawk WiFi 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>MAG B650 Tomahawk WiFi</h3>
+                            <p>MSI</p>
+                            <span class="preco">R$ 1.499,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(36,'MSI MAG B650 Tomahawk WiFi',1499.99,'https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ FONTES ══ -->
-        <section class="categoria-secao" id="cat-fonte">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Fontes</h2>
-                    <span class="cat-subtag">PSU · Power Supply</span>
+            </section>
+
+
+            <!-- ══ FONTES ══ -->            <!-- ══ FONTES ══ -->            <!-- ══ FONTES ══ -->
+            <!-- ══ FONTES ══ -->            <!-- ══ FONTES ══ -->            <!-- ══ FONTES ══ -->
+
+
+            <section class="categoria-secao" id="cat-fonte">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Fontes</h2>
+                        <span class="cat-subtag">PSU · Power Supply</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
+
 
 <article class="produto" data-id="13" data-tipo="fonte" data-marca="Corsair"
-    data-info='["550W de Potência", "Certificação 80 Plus Bronze", "PFC Ativo", "Cabo de 24 pinos ATX + EPS 8 pinos", "4+4 pinos CPU + 2x 6+2 pinos PCIe", "Garantia 3 anos"]'>
-    <div class="img-container">
-        <img class="active" src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/CP-9020210-BR/Gallery/CV550_PSU_13.webp" alt="CV550 550W Bronze">
-        <img src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/CP-9020210-BR/Gallery/CV550_PSU_03.webp" alt="CV550 550W Bronze 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>CV550 550W Bronze</h3>
-    <p>Corsair</p>
-    <span class="preco">R$ 399,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(13,'Corsair CV550 550W',399.99,'https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/CP-9020210-BR/Gallery/CV550_PSU_13.webp')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["550W de Potência", "Certificação 80 Plus Bronze", "PFC Ativo", "Cabo de 24 pinos ATX + EPS 8 pinos", "4+4 pinos CPU + 2x 6+2 pinos PCIe", "Garantia 3 anos"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/CP-9020210-BR/Gallery/CV550_PSU_13.webp"
+                                    alt="CV550 550W Bronze">
+                                <img src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/CP-9020210-BR/Gallery/CV550_PSU_03.webp"
+                                    alt="CV550 550W Bronze 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>CV550 550W Bronze</h3>
+                            <p>Corsair</p>
+                            <span class="preco">R$ 399,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(13,'Corsair CV550 550W',399.99,'https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/CP-9020210-BR/Gallery/CV550_PSU_13.webp')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="37" data-tipo="fonte" data-marca="Seasonic"
-    data-info='["750W de Potência", "Certificação 80 Plus Gold", "Full Modular — cabos removíveis", "Ventilador 135mm Modo Silencioso", "Proteções OCP, OVP, SCP, OTP", "Garantia 10 anos"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71Z4vTdHhWL._AC_SX679_.jpg" alt="Focus GX-750W Gold">
-        <img src="https://m.media-amazon.com/images/I/81Y5I8QADBL._AC_SX679_.jpg" alt="Focus GX-750W Gold 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Focus GX-750W Gold</h3>
-    <p>Seasonic</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(37,'Seasonic Focus GX-750W',699.99,'https://m.media-amazon.com/images/I/71Z4vTdHhWL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["750W de Potência", "Certificação 80 Plus Gold", "Full Modular — cabos removíveis", "Ventilador 135mm Modo Silencioso", "Proteções OCP, OVP, SCP, OTP", "Garantia 10 anos"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71Z4vTdHhWL._AC_SX679_.jpg"
+                                    alt="Focus GX-750W Gold">
+                                <img src="https://m.media-amazon.com/images/I/81Y5I8QADBL._AC_SX679_.jpg"
+                                    alt="Focus GX-750W Gold 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Focus GX-750W Gold</h3>
+                            <p>Seasonic</p>
+                            <span class="preco">R$ 699,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(37,'Seasonic Focus GX-750W',699.99,'https://m.media-amazon.com/images/I/71Z4vTdHhWL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="14" data-tipo="fonte" data-marca="Corsair"
-    data-info='["850W de Potência", "Certificação 80 Plus Gold", "Full Modular — cabos removíveis", "Zero RPM Mode abaixo de 40% carga", "Condensadores japoneses 105°C", "Garantia 10 anos"]'>
-    <div class="img-container">
-        <img class="active" src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/base-rm-2021-config/Gallery/RM850_BLACK_01.webp" alt="RM850x 850W Gold">
-        <img src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/base-rm-2021-config/Gallery/RM850_BLACK_02.webp" alt="RM850x 850W Gold 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>RM850x 850W Gold</h3>
-    <p>Corsair</p>
-    <span class="preco">R$ 1.099,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(14,'Corsair RM850x 850W',1099.99,'https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/base-rm-2021-config/Gallery/RM850_BLACK_01.webp')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["850W de Potência", "Certificação 80 Plus Gold", "Full Modular — cabos removíveis", "Zero RPM Mode abaixo de 40% carga", "Condensadores japoneses 105°C", "Garantia 10 anos"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/base-rm-2021-config/Gallery/RM850_BLACK_01.webp"
+                                    alt="RM850x 850W Gold">
+                                <img src="https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/base-rm-2021-config/Gallery/RM850_BLACK_02.webp"
+                                    alt="RM850x 850W Gold 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>RM850x 850W Gold</h3>
+                            <p>Corsair</p>
+                            <span class="preco">R$ 1.099,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(14,'Corsair RM850x 850W',1099.99,'https://assets.corsair.com/image/upload/c_pad,q_85,h_1100,w_1100,f_auto/products/Power-Supply-Units/base-rm-2021-config/Gallery/RM850_BLACK_01.webp')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
-                </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ COOLERS ══ -->
-        <section class="categoria-secao" id="cat-cooler">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Coolers</h2>
-                    <span class="cat-subtag">Air · AIO · Liquid</span>
-                </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
 
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
+                </div>
+            </section>
+
+
+            <!-- ══ COOLERS ══ -->            <!-- ══ COOLERS ══ -->            <!-- ══ COOLERS ══ -->
+            <!-- ══ COOLERS ══ -->            <!-- ══ COOLERS ══ -->            <!-- ══ COOLERS ══ -->
+
+            <section class="categoria-secao" id="cat-cooler">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Coolers</h2>
+                        <span class="cat-subtag">Air · AIO · Liquid</span>
+                    </div>
+                    <span class="cat-linha right"></span>
+                </div>
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
+
+                        
 <article class="produto" data-id="17" data-tipo="cooler" data-marca="Cooler Master"
-    data-info='["Dissipador Air Tower Single Fan", "TDP Suportado: 150W", "4 Heat Pipes de Cobre Niquel", "Fan PWM 120mm 650–2000 RPM", "Compatível LGA1700, AM5, AM4", "Altura: 158mm"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61ZYpBVKZBL._AC_SX679_.jpg" alt="Hyper 212 Black Edition">
-        <img src="https://m.media-amazon.com/images/I/71YMnCRlHbL._AC_SX679_.jpg" alt="Hyper 212 Black Edition 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Hyper 212 Black Edition</h3>
-    <p>Cooler Master</p>
-    <span class="preco">R$ 279,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(17,'Hyper 212 Black Edition',279.99,'https://m.media-amazon.com/images/I/61ZYpBVKZBL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Dissipador Air Tower Single Fan", "TDP Suportado: 150W", "4 Heat Pipes de Cobre Niquel", "Fan PWM 120mm 650–2000 RPM", "Compatível LGA1700, AM5, AM4", "Altura: 158mm"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61ZYpBVKZBL._AC_SX679_.jpg"
+                                    alt="Hyper 212 Black Edition">
+                                <img src="https://m.media-amazon.com/images/I/71YMnCRlHbL._AC_SX679_.jpg"
+                                    alt="Hyper 212 Black Edition 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Hyper 212 Black Edition</h3>
+                            <p>Cooler Master</p>
+                            <span class="preco">R$ 279,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(17,'Hyper 212 Black Edition',279.99,'https://m.media-amazon.com/images/I/61ZYpBVKZBL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
 
 <article class="produto" data-id="38" data-tipo="cooler" data-marca="DeepCool"
-    data-info='["Dissipador Air Dual Tower", "TDP Suportado: 260W", "6 Heat Pipes de Cobre", "2x Fans PWM 120mm 500–1850 RPM", "Compatível LGA1700, AM5, AM4", "Desempenho próximo a AIO 240mm"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71lnH5Db-hL._AC_SX679_.jpg" alt="AK620 Dual Tower">
-        <img src="https://m.media-amazon.com/images/I/71HJXGf1yiL._AC_SX679_.jpg" alt="AK620 Dual Tower 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>AK620 Dual Tower</h3>
-    <p>DeepCool</p>
-    <span class="preco">R$ 449,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(38,'DeepCool AK620',449.99,'https://m.media-amazon.com/images/I/71lnH5Db-hL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Dissipador Air Dual Tower", "TDP Suportado: 260W", "6 Heat Pipes de Cobre", "2x Fans PWM 120mm 500–1850 RPM", "Compatível LGA1700, AM5, AM4", "Desempenho próximo a AIO 240mm"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71lnH5Db-hL._AC_SX679_.jpg"
+                                    alt="AK620 Dual Tower">
+                                <img src="https://m.media-amazon.com/images/I/71HJXGf1yiL._AC_SX679_.jpg"
+                                    alt="AK620 Dual Tower 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>AK620 Dual Tower</h3>
+                            <p>DeepCool</p>
+                            <span class="preco">R$ 449,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(38,'DeepCool AK620',449.99,'https://m.media-amazon.com/images/I/71lnH5Db-hL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="19" data-tipo="cooler" data-marca="be quiet!"
-    data-info='["Dissipador Air Dual Tower", "TDP Suportado: 250W", "6 Heat Pipes de Cobre Niquel", "2x Silent Wings 3 Fan 135mm e 120mm", "Silencioso — máx 24.3 dB(A)", "Compatível LGA1700, AM5, AM4"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/51vHqfwnP6L._AC_SX679_.jpg" alt="Dark Rock Pro 4">
-        <img src="https://m.media-amazon.com/images/I/61JkWcYAT6L._AC_SX679_.jpg" alt="Dark Rock Pro 4 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Dark Rock Pro 4</h3>
-    <p>be quiet!</p>
-    <span class="preco">R$ 649,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(19,'be quiet! Dark Rock Pro 4',649.99,'https://m.media-amazon.com/images/I/51vHqfwnP6L._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Dissipador Air Dual Tower", "TDP Suportado: 250W", "6 Heat Pipes de Cobre Niquel", "2x Silent Wings 3 Fan 135mm e 120mm", "Silencioso — máx 24.3 dB(A)", "Compatível LGA1700, AM5, AM4"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/51vHqfwnP6L._AC_SX679_.jpg"
+                                    alt="Dark Rock Pro 4">
+                                <img src="https://m.media-amazon.com/images/I/61JkWcYAT6L._AC_SX679_.jpg"
+                                    alt="Dark Rock Pro 4 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Dark Rock Pro 4</h3>
+                            <p>be quiet!</p>
+                            <span class="preco">R$ 649,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(19,'be quiet! Dark Rock Pro 4',649.99,'https://m.media-amazon.com/images/I/51vHqfwnP6L._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="18" data-tipo="cooler" data-marca="NZXT"
-    data-info='["Water Cooler AIO 240mm", "LCD Display 1.54" para GIF/Temperatura", "Bomba Alta Eficiência 2800 RPM", "2x Aer P Fan 120mm PWM", "Compatível LGA1700, AM5, AM4", "App CAM para Personalização"]'>
-    <div class="img-container">
-        <img class="active" src="https://images8.kabum.com.br/produtos/fotos/415798/water-cooler-nzxt-kraken-240-rgb-240mm-1-54in-display-rgb-controller-e-rgb-fans-preto-rl-kr240-b1_1686582320_gg.jpg" alt="Kraken 240 LCD">
-        <img src="https://m.media-amazon.com/images/I/71a6c-Q7-HL._AC_SX679_.jpg" alt="Kraken 240 LCD 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Kraken 240 LCD</h3>
-    <p>NZXT</p>
-    <span class="preco">R$ 1.099,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(18,'NZXT Kraken 240 LCD',1099.99,'https://images8.kabum.com.br/produtos/fotos/415798/water-cooler-nzxt-kraken-240-rgb-240mm-1-54in-display-rgb-controller-e-rgb-fans-preto-rl-kr240-b1_1686582320_gg.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Water Cooler AIO 240mm", "LCD Display 1.54" para GIF/Temperatura", "Bomba Alta Eficiência 2800 RPM", "2x Aer P Fan 120mm PWM", "Compatível LGA1700, AM5, AM4", "App CAM para Personalização"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images8.kabum.com.br/produtos/fotos/415798/water-cooler-nzxt-kraken-240-rgb-240mm-1-54in-display-rgb-controller-e-rgb-fans-preto-rl-kr240-b1_1686582320_gg.jpg"
+                                    alt="Kraken 240 LCD">
+                                <img src="https://m.media-amazon.com/images/I/71a6c-Q7-HL._AC_SX679_.jpg"
+                                    alt="Kraken 240 LCD 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Kraken 240 LCD</h3>
+                            <p>NZXT</p>
+                            <span class="preco">R$ 1.099,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(18,'NZXT Kraken 240 LCD',1099.99,'https://images8.kabum.com.br/produtos/fotos/415798/water-cooler-nzxt-kraken-240-rgb-240mm-1-54in-display-rgb-controller-e-rgb-fans-preto-rl-kr240-b1_1686582320_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ GABINETES ══ -->
-        <section class="categoria-secao" id="cat-gab">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Gabinetes</h2>
-                    <span class="cat-subtag">Mid Tower · Full Tower</span>
+            </section>
+            <!-- ══ GABINETES ══ -->            <!-- ══ GABINETES ══ -->            <!-- ══ GABINETES ══ -->
+            <!-- ══ GABINETES ══ -->            <!-- ══ GABINETES ══ -->            <!-- ══ GABINETES ══ -->
+
+
+
+
+            <section class="categoria-secao" id="cat-gab">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Gabinetes</h2>
+                        <span class="cat-subtag">Mid Tower · Full Tower</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="21" data-tipo="gabinete" data-marca="NZXT"
-    data-info='["Mid Tower ATX / mATX / ITX", "Painel Frontal e Lateral Mesh de Alto Fluxo", "1x Fan 140mm Incluso", "Suporte Radiador até 280mm", "USB-C no Painel Frontal", "Design Minimalista"]'>
-    <div class="img-container">
-        <img class="active" src="https://images3.kabum.com.br/produtos/fotos/692553/gabinete-nzxt-h5-flow-2024-mid-tower-atx-lateral-em-vidro-preto-cc-h52fb-01_1748269083_gg.jpg" alt="H5 Flow 2024">
-        <img src="https://m.media-amazon.com/images/I/51jJ2Ae4zHL._AC_SX679_.jpg" alt="H5 Flow 2024 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>H5 Flow 2024</h3>
-    <p>NZXT</p>
-    <span class="preco">R$ 749,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(21,'NZXT H5 Flow 2024',749.99,'https://images3.kabum.com.br/produtos/fotos/692553/gabinete-nzxt-h5-flow-2024-mid-tower-atx-lateral-em-vidro-preto-cc-h52fb-01_1748269083_gg.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Mid Tower ATX / mATX / ITX", "Painel Frontal e Lateral Mesh de Alto Fluxo", "1x Fan 140mm Incluso", "Suporte Radiador até 280mm", "USB-C no Painel Frontal", "Design Minimalista"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images3.kabum.com.br/produtos/fotos/692553/gabinete-nzxt-h5-flow-2024-mid-tower-atx-lateral-em-vidro-preto-cc-h52fb-01_1748269083_gg.jpg"
+                                    alt="H5 Flow 2024">
+                                <img src="https://m.media-amazon.com/images/I/51jJ2Ae4zHL._AC_SX679_.jpg"
+                                    alt="H5 Flow 2024 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>H5 Flow 2024</h3>
+                            <p>NZXT</p>
+                            <span class="preco">R$ 749,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(21,'NZXT H5 Flow 2024',749.99,'https://images3.kabum.com.br/produtos/fotos/692553/gabinete-nzxt-h5-flow-2024-mid-tower-atx-lateral-em-vidro-preto-cc-h52fb-01_1748269083_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="20" data-tipo="gabinete" data-marca="Corsair"
-    data-info='["Mid Tower ATX", "3x Fans RS ARGB 120mm Inclusos", "Painel Lateral em Vidro Temperado", "Suporte Radiador até 360mm Frontal", "USB 3.0 + USB-C no Frontal", "Espaço para 6x HDDs/SSDs"]'>
-    <div class="img-container">
-        <img class="active" src="https://images5.kabum.com.br/produtos/fotos/657435/gabinete-gamer-corsair-4000d-rs-argb-mid-tower-lateral-em-vidro-com-3x-fans-rs-argb-preto-cc-9011296-ww_1738086483_gg.jpg" alt="4000D RS ARGB">
-        <img src="https://m.media-amazon.com/images/I/81h-BgX2W8L._AC_SX679_.jpg" alt="4000D RS ARGB 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>4000D RS ARGB</h3>
-    <p>Corsair</p>
-    <span class="preco">R$ 899,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(20,'Corsair 4000D RS ARGB',899.99,'https://images5.kabum.com.br/produtos/fotos/657435/gabinete-gamer-corsair-4000d-rs-argb-mid-tower-lateral-em-vidro-com-3x-fans-rs-argb-preto-cc-9011296-ww_1738086483_gg.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Mid Tower ATX", "3x Fans RS ARGB 120mm Inclusos", "Painel Lateral em Vidro Temperado", "Suporte Radiador até 360mm Frontal", "USB 3.0 + USB-C no Frontal", "Espaço para 6x HDDs/SSDs"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images5.kabum.com.br/produtos/fotos/657435/gabinete-gamer-corsair-4000d-rs-argb-mid-tower-lateral-em-vidro-com-3x-fans-rs-argb-preto-cc-9011296-ww_1738086483_gg.jpg"
+                                    alt="4000D RS ARGB">
+                                <img src="https://m.media-amazon.com/images/I/81h-BgX2W8L._AC_SX679_.jpg"
+                                    alt="4000D RS ARGB 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>4000D RS ARGB</h3>
+                            <p>Corsair</p>
+                            <span class="preco">R$ 899,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(20,'Corsair 4000D RS ARGB',899.99,'https://images5.kabum.com.br/produtos/fotos/657435/gabinete-gamer-corsair-4000d-rs-argb-mid-tower-lateral-em-vidro-com-3x-fans-rs-argb-preto-cc-9011296-ww_1738086483_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="39" data-tipo="gabinete" data-marca="Fractal Design"
-    data-info='["Mid Tower ATX", "Estética Premium em Madeira e Malha", "2x Fans 140mm Dynamic X2 Inclusos", "Painel em Vidro Escurecido", "Suporte Radiador até 360mm", "Excelente Airflow e Redução de Ruído"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71r7R0XfvnL._AC_SX679_.jpg" alt="North TG Dark Tinted">
-        <img src="https://m.media-amazon.com/images/I/71ygMGmSMuL._AC_SX679_.jpg" alt="North TG Dark Tinted 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>North TG Dark Tinted</h3>
-    <p>Fractal Design</p>
-    <span class="preco">R$ 999,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(39,'Fractal Design North',999.99,'https://m.media-amazon.com/images/I/71r7R0XfvnL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Mid Tower ATX", "Estética Premium em Madeira e Malha", "2x Fans 140mm Dynamic X2 Inclusos", "Painel em Vidro Escurecido", "Suporte Radiador até 360mm", "Excelente Airflow e Redução de Ruído"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71r7R0XfvnL._AC_SX679_.jpg"
+                                    alt="North TG Dark Tinted">
+                                <img src="https://m.media-amazon.com/images/I/71ygMGmSMuL._AC_SX679_.jpg"
+                                    alt="North TG Dark Tinted 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>North TG Dark Tinted</h3>
+                            <p>Fractal Design</p>
+                            <span class="preco">R$ 999,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(39,'Fractal Design North',999.99,'https://m.media-amazon.com/images/I/71r7R0XfvnL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="22" data-tipo="gabinete" data-marca="Lian Li"
-    data-info='["Full Tower E-ATX / ATX / mATX", "Dual Chamber — 3 Painéis em Vidro", "Suporte até 9x Fans 120mm", "Suporte Radiador 360mm Frontal e Superior", "USB-C + USB 3.0 no Topo", "Máxima Visibilidade dos Componentes"]'>
-    <div class="img-container">
-        <img class="active" src="https://images5.kabum.com.br/produtos/fotos/779915/gabinete-gamer-lian-li-o11-vision-compact-e-atx-lateral-em-vidro-temperado-preto-o11vpx-m-black_1747749212_gg.jpg" alt="O11 Vision Compact">
-        <img src="https://m.media-amazon.com/images/I/71XHrjXkGsL._AC_SX679_.jpg" alt="O11 Vision Compact 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>O11 Vision Compact</h3>
-    <p>Lian Li</p>
-    <span class="preco">R$ 1.199,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(22,'Lian Li O11 Vision Compact',1199.99,'https://images5.kabum.com.br/produtos/fotos/779915/gabinete-gamer-lian-li-o11-vision-compact-e-atx-lateral-em-vidro-temperado-preto-o11vpx-m-black_1747749212_gg.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Full Tower E-ATX / ATX / mATX", "Dual Chamber — 3 Painéis em Vidro", "Suporte até 9x Fans 120mm", "Suporte Radiador 360mm Frontal e Superior", "USB-C + USB 3.0 no Topo", "Máxima Visibilidade dos Componentes"]'>
+                            <div class="img-container">
+                                <img class="active"
+                                    src="https://images5.kabum.com.br/produtos/fotos/779915/gabinete-gamer-lian-li-o11-vision-compact-e-atx-lateral-em-vidro-temperado-preto-o11vpx-m-black_1747749212_gg.jpg"
+                                    alt="O11 Vision Compact">
+                                <img src="https://m.media-amazon.com/images/I/71XHrjXkGsL._AC_SX679_.jpg"
+                                    alt="O11 Vision Compact 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>O11 Vision Compact</h3>
+                            <p>Lian Li</p>
+                            <span class="preco">R$ 1.199,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(22,'Lian Li O11 Vision Compact',1199.99,'https://images5.kabum.com.br/produtos/fotos/779915/gabinete-gamer-lian-li-o11-vision-compact-e-atx-lateral-em-vidro-temperado-preto-o11vpx-m-black_1747749212_gg.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ MONITORES ══ -->
-        <section class="categoria-secao" id="cat-mon">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Monitores</h2>
-                    <span class="cat-subtag">IPS · VA · 144Hz+</span>
+            </section>
+            <!-- ══ MONITORES ══ -->            <!-- ══ MONITORES ══ -->
+            <!-- ══ MONITORES ══ -->            <!-- ══ MONITORES ══ -->
+            <!-- ══ MONITORES ══ -->            <!-- ══ MONITORES ══ -->
+
+
+            <section class="categoria-secao" id="cat-mon">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Monitores</h2>
+                        <span class="cat-subtag">IPS · VA · 144Hz+</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="40" data-tipo="monitor" data-marca="Samsung"
-    data-info='["27" VA Curvo 1000R", "Resolução QHD 2560x1440", "165Hz Taxa de Atualização", "1ms GTG Tempo de Resposta", "AMD FreeSync Premium", "HDMI 2.0 + DisplayPort 1.2"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg" alt="Odyssey G5 27" 165Hz">
-        <img src="https://m.media-amazon.com/images/I/61YBpVe7cvL._AC_SX679_.jpg" alt="Odyssey G5 27" 165Hz 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Odyssey G5 27" 165Hz</h3>
-    <p>Samsung</p>
-    <span class="preco">R$ 1.099,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(40,'Samsung Odyssey G5 27 165Hz',1099.99,'https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["27" VA Curvo 1000R", "Resolução QHD 2560x1440", "165Hz Taxa de Atualização", "1ms GTG Tempo de Resposta", "AMD FreeSync Premium", "HDMI 2.0 + DisplayPort 1.2"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg"
+                                    alt="Odyssey G5 27" 165Hz">
+                                <img src="https://m.media-amazon.com/images/I/61YBpVe7cvL._AC_SX679_.jpg"
+                                    alt="Odyssey G5 27" 165Hz 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Odyssey G5 27" 165Hz</h3>
+                            <p>Samsung</p>
+                            <span class="preco">R$ 1.099,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(40,'Samsung Odyssey G5 27 165Hz',1099.99,'https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="23" data-tipo="monitor" data-marca="LG"
-    data-info='["27" IPS Nano Display", "Resolução Full HD 1920x1080", "144Hz Taxa de Atualização", "1ms GtG (OD) Tempo de Resposta", "NVIDIA G-Sync + AMD FreeSync", "HDMI + DisplayPort + USB-C"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg" alt="UltraGear 27" IPS 144Hz">
-        <img src="https://m.media-amazon.com/images/I/71eL3F+SLaL._AC_SX679_.jpg" alt="UltraGear 27" IPS 144Hz 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>UltraGear 27" IPS 144Hz</h3>
-    <p>LG</p>
-    <span class="preco">R$ 1.299,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(23,'LG UltraGear 27 144Hz',1299.99,'https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["27" IPS Nano Display", "Resolução Full HD 1920x1080", "144Hz Taxa de Atualização", "1ms GtG (OD) Tempo de Resposta", "NVIDIA G-Sync + AMD FreeSync", "HDMI + DisplayPort + USB-C"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg"
+                                    alt="UltraGear 27" IPS 144Hz">
+                                <img src="https://m.media-amazon.com/images/I/71eL3F+SLaL._AC_SX679_.jpg"
+                                    alt="UltraGear 27" IPS 144Hz 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>UltraGear 27" IPS 144Hz</h3>
+                            <p>LG</p>
+                            <span class="preco">R$ 1.299,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(23,'LG UltraGear 27 144Hz',1299.99,'https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="41" data-tipo="monitor" data-marca="AOC"
-    data-info='["23.8" IPS Panel", "Resolução Full HD 1920x1080", "165Hz Taxa de Atualização", "1ms GtG Tempo de Resposta", "AMD FreeSync Premium", "HDMI 2.0 + DisplayPort 1.2 + USB Hub"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg" alt="24G2SPU 23.8" 165Hz">
-        <img src="https://m.media-amazon.com/images/I/71rXy1lD74L._AC_SX679_.jpg" alt="24G2SPU 23.8" 165Hz 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>24G2SPU 23.8" 165Hz</h3>
-    <p>AOC</p>
-    <span class="preco">R$ 799,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(41,'AOC 24G2SPU 165Hz',799.99,'https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["23.8" IPS Panel", "Resolução Full HD 1920x1080", "165Hz Taxa de Atualização", "1ms GtG Tempo de Resposta", "AMD FreeSync Premium", "HDMI 2.0 + DisplayPort 1.2 + USB Hub"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg"
+                                    alt="24G2SPU 23.8" 165Hz">
+                                <img src="https://m.media-amazon.com/images/I/71rXy1lD74L._AC_SX679_.jpg"
+                                    alt="24G2SPU 23.8" 165Hz 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>24G2SPU 23.8" 165Hz</h3>
+                            <p>AOC</p>
+                            <span class="preco">R$ 799,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(41,'AOC 24G2SPU 165Hz',799.99,'https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="50" data-tipo="monitor" data-marca="Samsung"
-    data-info='["32" VA Curvo 1000R", "Resolução QHD 2560x1440", "240Hz Taxa de Atualização", "1ms GTG Tempo de Resposta", "AMD FreeSync Premium Pro", "USB Hub integrado + HDMI 2.1"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61yDHB+J2gL._AC_SX679_.jpg" alt="Odyssey G7 32" 240Hz">
-        <img src="https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg" alt="Odyssey G7 32" 240Hz 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Odyssey G7 32" 240Hz</h3>
-    <p>Samsung</p>
-    <span class="preco">R$ 2.499,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(50,'Samsung Odyssey G7 32 240Hz',2499.99,'https://m.media-amazon.com/images/I/61yDHB+J2gL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["32" VA Curvo 1000R", "Resolução QHD 2560x1440", "240Hz Taxa de Atualização", "1ms GTG Tempo de Resposta", "AMD FreeSync Premium Pro", "USB Hub integrado + HDMI 2.1"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61yDHB+J2gL._AC_SX679_.jpg"
+                                    alt="Odyssey G7 32" 240Hz">
+                                <img src="https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg"
+                                    alt="Odyssey G7 32" 240Hz 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Odyssey G7 32" 240Hz</h3>
+                            <p>Samsung</p>
+                            <span class="preco">R$ 2.499,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(50,'Samsung Odyssey G7 32 240Hz',2499.99,'https://m.media-amazon.com/images/I/61yDHB+J2gL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ MOUSES ══ -->
-        <section class="categoria-secao" id="cat-mouse">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Mouses</h2>
-                    <span class="cat-subtag">Gaming · Wireless</span>
+            </section>
+
+            <!-- ══ MOUSES ══ -->            <!-- ══ MOUSES ══ -->            <!-- ══ MOUSES ══ -->
+            <!-- ══ MOUSES ══ -->            <!-- ══ MOUSES ══ -->            <!-- ══ MOUSES ══ -->
+
+
+            <section class="categoria-secao" id="cat-mouse">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Mouses</h2>
+                        <span class="cat-subtag">Gaming · Wireless</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="43" data-tipo="mouse" data-marca="SteelSeries"
-    data-info='["Sensor TrueMove Core 8500 DPI", "6 Botões Programáveis", "RGB Prism Lighting 2 Zonas", "Switches Mecânicos 60M Cliques", "Peso Leve 77g", "Cabo USB Trançado 1.8m"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61A9u0IVKDL._AC_SX679_.jpg" alt="Rival 3 8500 DPI">
-        <img src="https://m.media-amazon.com/images/I/71UWm5NwF1L._AC_SX679_.jpg" alt="Rival 3 8500 DPI 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Rival 3 8500 DPI</h3>
-    <p>SteelSeries</p>
-    <span class="preco">R$ 199,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(43,'SteelSeries Rival 3',199.99,'https://m.media-amazon.com/images/I/61A9u0IVKDL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Sensor TrueMove Core 8500 DPI", "6 Botões Programáveis", "RGB Prism Lighting 2 Zonas", "Switches Mecânicos 60M Cliques", "Peso Leve 77g", "Cabo USB Trançado 1.8m"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61A9u0IVKDL._AC_SX679_.jpg"
+                                    alt="Rival 3 8500 DPI">
+                                <img src="https://m.media-amazon.com/images/I/71UWm5NwF1L._AC_SX679_.jpg"
+                                    alt="Rival 3 8500 DPI 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Rival 3 8500 DPI</h3>
+                            <p>SteelSeries</p>
+                            <span class="preco">R$ 199,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(43,'SteelSeries Rival 3',199.99,'https://m.media-amazon.com/images/I/61A9u0IVKDL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
 
+
 <article class="produto" data-id="24" data-tipo="mouse" data-marca="Logitech"
-    data-info='["Sensor HERO 25K 25600 DPI", "13 Botões Programáveis com LIGHTSYNC RGB", "Pesos Ajustáveis 5x3.6g", "Switches Mecânicos Duráveis", "Software G HUB para Personalização", "Cabo USB Trançado"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg" alt="G502 X Hero 25600 DPI">
-        <img src="https://m.media-amazon.com/images/I/71hU5Hqf2jL._AC_SX679_.jpg" alt="G502 X Hero 25600 DPI 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>G502 X Hero 25600 DPI</h3>
-    <p>Logitech</p>
-    <span class="preco">R$ 449,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(24,'Logitech G502 X Hero',449.99,'https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Sensor HERO 25K 25600 DPI", "13 Botões Programáveis com LIGHTSYNC RGB", "Pesos Ajustáveis 5x3.6g", "Switches Mecânicos Duráveis", "Software G HUB para Personalização", "Cabo USB Trançado"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg"
+                                    alt="G502 X Hero 25600 DPI">
+                                <img src="https://m.media-amazon.com/images/I/71hU5Hqf2jL._AC_SX679_.jpg"
+                                    alt="G502 X Hero 25600 DPI 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>G502 X Hero 25600 DPI</h3>
+                            <p>Logitech</p>
+                            <span class="preco">R$ 449,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(24,'Logitech G502 X Hero',449.99,'https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
 
 <article class="produto" data-id="42" data-tipo="mouse" data-marca="Razer"
-    data-info='["Sensor Focus Pro 30000 DPI", "90 Horas de Bateria sem RGB", "Ultra Leve 63g — Design Ergonômico", "Switches Gen-3 Óptico 90M Cliques", "Razer HyperPolling 4000Hz", "Compatível com Razer Synapse 3"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/61ZTMYf8TuL._AC_SX679_.jpg" alt="DeathAdder V3 30000 DPI">
-        <img src="https://m.media-amazon.com/images/I/71BpRXMnLPL._AC_SX679_.jpg" alt="DeathAdder V3 30000 DPI 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>DeathAdder V3 30000 DPI</h3>
-    <p>Razer</p>
-    <span class="preco">R$ 499,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(42,'Razer DeathAdder V3',499.99,'https://m.media-amazon.com/images/I/61ZTMYf8TuL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Sensor Focus Pro 30000 DPI", "90 Horas de Bateria sem RGB", "Ultra Leve 63g — Design Ergonômico", "Switches Gen-3 Óptico 90M Cliques", "Razer HyperPolling 4000Hz", "Compatível com Razer Synapse 3"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/61ZTMYf8TuL._AC_SX679_.jpg"
+                                    alt="DeathAdder V3 30000 DPI">
+                                <img src="https://m.media-amazon.com/images/I/71BpRXMnLPL._AC_SX679_.jpg"
+                                    alt="DeathAdder V3 30000 DPI 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>DeathAdder V3 30000 DPI</h3>
+                            <p>Razer</p>
+                            <span class="preco">R$ 499,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(42,'Razer DeathAdder V3',499.99,'https://m.media-amazon.com/images/I/61ZTMYf8TuL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ TECLADOS ══ -->
-        <section class="categoria-secao" id="cat-tec">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Teclados</h2>
-                    <span class="cat-subtag">Mecânico · RGB</span>
+            </section>
+            <!-- ══ TECLADOS ══ -->            <!-- ══ TECLADOS ══ -->            <!-- ══ TECLADOS ══ -->
+            <!-- ══ TECLADOS ══ -->            <!-- ══ TECLADOS ══ -->            <!-- ══ TECLADOS ══ -->
+
+            <section class="categoria-secao" id="cat-tec">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Teclados</h2>
+                        <span class="cat-subtag">Mecânico · RGB</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="25" data-tipo="teclado" data-marca="Redragon"
-    data-info='["Mecânico TKL 87 Teclas", "Switches Red Lineares", "Iluminação RGB por Tecla", "Anti-Ghosting N-Key Rollover", "Keycaps ABS Dupla Injeção", "Cabo USB Removível Trançado"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg" alt="Kumara K552 TKL">
-        <img src="https://m.media-amazon.com/images/I/71o3OQqMtOL._AC_SX679_.jpg" alt="Kumara K552 TKL 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Kumara K552 TKL</h3>
-    <p>Redragon</p>
-    <span class="preco">R$ 249,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(25,'Redragon Kumara K552',249.99,'https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Mecânico TKL 87 Teclas", "Switches Red Lineares", "Iluminação RGB por Tecla", "Anti-Ghosting N-Key Rollover", "Keycaps ABS Dupla Injeção", "Cabo USB Removível Trançado"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg"
+                                    alt="Kumara K552 TKL">
+                                <img src="https://m.media-amazon.com/images/I/71o3OQqMtOL._AC_SX679_.jpg"
+                                    alt="Kumara K552 TKL 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Kumara K552 TKL</h3>
+                            <p>Redragon</p>
+                            <span class="preco">R$ 249,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(25,'Redragon Kumara K552',249.99,'https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="44" data-tipo="teclado" data-marca="Logitech"
-    data-info='["Mecânico TKL com Switches Hotswap", "Switches GX Red Lineares (trocáveis)", "LIGHTSYNC RGB por Tecla", "Anti-Ghosting Full N-Key Rollover", "Cabo USB-C Trançado Removível", "Software G HUB para Macros"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg" alt="G Pro X TKL 60%">
-        <img src="https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg" alt="G Pro X TKL 60% 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>G Pro X TKL 60%</h3>
-    <p>Logitech</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(44,'Logitech G Pro X TKL',699.99,'https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Mecânico TKL com Switches Hotswap", "Switches GX Red Lineares (trocáveis)", "LIGHTSYNC RGB por Tecla", "Anti-Ghosting Full N-Key Rollover", "Cabo USB-C Trançado Removível", "Software G HUB para Macros"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg"
+                                    alt="G Pro X TKL 60%">
+                                <img src="https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg"
+                                    alt="G Pro X TKL 60% 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>G Pro X TKL 60%</h3>
+                            <p>Logitech</p>
+                            <span class="preco">R$ 699,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(44,'Logitech G Pro X TKL',699.99,'https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
 
-<article class="produto" data-id="45" data-tipo="teclado" data-marca="Corsair"
-    data-info='["Mecânico Full-Size 104 Teclas", "Switches Cherry MX Red Lineares", "CORSAIR AXON 8000Hz Hyper-Polling", "Per-Key RGB com ICUE Software", "Apoio de Pulso em Couro Removível", "USB Passthrough e Cabo USB-C"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71mFxcSNpDL._AC_SX679_.jpg" alt="K70 RGB MK.2">
-        <img src="https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg" alt="K70 RGB MK.2 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>K70 RGB MK.2</h3>
-    <p>Corsair</p>
-    <span class="preco">R$ 999,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(45,'Corsair K70 RGB MK.2',999.99,'https://m.media-amazon.com/images/I/71mFxcSNpDL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+
+----------<article class="produto" data-id="45" data-tipo="teclado" data-marca="Corsair"
+                            data-info='["Mecânico Full-Size 104 Teclas", "Switches Cherry MX Red Lineares", "CORSAIR AXON 8000Hz Hyper-Polling", "Per-Key RGB com ICUE Software", "Apoio de Pulso em Couro Removível", "USB Passthrough e Cabo USB-C"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71mFxcSNpDL._AC_SX679_.jpg"
+                                    alt="K70 RGB MK.2">
+                                <img src="https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg"
+                                    alt="K70 RGB MK.2 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>K70 RGB MK.2</h3>
+                            <p>Corsair</p>
+                            <span class="preco">R$ 999,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(45,'Corsair K70 RGB MK.2',999.99,'https://m.media-amazon.com/images/I/71mFxcSNpDL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ HEADSETS ══ -->
-        <section class="categoria-secao" id="cat-head">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Headsets</h2>
-                    <span class="cat-subtag">Surround · Wireless</span>
+            </section>
+
+
+            <!-- ══ HEADSETS ══ -->            <!-- ══ HEADSETS ══ -->
+            <!-- ══ HEADSETS ══ -->            <!-- ══ HEADSETS ══ -->
+
+
+            <section class="categoria-secao" id="cat-head">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Headsets</h2>
+                        <span class="cat-subtag">Surround · Wireless</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
 
 <article class="produto" data-id="47" data-tipo="headset" data-marca="Razer"
-    data-info='["Drivers Titanium 50mm", "Som Surround 7.1 Virtual via USB", "Microfone Cardióide Destacável", "Espuma de Memória nas Almofadas", "Cabo com Controle de Volume", "Compatível PC, PS4/5, Xbox, Switch"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71A8XtJuPoL._AC_SX679_.jpg" alt="BlackShark V2 X 7.1">
-        <img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg" alt="BlackShark V2 X 7.1 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>BlackShark V2 X 7.1</h3>
-    <p>Razer</p>
-    <span class="preco">R$ 399,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(47,'Razer BlackShark V2 X',399.99,'https://m.media-amazon.com/images/I/71A8XtJuPoL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Drivers Titanium 50mm", "Som Surround 7.1 Virtual via USB", "Microfone Cardióide Destacável", "Espuma de Memória nas Almofadas", "Cabo com Controle de Volume", "Compatível PC, PS4/5, Xbox, Switch"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71A8XtJuPoL._AC_SX679_.jpg"
+                                    alt="BlackShark V2 X 7.1">
+                                <img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg"
+                                    alt="BlackShark V2 X 7.1 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>BlackShark V2 X 7.1</h3>
+                            <p>Razer</p>
+                            <span class="preco">R$ 399,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(47,'Razer BlackShark V2 X',399.99,'https://m.media-amazon.com/images/I/71A8XtJuPoL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
 
+
 <article class="produto" data-id="26" data-tipo="headset" data-marca="HyperX"
-    data-info='["Drivers 53mm com Câmara de Som", "Som Surround 7.1 Virtual", "Microfone Destacável com Noise Cancel", "Autonomia de 30 Horas Wireless 2.4GHz", "Almofadas em Memory Foam", "Compatível PC, PS4/5, Xbox, Switch"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg" alt="Cloud II Wireless 7.1">
-        <img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg" alt="Cloud II Wireless 7.1 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Cloud II Wireless 7.1</h3>
-    <p>HyperX</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(26,'HyperX Cloud II Wireless',699.99,'https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Drivers 53mm com Câmara de Som", "Som Surround 7.1 Virtual", "Microfone Destacável com Noise Cancel", "Autonomia de 30 Horas Wireless 2.4GHz", "Almofadas em Memory Foam", "Compatível PC, PS4/5, Xbox, Switch"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg"
+                                    alt="Cloud II Wireless 7.1">
+                                <img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg"
+                                    alt="Cloud II Wireless 7.1 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Cloud II Wireless 7.1</h3>
+                            <p>HyperX</p>
+                            <span class="preco">R$ 699,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(26,'HyperX Cloud II Wireless',699.99,'https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
 
 <article class="produto" data-id="46" data-tipo="headset" data-marca="Logitech"
-    data-info='["Drivers Pro-G 40mm", "LIGHTSPEED Wireless Latência Ultra-Baixa", "Microfone Bi-direcional Cardióide", "LIGHTSYNC RGB", "Autonomia de 29 Horas", "Compatível PC, PS5"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71h8-1MBUJL._AC_SX679_.jpg" alt="G733 Lightspeed Wireless">
-        <img src="https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg" alt="G733 Lightspeed Wireless 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>G733 Lightspeed Wireless</h3>
-    <p>Logitech</p>
-    <span class="preco">R$ 799,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(46,'Logitech G733 Lightspeed',799.99,'https://m.media-amazon.com/images/I/71h8-1MBUJL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Drivers Pro-G 40mm", "LIGHTSPEED Wireless Latência Ultra-Baixa", "Microfone Bi-direcional Cardióide", "LIGHTSYNC RGB", "Autonomia de 29 Horas", "Compatível PC, PS5"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71h8-1MBUJL._AC_SX679_.jpg"
+                                    alt="G733 Lightspeed Wireless">
+                                <img src="https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg"
+                                    alt="G733 Lightspeed Wireless 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>G733 Lightspeed Wireless</h3>
+                            <p>Logitech</p>
+                            <span class="preco">R$ 799,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(46,'Logitech G733 Lightspeed',799.99,'https://m.media-amazon.com/images/I/71h8-1MBUJL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
+
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        <!-- ══ MOUSEPADS ══ -->
-        <section class="categoria-secao" id="cat-pad">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap">
-                    <h2 class="cat-titulo">Mousepads</h2>
-                    <span class="cat-subtag">Extended · Premium</span>
+            </section>
+            <!-- ══ MOUSEPADS ══ -->            <!-- ══ MOUSEPADS ══ -->            <!-- ══ MOUSEPADS ══ -->
+            <!-- ══ MOUSEPADS ══ -->            <!-- ══ MOUSEPADS ══ -->            <!-- ══ MOUSEPADS ══ -->
+
+            <section class="categoria-secao" id="cat-pad">
+                <div class="categoria-header">
+                    <span class="cat-linha"></span>
+                    <div class="cat-titulo-wrap">
+                        <h2 class="cat-titulo">Mousepads</h2>
+                        <span class="cat-subtag">Extended · Premium</span>
+                    </div>
+                    <span class="cat-linha right"></span>
                 </div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
+                <div class="categoria-row-wrapper">
+                    <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg></button>
+                    <div class="categoria-row">
+
 
 <article class="produto" data-id="48" data-tipo="mousepad" data-marca="Redragon"
-    data-info='["Dimensões 900x400x4mm", "Superfície de Tecido Premium para Alta Velocidade", "Base Antiderrapante em Borracha", "Bordas Costuradas para Durabilidade", "Compatível com Todos os Sensores", "Lavável à Mão"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg" alt="Pisces A930 Extended">
-        <img src="https://m.media-amazon.com/images/I/81P9c6-kVAL._AC_SX679_.jpg" alt="Pisces A930 Extended 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Pisces A930 Extended</h3>
-    <p>Redragon</p>
-    <span class="preco">R$ 129,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(48,'Redragon Pisces A930',129.99,'https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Dimensões 900x400x4mm", "Superfície de Tecido Premium para Alta Velocidade", "Base Antiderrapante em Borracha", "Bordas Costuradas para Durabilidade", "Compatível com Todos os Sensores", "Lavável à Mão"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg"
+                                    alt="Pisces A930 Extended">
+                                <img src="https://m.media-amazon.com/images/I/81P9c6-kVAL._AC_SX679_.jpg"
+                                    alt="Pisces A930 Extended 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Pisces A930 Extended</h3>
+                            <p>Redragon</p>
+                            <span class="preco">R$ 129,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(48,'Redragon Pisces A930',129.99,'https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="49" data-tipo="mousepad" data-marca="SteelSeries"
-    data-info='["Dimensões 900x300x4mm", "Superfície QcK Micro-Texturizada", "Base de Borracha Antiderrapante Espessa", "Bordas Costuradas Reforçadas", "Otimizado para Sensores Ópticos e Laser", "A escolha dos Profissionais de eSports"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg" alt="QcK Large Extended">
-        <img src="https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg" alt="QcK Large Extended 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>QcK Large Extended</h3>
-    <p>SteelSeries</p>
-    <span class="preco">R$ 199,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(49,'SteelSeries QcK Large',199.99,'https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
+                            data-info='["Dimensões 900x300x4mm", "Superfície QcK Micro-Texturizada", "Base de Borracha Antiderrapante Espessa", "Bordas Costuradas Reforçadas", "Otimizado para Sensores Ópticos e Laser", "A escolha dos Profissionais de eSports"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg"
+                                    alt="QcK Large Extended">
+                                <img src="https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg"
+                                    alt="QcK Large Extended 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>QcK Large Extended</h3>
+                            <p>SteelSeries</p>
+                            <span class="preco">R$ 199,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(49,'SteelSeries QcK Large',199.99,'https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
 </article>
+
 
 <article class="produto" data-id="51" data-tipo="mousepad" data-marca="Logitech"
-    data-info='["Dimensões 940x450x3mm", "Superfície Premium para Controle e Velocidade", "Base em Borracha Antiderrapante 3mm", "Bordas Overlock Precisas", "Design Ultra-fino e Elegante", "Cores Disponíveis: Grafite e Rosa"]'>
-    <div class="img-container">
-        <img class="active" src="https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg" alt="Deskpad Studio XL">
-        <img src="https://m.media-amazon.com/images/I/81P9c6-kVAL._AC_SX679_.jpg" alt="Deskpad Studio XL 2">
-        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
-        <div class="carousel-dots"></div>
-    </div>
-    <h3>Deskpad Studio XL</h3>
-    <p>Logitech</p>
-    <span class="preco">R$ 249,99</span>
-    <div class="btns-produto">
-        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
-        <button class="btn-buy" onclick="addToCart(51,'Logitech Deskpad Studio XL',249.99,'https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
-    </div>
-</article>
+                            data-info='["Dimensões 940x450x3mm", "Superfície Premium para Controle e Velocidade", "Base em Borracha Antiderrapante 3mm", "Bordas Overlock Precisas", "Design Ultra-fino e Elegante", "Cores Disponíveis: Grafite e Rosa"]'>
+                            <div class="img-container">
+                                <img class="active" src="https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg"
+                                    alt="Deskpad Studio XL">
+                                <img src="https://m.media-amazon.com/images/I/81P9c6-kVAL._AC_SX679_.jpg"
+                                    alt="Deskpad Studio XL 2">
+                                <div class="carousel-progress">
+                                    <div class="carousel-progress-fill"></div>
+                                </div>
+                                <div class="carousel-dots"></div>
+                            </div>
+                            <h3>Deskpad Studio XL</h3>
+                            <p>Logitech</p>
+                            <span class="preco">R$ 249,99</span>
+                            <div class="btns-produto">
+                                <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+                                <button class="btn-buy"
+                                    onclick="addToCart(51,'Logitech Deskpad Studio XL',249.99,'https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg')">Adicionar
+                                    ao Carrinho</button>
+                            </div>
+                        </article>
+                        
+                    </div>
+                    <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24">
+                            <polyline points="9 6 15 12 9 18" />
+                        </svg></button>
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
-        
-        <!-- SEÇÃO SOBRE -->
-        <section class="section-container" id="sobre">
-            <h2>Sobre a <span>Bits Bytes Store</span></h2>
-            <p style="text-align:justify; color:var(--text-muted); max-width:1000px; margin: 0 auto; line-height:2.0;"
-                                                                                                            p style="font-size: 20px;">
-                Na BBS (Bits and Bytes Store), nossa missão é tornar a tecnologia de qualidade acessível para todos. Somos um e-commerce especializado em hardware, dedicado a oferecer componentes confiáveis com preços justos, sem abrir mão da segurança e da excelência.
-Acreditamos que montar, atualizar ou melhorar seu setup não deve ser complicado nem caro — e muito menos confuso. Por isso, além de oferecer uma seleção criteriosa de produtos, também buscamos ajudar quem não tem muito conhecimento em computadores, com orientações claras e suporte acessível em cada etapa.
-Na BBS, cada detalhe importa: desde a escolha dos fornecedores até a experiência de compra no nosso site. Nosso compromisso é proporcionar confiança, transparência e praticidade, para que você encontre exatamente o que precisa com tranquilidade, independentemente do seu nível de experiência.
+            </section>
 
-Bits and Bytes Store — tecnologia ao seu alcance, com qualidade e suporte que você pode confiar.
+            <!-- SEÇÃO SOBRE -->
+            <section class="section-container" id="sobre">
+                <h2>Sobre a <span>Bits Bytes Store</span></h2>
+                <p style="text-align:justify; color:var(--text-muted); max-width:1000px; margin: 0 auto; line-height:2.0;"
+                    p style="font-size: 20px;">
+                    Na BBS (Bits and Bytes Store), nossa missão é tornar a tecnologia de qualidade acessível para todos.
+                    Somos um e-commerce especializado em hardware, dedicado a oferecer componentes confiáveis com preços
+                    justos, sem abrir mão da segurança e da excelência.
+                    Acreditamos que montar, atualizar ou melhorar seu setup não deve ser complicado nem caro — e muito
+                    menos confuso. Por isso, além de oferecer uma seleção criteriosa de produtos, também buscamos ajudar
+                    quem não tem muito conhecimento em computadores, com orientações claras e suporte acessível em cada
+                    etapa.
+                    Na BBS, cada detalhe importa: desde a escolha dos fornecedores até a experiência de compra no nosso
+                    site. Nosso compromisso é proporcionar confiança, transparência e praticidade, para que você
+                    encontre exatamente o que precisa com tranquilidade, independentemente do seu nível de experiência.
 
-            </p>
-        </section>
+                    Bits and Bytes Store — tecnologia ao seu alcance, com qualidade e suporte que você pode confiar.
 
-        <!-- SEÇÃO CONTATO -->
-        <section class="section-container" id="contato">
-            <h2>Fale <span>Conosco</span></h2>
-            <div class="contato-grid">
-                <div>
-                    <h3 style="margin-top:0;">Informações de Contato</h3>
-                    <p style="color:var(--text-muted); line-height:2;">
-                        📧 contato@bitsbytes.store<br>
-                        📞 (11) 9 9999-0000<br>
-                        📍 São Paulo, SP<br>
-                        🕐 Seg–Sex: 9h às 18h
-                    </p>
+                </p>
+            </section>
+
+            <!-- SEÇÃO CONTATO -->
+            <section class="section-container" id="contato">
+                <h2>Fale <span>Conosco</span></h2>
+                <div class="contato-grid">
+                    <div>
+                        <h3 style="margin-top:0;">Informações de Contato</h3>
+                        <p style="color:var(--text-muted); line-height:2;">
+                            📧 contato@bitsbytes.store<br>
+                            📞 (11) 9 9999-0000<br>
+                            📍 São Paulo, SP<br>
+                            🕐 Seg–Sex: 9h às 18h
+                        </p>
+                    </div>
+                    <form class="contato-form" onsubmit="return false;">
+                        <input type="text" placeholder="Seu nome">
+                        <input type="email" placeholder="Seu e-mail">
+                        <textarea rows="4" placeholder="Sua mensagem..."></textarea>
+                        <button class="btn-submit-contato">Enviar Mensagem</button>
+                    </form>
                 </div>
-                <form class="contato-form" onsubmit="return false;">
-                    <input type="text" placeholder="Seu nome">
-                    <input type="email" placeholder="Seu e-mail">
-                    <textarea rows="4" placeholder="Sua mensagem..."></textarea>
-                    <button class="btn-submit-contato">Enviar Mensagem</button>
-                </form>
-            </div>
-        </section>
+            </section>
     </main>
 
     <!-- MODAL DE DETALHES -->
