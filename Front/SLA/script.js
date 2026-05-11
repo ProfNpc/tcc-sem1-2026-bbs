@@ -151,19 +151,14 @@
 
         /* ── FILTROS ── */
         const marcasPorTipo = {
-            gpu:      ['Nvidia','AMD'],
-            cpu:      ['Intel','AMD'],
-            ram:      ['Kingston','Corsair','Crucial'],
-            ssd:      ['Kingston','Samsung','Western Digital'],
-            mãe:      ['Gigabyte','ASUS','MSI'],
-            fonte:    ['Corsair','Seasonic'],
-            cooler:   ['Cooler Master','DeepCool','be quiet!','NZXT'],
-            gabinete: ['NZXT','Corsair','Fractal Design','Lian Li'],
-            monitor:  ['Samsung','LG','AOC'],
-            mouse:    ['SteelSeries','Logitech','Razer'],
-            teclado:  ['Redragon','Logitech','Corsair'],
-            headset:  ['Razer','HyperX','Logitech'],
-            mousepad: ['Redragon','SteelSeries','Logitech'],
+            gpu:       ['nvidia', 'Amd'],
+            cpu:       ['Intel', 'Amd'],
+            ram:       ['Kingston', 'Corsair', 'Crucial'],
+            ssd:       ['Kingston', 'Samsung', 'wd'],
+            fonte:     ['Corsair','Redragon','Thermaltake', 'Be Quiet!'],
+            cooler:    ['Cooler Master', 'NZXT', 'be quiet!'],
+            gabinete:  ['Corsair', 'NZXT', 'Lian Li'],
+            periferico:['Logitech', 'Redragon', 'HyperX'],
         };
 
         function toggleFiltros() {
@@ -503,3 +498,17 @@ window.addEventListener('DOMContentLoaded', () => {
         if (navLabel) navLabel.textContent = sessao.nome.split(' ')[0];
     }
 });
+        function irParaCheckout() {
+            if (!cartOrder || cartOrder.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            localStorage.setItem('bbs_cart', JSON.stringify(cart));
+            localStorage.setItem('bbs_cart_order', JSON.stringify(cartOrder));
+            localStorage.setItem('bbs_frete', JSON.stringify(valorFreteGlobal || 0));
+            const cep = document.getElementById('cep-cart')?.value || '';
+            const freteInfo = document.getElementById('resultado-frete')?.innerText || '';
+            localStorage.setItem('bbs_cep', cep);
+            localStorage.setItem('bbs_frete_info', freteInfo);
+            window.location.href = 'checkout.html';
+        }

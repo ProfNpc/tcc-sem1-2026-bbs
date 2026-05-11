@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | Bits Bytes Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+    --red:#ff416c;--grad:linear-gradient(45deg,#ff416c,#ff4b2b);
+    --bg:#060606;--glass:rgba(16,16,16,.75);--border:rgba(255,255,255,.07);
+    --muted:#666;--ok:#00e07a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:#fff;min-height:100vh;
+    background-image:radial-gradient(circle at 10% 30%,rgba(255,65,108,.07),transparent 40%),
+                     radial-gradient(circle at 90% 70%,rgba(255,75,43,.06),transparent 40%);
+}
+
+/* ── HEADER ── */
+header{padding:16px 5%;background:rgba(8,8,8,.9);border-bottom:1px solid var(--border);
+    backdrop-filter:blur(20px);position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.6rem;font-weight:700;letter-spacing:4px;
+    background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    text-decoration:none}
+.back{display:flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;
+    font-size:.8rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:.2s}
+.back:hover{color:#fff}
+.back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ── PROGRESS ── */
+.progress-wrap{padding:32px 5% 0;max-width:900px;margin:0 auto}
+.progress{display:flex;align-items:center;margin-bottom:40px}
+.step{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;position:relative}
+.step::after{content:'';position:absolute;top:18px;left:50%;width:100%;height:2px;
+    background:var(--border);z-index:0;transition:.4s}
+.step:last-child::after{display:none}
+.step.done::after{background:var(--grad)}
+.step-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;
+    color:var(--muted);z-index:1;position:relative;background:var(--bg);transition:.35s}
+.step.active .step-circle{border-color:var(--red);color:#fff;background:var(--grad);
+    box-shadow:0 0 18px rgba(255,65,108,.4)}
+.step.done .step-circle{border-color:var(--ok);color:var(--ok)}
+.step-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;
+    color:var(--muted);transition:.3s;text-align:center}
+.step.active .step-label{color:#fff}
+.step.done .step-label{color:var(--ok)}
+
+/* ── LAYOUT ── */
+.checkout-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;
+    max-width:900px;margin:0 auto;padding:0 5% 60px}
+
+/* ── CARDS ── */
+.card{background:var(--glass);border:1px solid var(--border);border-radius:16px;
+    backdrop-filter:blur(20px);padding:28px;margin-bottom:24px}
+.card-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;
+    color:var(--muted);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+
+/* ── STEPS CONTENT ── */
+.step-content{display:none}
+.step-content.active{display:block}
+
+/* ── ITEMS DO PEDIDO ── */
+.order-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);align-items:center}
+.order-item:last-child{border:none}
+.order-item img{width:56px;height:56px;object-fit:contain;border-radius:8px;
+    background:rgba(255,255,255,.04);padding:4px;flex-shrink:0}
+.order-item-info{flex:1}
+.order-item-name{font-size:.88rem;font-weight:600;color:#e8e8e8;margin-bottom:3px}
+.order-item-qty{font-size:.75rem;color:var(--muted)}
+.order-item-price{font-size:.95rem;font-weight:700;color:var(--red);white-space:nowrap}
+
+/* ── RESUMO LATERAL ── */
+.summary-row{display:flex;justify-content:space-between;align-items:center;
+    font-size:.88rem;color:#bbb;margin-bottom:10px}
+.summary-row.total{font-size:1.15rem;font-weight:700;color:#fff;
+    padding-top:14px;border-top:1px solid var(--border);margin-top:6px}
+.summary-row.total span:last-child{color:var(--red)}
+
+/* ── FIELDS ── */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.68rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:1px;color:var(--muted);margin-bottom:7px}
+.field input,.field select{width:100%;padding:13px 15px;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+    border-radius:10px;color:#fff;font-family:'Poppins',sans-serif;font-size:.9rem;
+    outline:none;transition:.2s;-webkit-appearance:none}
+.field input:focus,.field select:focus{border-color:rgba(255,65,108,.5);
+    background:rgba(255,65,108,.05);box-shadow:0 0 0 3px rgba(255,65,108,.08)}
+.field input::placeholder{color:#383838}
+.field select option{background:#1a1a1a;color:#fff}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 80px;gap:14px}
+.cep-row{display:flex;gap:10px}
+.cep-row input{flex:1}
+.btn-cep{padding:13px 18px;background:var(--grad);border:none;border-radius:10px;
+    color:#fff;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700;
+    cursor:pointer;white-space:nowrap;transition:opacity .2s}
+.btn-cep:hover{opacity:.85}
+
+/* ── MÉTODOS PAGAMENTO ── */
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.pay-method{padding:16px;border:2px solid var(--border);border-radius:12px;cursor:pointer;
+    transition:.25s;display:flex;align-items:center;gap:12px;background:transparent}
+.pay-method:hover{border-color:rgba(255,65,108,.3);background:rgba(255,65,108,.04)}
+.pay-method.active{border-color:var(--red);background:rgba(255,65,108,.08)}
+.pay-method svg{width:22px;height:22px;flex-shrink:0}
+.pay-method-name{font-size:.85rem;font-weight:600}
+.pay-method-sub{font-size:.72rem;color:var(--muted)}
+
+/* ── CARTÃO VISUAL ── */
+.card-visual-wrap{perspective:1000px;margin-bottom:28px;height:185px}
+.card-visual{width:100%;height:185px;position:relative;transform-style:preserve-3d;
+    transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.card-visual.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;
+    padding:22px 26px;display:flex;flex-direction:column;
+    background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.card-back{transform:rotateY(180deg);background:linear-gradient(135deg,#0f3460,#16213e,#1a1a2e)}
+.card-chip{width:40px;height:30px;border-radius:5px;
+    background:linear-gradient(135deg,#d4a017,#f5d675,#b8860b);margin-bottom:auto}
+.card-number-display{font-size:1.25rem;letter-spacing:4px;font-weight:600;
+    color:rgba(255,255,255,.9);margin-bottom:16px;font-family:monospace}
+.card-info-row{display:flex;justify-content:space-between;align-items:flex-end}
+.card-label-sm{font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.5);margin-bottom:3px}
+.card-value-sm{font-size:.85rem;font-weight:600;color:#fff;text-transform:uppercase}
+.card-brand-logo{font-size:1.4rem;font-weight:900;letter-spacing:-1px}
+.card-brand-logo.visa{color:#1a1f71}
+.card-brand-logo.mastercard{color:#eb001b}
+.card-brand-logo.elo{color:#ffcb05}
+.card-back-strip{height:46px;background:#1a1a1a;margin:16px -26px}
+.card-cvv-row{display:flex;justify-content:flex-end;margin-top:10px}
+.card-cvv-box{background:rgba(255,255,255,.9);border-radius:5px;padding:7px 18px;
+    font-size:1rem;font-weight:700;color:#333;letter-spacing:4px;font-family:monospace}
+
+/* ── PIX ── */
+.pix-wrap{text-align:center}
+.pix-logo{font-size:2rem;font-weight:900;color:#00bdae;letter-spacing:-1px;margin-bottom:6px}
+.pix-sub{font-size:.8rem;color:var(--muted);margin-bottom:20px}
+#qr-container{display:flex;justify-content:center;margin-bottom:20px}
+#qr-container canvas,#qr-container img{border-radius:12px;padding:12px;background:#fff}
+.pix-timer{display:flex;align-items:center;justify-content:center;gap:8px;
+    font-size:.82rem;color:#f5a623;margin-bottom:20px}
+.pix-timer svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.pix-code-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;padding:14px;margin-bottom:12px;
+    font-size:.75rem;color:#bbb;word-break:break-all;line-height:1.6;text-align:left;
+    font-family:monospace;max-height:80px;overflow:hidden}
+.btn-copy{width:100%;padding:13px;background:transparent;
+    border:1px solid rgba(0,189,174,.4);border-radius:10px;
+    color:#00bdae;font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:700;
+    cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-copy:hover{background:rgba(0,189,174,.1)}
+.btn-copy svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
+.btn-copy.copied{border-color:var(--ok);color:var(--ok)}
+
+/* ── BOTÕES NAVEGAÇÃO ── */
+.nav-btns{display:flex;gap:12px;margin-top:24px}
+.btn-next{flex:1;padding:15px;background:var(--grad);border:none;border-radius:11px;
+    color:#fff;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:.25s;
+    box-shadow:0 6px 20px rgba(255,65,108,.28)}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,65,108,.42)}
+.btn-next:disabled{opacity:.4;cursor:default;transform:none}
+.btn-prev{padding:15px 22px;background:transparent;border:1px solid rgba(255,255,255,.12);
+    border-radius:11px;color:#888;font-family:'Poppins',sans-serif;font-size:.88rem;
+    cursor:pointer;transition:.2s}
+.btn-prev:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+
+/* ── ALERT ── */
+.alert{display:none;padding:11px 15px;border-radius:8px;font-size:.82rem;margin-bottom:16px}
+.alert.err{display:block;background:rgba(255,65,108,.1);border:1px solid rgba(255,65,108,.3);color:#ff8fa0}
+.alert.ok{display:block;background:rgba(0,224,122,.07);border:1px solid rgba(0,224,122,.2);color:var(--ok)}
+
+/* ── PARCELAS ── */
+.parcel-select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+    border-radius:10px;color:#fff;font-family:'Poppins',sans-serif;font-size:.9rem;
+    padding:13px 15px;width:100%;outline:none;cursor:pointer;transition:.2s}
+.parcel-select:focus{border-color:rgba(255,65,108,.5)}
+
+/* ── ENDEREÇO SALVO ── */
+.saved-address{background:rgba(255,255,255,.03);border:1px solid var(--border);
+    border-radius:12px;padding:15px 18px;margin-bottom:14px;cursor:pointer;
+    transition:.2s;display:flex;align-items:center;gap:14px}
+.saved-address:hover{border-color:rgba(255,65,108,.3)}
+.saved-address.selected{border-color:var(--red);background:rgba(255,65,108,.07)}
+.radio-circle{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s}
+.saved-address.selected .radio-circle{border-color:var(--red)}
+.radio-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:none}
+.saved-address.selected .radio-dot{display:block}
+.address-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+    color:var(--red);margin-bottom:3px}
+.address-text{font-size:.84rem;color:#ccc;line-height:1.5}
+
+/* ── SUCESSO ── */
+#success-screen{display:none;max-width:500px;margin:60px auto;padding:0 20px;text-align:center}
+.success-icon{width:80px;height:80px;border-radius:50%;
+    background:rgba(0,224,122,.12);border:2px solid var(--ok);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.success-icon svg{width:36px;height:36px;stroke:var(--ok);fill:none;stroke-width:2.5}
+.success-title{font-size:1.8rem;font-weight:700;margin-bottom:12px}
+.success-sub{color:var(--muted);font-size:.9rem;line-height:1.7;margin-bottom:30px}
+.success-code{background:rgba(255,255,255,.04);border:1px solid var(--border);
+    border-radius:10px;padding:16px;font-size:1.1rem;font-weight:700;
+    letter-spacing:4px;color:var(--red);margin-bottom:30px}
+.btn-voltar-loja{padding:14px 32px;background:var(--grad);border:none;border-radius:11px;
+    color:#fff;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;
+    cursor:pointer;text-decoration:none;display:inline-block}
+
+/* ── MOBILE ── */
+@media(max-width:700px){
+    .checkout-layout{grid-template-columns:1fr}
+    .pay-methods{grid-template-columns:1fr}
+    .grid-2,.grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+    <a class="logo" href="index.html">BBS</a>
+    <a class="back" href="index.html">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+    </a>
+</header>
+
+<!-- TELA DE SUCESSO -->
+<div id="success-screen">
+    <div class="success-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1 class="success-title">Pedido Confirmado!</h1>
+    <p class="success-sub">Seu pedido foi recebido e está sendo processado.<br>Você receberá um e-mail com todos os detalhes.</p>
+    <div class="success-code" id="order-code">BBS-000000</div>
+    <p style="color:var(--muted);font-size:.82rem;margin-bottom:24px;">Guarde este código para acompanhar seu pedido</p>
+    <a class="btn-voltar-loja" href="index.html">Continuar Comprando</a>
+</div>
+
+<!-- CHECKOUT -->
+<div id="checkout-screen">
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+        <div class="progress">
+            <div class="step active" id="prog-1">
+                <div class="step-circle" id="pc-1">1</div>
+                <span class="step-label">Confirmar Pedido</span>
+            </div>
+            <div class="step" id="prog-2">
+                <div class="step-circle" id="pc-2">2</div>
+                <span class="step-label">Entrega</span>
+            </div>
+            <div class="step" id="prog-3">
+                <div class="step-circle" id="pc-3">3</div>
+                <span class="step-label">Pagamento</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-layout">
+
+        <!-- COLUNA ESQUERDA -->
+        <div>
+
+            <!-- ═══ STEP 1: CONFIRMAR PEDIDO ═══ -->
+            <div class="step-content active" id="sc-1">
+                <div class="card">
+                    <p class="card-title">Itens do Pedido</p>
+                    <div id="items-list"></div>
+                </div>
+                <div class="nav-btns">
+                    <button class="btn-next" onclick="goStep(2)">Continuar para Entrega →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 2: ENTREGA ═══ -->
+            <div class="step-content" id="sc-2">
+                <div class="card">
+                    <p class="card-title">Endereço de Entrega</p>
+                    <div class="alert" id="al-end"></div>
+
+                    <!-- Endereços salvos -->
+                    <div id="saved-addresses-wrap"></div>
+
+                    <!-- Novo endereço -->
+                    <div id="new-address-form">
+                        <div class="field">
+                            <label>CEP</label>
+                            <div class="cep-row">
+                                <input type="text" id="end-cep" placeholder="00000-000" maxlength="9">
+                                <button class="btn-cep" onclick="buscaCEP()">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="field" style="grid-column:1/-1">
+                                <label>Rua / Logradouro</label>
+                                <input type="text" id="end-rua" placeholder="Nome da rua">
+                            </div>
+                            <div class="field">
+                                <label>Número</label>
+                                <input type="text" id="end-num" placeholder="123">
+                            </div>
+                            <div class="field">
+                                <label>Complemento</label>
+                                <input type="text" id="end-comp" placeholder="Apto, Bloco...">
+                            </div>
+                            <div class="field" style="grid-column:1/-1">
+                                <label>Bairro</label>
+                                <input type="text" id="end-bairro" placeholder="Bairro">
+                            </div>
+                            <div class="field">
+                                <label>Cidade</label>
+                                <input type="text" id="end-cidade" placeholder="Cidade">
+                            </div>
+                            <div class="field">
+                                <label>Estado (UF)</label>
+                                <input type="text" id="end-uf" placeholder="SP" maxlength="2" style="text-transform:uppercase">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de entrega -->
+                    <div class="field" style="margin-top:8px">
+                        <label>Tipo de Entrega</label>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px">
+                            <div class="saved-address selected" id="frete-normal" onclick="selectFrete('normal')">
+                                <div class="radio-circle"><div class="radio-dot"></div></div>
+                                <div>
+                                    <p class="address-label">Padrão</p>
+                                    <p class="address-text">3–7 dias úteis<br><strong style="color:#fff">R$ 15,90</strong></p>
+                                </div>
+                            </div>
+                            <div class="saved-address" id="frete-expresso" onclick="selectFrete('expresso')">
+                                <div class="radio-circle"><div class="radio-dot"></div></div>
+                                <div>
+                                    <p class="address-label" style="color:#f5a623">Expresso</p>
+                                    <p class="address-text">1–2 dias úteis<br><strong style="color:#fff">R$ 29,90</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-btns">
+                    <button class="btn-prev" onclick="goStep(1)">← Voltar</button>
+                    <button class="btn-next" onclick="validarEntrega()">Continuar para Pagamento →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 3: PAGAMENTO ═══ -->
+            <div class="step-content" id="sc-3">
+
+                <!-- Seleção de método -->
+                <div class="card">
+                    <p class="card-title">Método de Pagamento</p>
+                    <div class="pay-methods">
+                        <div class="pay-method active" id="pm-pix" onclick="selectPay('pix')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00bdae" stroke-width="1.8">
+                                <path d="M7 7l4.5 4.5-4.5 4.5M17 7l-4.5 4.5 4.5 4.5"/>
+                            </svg>
+                            <div>
+                                <p class="pay-method-name">PIX</p>
+                                <p class="pay-method-sub">10% de desconto</p>
+                            </div>
+                        </div>
+                        <div class="pay-method" id="pm-credito" onclick="selectPay('credito')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+                                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                                <line x1="2" y1="10" x2="22" y2="10"/>
+                            </svg>
+                            <div>
+                                <p class="pay-method-name">Cartão de Crédito</p>
+                                <p class="pay-method-sub">Até 12x sem juros</p>
+                            </div>
+                        </div>
+                        <div class="pay-method" id="pm-debito" onclick="selectPay('debito')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+                                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                                <line x1="2" y1="10" x2="22" y2="10"/>
+                                <circle cx="7" cy="15" r="1.5" fill="currentColor"/>
+                            </svg>
+                            <div>
+                                <p class="pay-method-name">Cartão de Débito</p>
+                                <p class="pay-method-sub">5% de desconto</p>
+                            </div>
+                        </div>
+                        <div class="pay-method" id="pm-boleto" onclick="selectPay('boleto')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+                                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                                <line x1="7" y1="8" x2="7" y2="16"/><line x1="10" y1="8" x2="10" y2="16"/>
+                                <line x1="13" y1="8" x2="15" y2="16"/><line x1="17" y1="8" x2="17" y2="16"/>
+                            </svg>
+                            <div>
+                                <p class="pay-method-name">Boleto</p>
+                                <p class="pay-method-sub">7% de desconto</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PIX -->
+                <div class="card" id="pay-pix">
+                    <p class="card-title">Pagar com PIX</p>
+                    <div class="pix-wrap">
+                        <div class="pix-logo">PIX</div>
+                        <p class="pix-sub">Escaneie o QR Code ou copie o código abaixo</p>
+                        <div id="qr-container"></div>
+                        <div class="pix-timer">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span>Expira em <strong id="timer-display">15:00</strong></span>
+                        </div>
+                        <p style="font-size:.72rem;color:var(--muted);margin-bottom:8px;text-align:left;letter-spacing:.5px;">CÓDIGO PIX COPIA E COLA</p>
+                        <div class="pix-code-box" id="pix-code-box"></div>
+                        <button class="btn-copy" id="btn-copy" onclick="copiarPix()">
+                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            Copiar Código PIX
+                        </button>
+                        <p style="font-size:.75rem;color:var(--muted);margin-top:14px;">Após o pagamento, a confirmação chega em até 1 minuto.</p>
+                    </div>
+                    <div class="nav-btns" style="margin-top:24px">
+                        <button class="btn-prev" onclick="goStep(2)">← Voltar</button>
+                        <button class="btn-next" onclick="confirmarPagamento()">Confirmar Pagamento ✓</button>
+                    </div>
+                </div>
+
+                <!-- CARTÃO CRÉDITO / DÉBITO -->
+                <div class="card" id="pay-card" style="display:none">
+                    <p class="card-title" id="card-title-label">Cartão de Crédito</p>
+
+                    <!-- Visual do Cartão -->
+                    <div class="card-visual-wrap">
+                        <div class="card-visual" id="card-visual">
+                            <div class="card-face">
+                                <div class="chip-and-brand" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
+                                    <div class="card-chip"></div>
+                                    <span class="card-brand-logo" id="card-brand-front">●●</span>
+                                </div>
+                                <div class="card-number-display" id="card-num-display">●●●● ●●●● ●●●● ●●●●</div>
+                                <div class="card-info-row">
+                                    <div>
+                                        <p class="card-label-sm">Titular</p>
+                                        <p class="card-value-sm" id="card-name-display">NOME DO TITULAR</p>
+                                    </div>
+                                    <div>
+                                        <p class="card-label-sm">Validade</p>
+                                        <p class="card-value-sm" id="card-exp-display">MM/AA</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-face card-back">
+                                <div class="card-back-strip"></div>
+                                <div class="card-cvv-row">
+                                    <div style="text-align:right">
+                                        <p class="card-label-sm" style="margin-bottom:6px">CVV</p>
+                                        <div class="card-cvv-box" id="card-cvv-display">●●●</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form -->
+                    <div class="alert" id="al-card"></div>
+                    <div class="field">
+                        <label>Número do Cartão</label>
+                        <input type="text" id="c-num" placeholder="0000 0000 0000 0000" maxlength="19"
+                            oninput="formatCardNum(this)" onfocus="flipCard(false)">
+                    </div>
+                    <div class="field">
+                        <label>Nome do Titular</label>
+                        <input type="text" id="c-nome" placeholder="Como está no cartão" style="text-transform:uppercase"
+                            oninput="document.getElementById('card-name-display').textContent=this.value.toUpperCase()||'NOME DO TITULAR'"
+                            onfocus="flipCard(false)">
+                    </div>
+                    <div class="grid-3">
+                        <div class="field">
+                            <label>Validade</label>
+                            <input type="text" id="c-exp" placeholder="MM/AA" maxlength="5"
+                                oninput="formatExp(this)" onfocus="flipCard(false)">
+                        </div>
+                        <div class="field">
+                            <label>CVV</label>
+                            <input type="text" id="c-cvv" placeholder="●●●" maxlength="4"
+                                oninput="document.getElementById('card-cvv-display').textContent=this.value||'●●●'"
+                                onfocus="flipCard(true)" onblur="flipCard(false)">
+                        </div>
+                        <div class="field" id="parcelas-field" style="display:none">
+                        </div>
+                    </div>
+                    <div class="field" id="parcelas-wrap" style="display:none">
+                        <label>Parcelar em</label>
+                        <select class="parcel-select" id="c-parcelas"></select>
+                    </div>
+
+                    <div class="nav-btns">
+                        <button class="btn-prev" onclick="goStep(2)">← Voltar</button>
+                        <button class="btn-next" onclick="confirmarCartao()">Confirmar Pagamento ✓</button>
+                    </div>
+                </div>
+
+                <!-- BOLETO -->
+                <div class="card" id="pay-boleto" style="display:none">
+                    <p class="card-title">Boleto Bancário</p>
+                    <div style="text-align:center;padding:10px 0">
+                        <div style="font-size:3rem;margin-bottom:16px">🧾</div>
+                        <p style="color:#ccc;font-size:.9rem;line-height:1.8;margin-bottom:20px">
+                            Seu boleto será gerado após a confirmação.<br>
+                            Você terá <strong>3 dias úteis</strong> para efetuar o pagamento.<br>
+                            O boleto será enviado para o seu e-mail.
+                        </p>
+                        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px">
+                            <p style="font-size:.72rem;color:var(--muted);margin-bottom:6px">CÓDIGO DE BARRAS</p>
+                            <p id="boleto-code" style="font-family:monospace;font-size:.78rem;color:#ccc;word-break:break-all;line-height:1.8"></p>
+                        </div>
+                        <button class="btn-copy" onclick="copiarBoleto()">
+                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            Copiar Código de Barras
+                        </button>
+                    </div>
+                    <div class="nav-btns" style="margin-top:24px">
+                        <button class="btn-prev" onclick="goStep(2)">← Voltar</button>
+                        <button class="btn-next" onclick="confirmarPagamento()">Confirmar Pedido ✓</button>
+                    </div>
+                </div>
+
+            </div><!-- end step 3 -->
+
+        </div><!-- end coluna esquerda -->
+
+        <!-- COLUNA DIREITA: RESUMO -->
+        <div>
+            <div class="card" style="position:sticky;top:86px">
+                <p class="card-title">Resumo do Pedido</p>
+                <div id="summary-items"></div>
+                <div style="margin-top:16px">
+                    <div class="summary-row"><span>Subtotal</span><span id="s-subtotal">R$ 0,00</span></div>
+                    <div class="summary-row"><span>Frete</span><span id="s-frete">R$ 15,90</span></div>
+                    <div class="summary-row" id="s-desconto-row" style="display:none;color:#00e07a">
+                        <span id="s-desc-label">Desconto</span>
+                        <span id="s-desc-val">-R$ 0,00</span>
+                    </div>
+                    <div class="summary-row total"><span>Total</span><span id="s-total">R$ 0,00</span></div>
+                </div>
+                <div style="margin-top:16px;padding:12px;background:rgba(0,224,122,.06);border:1px solid rgba(0,224,122,.15);border-radius:10px;font-size:.78rem;color:var(--ok)" id="desconto-badge" style="display:none">
+                    💚 Pagando no PIX você economiza <strong id="economia-val"></strong>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div><!-- end checkout-screen -->
+
+<script>
+// ── DADOS DO CARRINHO ──
+let cart       = JSON.parse(localStorage.getItem('bbs_cart')       || '{}');
+let cartOrder  = JSON.parse(localStorage.getItem('bbs_cart_order') || '[]');
+let freteVal   = parseFloat(localStorage.getItem('bbs_frete')      || '15.90');
+let freteMode  = 'normal';
+let payMethod  = 'pix';
+let pixTimer   = null;
+let pixCode    = '';
+let boletoCode = '';
+
+// ── INICIALIZAÇÃO ──
+window.addEventListener('DOMContentLoaded', () => {
+    if (cartOrder.length === 0) {
+        window.location.href = 'index.html';
+        return;
+    }
+    renderItems();
+    renderSummary();
+    loadSavedAddresses();
+    gerarPixCode();
+    gerarBoletoCode();
+});
+
+// ── RENDERIZAR ITENS ──
+function renderItems() {
+    const list = document.getElementById('items-list');
+    const sum  = document.getElementById('summary-items');
+    let html = '', sumHtml = '';
+
+    cartOrder.forEach(id => {
+        const item = cart[id]; if (!item) return;
+        html += `<div class="order-item">
+            <img src="${item.img}" alt="${item.name}">
+            <div class="order-item-info">
+                <p class="order-item-name">${item.name}</p>
+                <p class="order-item-qty">Qtd: ${item.qty}</p>
+            </div>
+            <p class="order-item-price">R$ ${(item.price * item.qty).toLocaleString('pt-BR',{minimumFractionDigits:2})}</p>
+        </div>`;
+        sumHtml += `<div style="display:flex;justify-content:space-between;font-size:.8rem;color:#999;margin-bottom:7px">
+            <span style="flex:1;margin-right:8px">${item.name} x${item.qty}</span>
+            <span style="white-space:nowrap">R$ ${(item.price*item.qty).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+        </div>`;
+    });
+
+    list.innerHTML  = html;
+    sum.innerHTML   = sumHtml;
+}
+
+// ── RESUMO ──
+function calcSubtotal() {
+    return cartOrder.reduce((s,id) => {
+        const item = cart[id]; return item ? s + item.price * item.qty : s;
+    }, 0);
+}
+
+function renderSummary() {
+    const sub    = calcSubtotal();
+    const frete  = freteMode === 'expresso' ? 29.90 : 15.90;
+    freteVal     = frete;
+
+    const descPct = payMethod === 'pix' ? 0.10 : payMethod === 'boleto' ? 0.07 : payMethod === 'debito' ? 0.05 : 0;
+    const descVal = sub * descPct;
+    const total   = sub + frete - descVal;
+
+    document.getElementById('s-subtotal').textContent = `R$ ${sub.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+    document.getElementById('s-frete').textContent    = `R$ ${frete.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+    document.getElementById('s-total').textContent    = `R$ ${total.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+
+    const dRow  = document.getElementById('s-desconto-row');
+    const badge = document.getElementById('desconto-badge');
+    if (descVal > 0) {
+        dRow.style.display = 'flex';
+        document.getElementById('s-desc-label').textContent = `Desconto (${(descPct*100).toFixed(0)}%)`;
+        document.getElementById('s-desc-val').textContent   = `-R$ ${descVal.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+        badge.style.display = payMethod === 'pix' ? 'block' : 'none';
+        document.getElementById('economia-val').textContent = `R$ ${descVal.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+    } else {
+        dRow.style.display = 'none';
+        badge.style.display = 'none';
+    }
+
+    // Atualizar parcelamento
+    if (payMethod === 'credito') buildParcelas(total);
+}
+
+// ── STEPS ──
+function goStep(n) {
+    [1,2,3].forEach(i => {
+        document.getElementById(`sc-${i}`).classList.toggle('active', i === n);
+        const prog = document.getElementById(`prog-${i}`);
+        prog.classList.toggle('active', i === n);
+        prog.classList.toggle('done', i < n);
+        const pc = document.getElementById(`pc-${i}`);
+        pc.textContent = i < n ? '✓' : i;
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+    if (n === 3 && payMethod === 'pix') startTimer();
+}
+
+// ── ENDEREÇOS SALVOS ──
+function loadSavedAddresses() {
+    const sess = JSON.parse(sessionStorage.getItem('bbs_sessao') || 'null');
+    if (!sess) return;
+    const users = JSON.parse(localStorage.getItem('bbs_usuarios') || '{}');
+    const ends  = (users[sess.email] || {}).enderecos || [];
+    if (ends.length === 0) return;
+
+    const wrap = document.getElementById('saved-addresses-wrap');
+    wrap.innerHTML = `<p style="font-size:.72rem;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px">Endereços Salvos</p>` +
+        ends.map((e,i) => `
+        <div class="saved-address${i===0?' selected':''}" id="sa-${i}" onclick="selectAddress(${i})">
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+            <div>
+                <p class="address-label">${e.apelido||'Endereço '+(i+1)}</p>
+                <p class="address-text">${e.rua}, ${e.num}${e.comp?' – '+e.comp:''} · ${e.cidade}/${e.uf}</p>
+            </div>
+        </div>`).join('') +
+        `<div class="saved-address" id="sa-new" onclick="selectAddress('new')" style="margin-bottom:16px">
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+            <div><p class="address-label" style="color:var(--red)">+ Novo Endereço</p></div>
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);margin-bottom:16px">`;
+
+    // Pre-fill first address
+    if (ends.length > 0) fillAddress(ends[0]);
+    selectedAddressIdx = 0;
+}
+
+let selectedAddressIdx = null;
+
+function selectAddress(idx) {
+    document.querySelectorAll('.saved-address').forEach(el => el.classList.remove('selected'));
+    document.getElementById(`sa-${idx}`).classList.add('selected');
+    selectedAddressIdx = idx;
+    const newForm = document.getElementById('new-address-form');
+    if (idx === 'new') {
+        newForm.style.display = 'block';
+        clearAddressForm();
+    } else {
+        newForm.style.display = 'none';
+        const sess  = JSON.parse(sessionStorage.getItem('bbs_sessao') || 'null');
+        const users = JSON.parse(localStorage.getItem('bbs_usuarios') || '{}');
+        const ends  = (users[sess.email] || {}).enderecos || [];
+        if (ends[idx]) fillAddress(ends[idx]);
+    }
+}
+
+function fillAddress(e) {
+    ['cep','rua','num','comp','bairro','cidade','uf'].forEach(f => {
+        const el = document.getElementById(`end-${f}`);
+        if (el) el.value = e[f] || '';
+    });
+}
+
+function clearAddressForm() {
+    ['cep','rua','num','comp','bairro','cidade','uf'].forEach(f => {
+        const el = document.getElementById(`end-${f}`);
+        if (el) el.value = '';
+    });
+}
+
+async function buscaCEP() {
+    const cep = document.getElementById('end-cep').value.replace(/\D/g,'');
+    if (cep.length !== 8) return showAlert('al-end','CEP deve ter 8 dígitos.','err');
+    try {
+        const d = await (await fetch(`https://viacep.com.br/ws/${cep}/json/`)).json();
+        if (d.erro) return showAlert('al-end','CEP não encontrado.','err');
+        document.getElementById('end-rua').value    = d.logradouro || '';
+        document.getElementById('end-bairro').value = d.bairro     || '';
+        document.getElementById('end-cidade').value = d.localidade || '';
+        document.getElementById('end-uf').value     = d.uf         || '';
+        document.getElementById('end-num').focus();
+        document.getElementById('al-end').className = 'alert';
+    } catch { showAlert('al-end','Erro ao buscar CEP.','err'); }
+}
+
+function validarEntrega() {
+    const rua    = document.getElementById('end-rua').value.trim();
+    const num    = document.getElementById('end-num').value.trim();
+    const cidade = document.getElementById('end-cidade').value.trim();
+    const uf     = document.getElementById('end-uf').value.trim();
+    if (!rua || !num || !cidade || !uf) {
+        return showAlert('al-end','Preencha rua, número, cidade e UF.','err');
+    }
+    document.getElementById('al-end').className = 'alert';
+    goStep(3);
+}
+
+function selectFrete(modo) {
+    freteMode = modo;
+    document.getElementById('frete-normal').classList.toggle('selected', modo === 'normal');
+    document.getElementById('frete-expresso').classList.toggle('selected', modo === 'expresso');
+    renderSummary();
+}
+
+// ── PAGAMENTO ──
+function selectPay(method) {
+    payMethod = method;
+    ['pix','credito','debito','boleto'].forEach(m => {
+        document.getElementById(`pm-${m}`)?.classList.toggle('active', m === method);
+    });
+    document.getElementById('pay-pix').style.display    = method === 'pix'    ? 'block' : 'none';
+    document.getElementById('pay-card').style.display   = (method === 'credito' || method === 'debito') ? 'block' : 'none';
+    document.getElementById('pay-boleto').style.display = method === 'boleto'  ? 'block' : 'none';
+
+    if (method === 'credito') {
+        document.getElementById('card-title-label').textContent = 'Cartão de Crédito';
+        document.getElementById('parcelas-wrap').style.display = 'block';
+    } else if (method === 'debito') {
+        document.getElementById('card-title-label').textContent = 'Cartão de Débito';
+        document.getElementById('parcelas-wrap').style.display = 'none';
+    }
+
+    if (method === 'pix') startTimer();
+    else { clearInterval(pixTimer); }
+
+    renderSummary();
+}
+
+// ── PIX ──
+function gerarPixCode() {
+    const sub   = calcSubtotal();
+    const total = (sub * 0.9 + freteVal).toFixed(2);
+    pixCode = `00020126580014BR.GOV.BCB.PIX0136bbs-loja-chave-pix@bits.com.br5204000053039865406${total}5802BR5913BitsBytes Store6009SAO PAULO62070503***6304`;
+    pixCode += calcCRC(pixCode);
+
+    document.getElementById('pix-code-box').textContent = pixCode;
+
+    const qrEl = document.getElementById('qr-container');
+    qrEl.innerHTML = '';
+    try {
+        new QRCode(qrEl, {
+            text: pixCode, width: 180, height: 180,
+            colorDark: '#000000', colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M
+        });
+    } catch(e) {
+        qrEl.innerHTML = '<div style="width:180px;height:180px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#333;font-size:.75rem;padding:12px;text-align:center">QR Code gerado com sucesso</div>';
+    }
+}
+
+function calcCRC(str) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < str.length; i++) {
+        crc ^= str.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+    }
+    return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4,'0');
+}
+
+function copiarPix() {
+    navigator.clipboard.writeText(pixCode).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copiado!';
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar Código PIX';
+        }, 2500);
+    });
+}
+
+let timerSec = 900;
+function startTimer() {
+    clearInterval(pixTimer);
+    timerSec = 900;
+    updateTimerDisplay();
+    pixTimer = setInterval(() => {
+        timerSec--;
+        updateTimerDisplay();
+        if (timerSec <= 0) { clearInterval(pixTimer); gerarPixCode(); timerSec = 900; }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timerSec / 60).toString().padStart(2,'0');
+    const s = (timerSec % 60).toString().padStart(2,'0');
+    const el = document.getElementById('timer-display');
+    if (el) el.textContent = `${m}:${s}`;
+}
+
+// ── BOLETO ──
+function gerarBoletoCode() {
+    const rand = () => Math.floor(Math.random() * 9000 + 1000);
+    boletoCode = `3419.${rand()} ${rand()}.${rand()}9 ${rand()}.${rand()}0 ${Math.floor(Math.random()*9)+1} ${Date.now().toString().slice(-14)}`;
+    const el = document.getElementById('boleto-code');
+    if (el) el.textContent = boletoCode;
+}
+
+function copiarBoleto() {
+    navigator.clipboard.writeText(boletoCode.replace(/[.\s]/g, ''));
+    const btn = event.currentTarget;
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copiado!';
+    setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar Código de Barras';
+    }, 2500);
+}
+
+// ── CARTÃO VISUAL ──
+function flipCard(toBack) {
+    document.getElementById('card-visual').classList.toggle('flipped', toBack);
+}
+
+function formatCardNum(input) {
+    let v = input.value.replace(/\D/g,'').slice(0,16);
+    input.value = v.match(/.{1,4}/g)?.join(' ') || v;
+
+    // Detectar bandeira
+    const brand = detectBrand(v);
+    const front = document.getElementById('card-brand-front');
+    front.textContent = brand.name;
+    front.className   = `card-brand-logo ${brand.cls}`;
+
+    // Atualizar display
+    const disp = v.padEnd(16,'●');
+    document.getElementById('card-num-display').textContent =
+        disp.match(/.{1,4}/g)?.join(' ') || disp;
+}
+
+function detectBrand(num) {
+    if (/^4/.test(num))        return {name:'VISA',    cls:'visa'};
+    if (/^5[1-5]/.test(num))   return {name:'MC',      cls:'mastercard'};
+    if (/^6[0-9]/.test(num))   return {name:'ELO',     cls:'elo'};
+    if (/^3[47]/.test(num))    return {name:'AMEX',    cls:''};
+    return {name:'●●', cls:''};
+}
+
+function formatExp(input) {
+    let v = input.value.replace(/\D/g,'').slice(0,4);
+    if (v.length >= 2) v = v.slice(0,2) + '/' + v.slice(2);
+    input.value = v;
+    document.getElementById('card-exp-display').textContent = v || 'MM/AA';
+}
+
+// ── PARCELAMENTO ──
+function buildParcelas(total) {
+    const sel = document.getElementById('c-parcelas');
+    sel.innerHTML = '';
+    for (let i = 1; i <= 12; i++) {
+        const val = (total / i).toLocaleString('pt-BR',{minimumFractionDigits:2});
+        const op  = document.createElement('option');
+        op.value = i;
+        op.textContent = i === 1
+            ? `À vista — R$ ${total.toLocaleString('pt-BR',{minimumFractionDigits:2})}`
+            : `${i}x de R$ ${val} sem juros`;
+        sel.appendChild(op);
+    }
+}
+
+// ── CONFIRMAR CARTÃO ──
+function confirmarCartao() {
+    const num  = document.getElementById('c-num').value.replace(/\s/g,'');
+    const nome = document.getElementById('c-nome').value.trim();
+    const exp  = document.getElementById('c-exp').value;
+    const cvv  = document.getElementById('c-cvv').value;
+
+    if (num.length < 16)  return showAlert('al-card','Número de cartão inválido.','err');
+    if (!nome)             return showAlert('al-card','Informe o nome do titular.','err');
+    if (exp.length < 5)   return showAlert('al-card','Data de validade inválida.','err');
+    if (cvv.length < 3)   return showAlert('al-card','CVV inválido.','err');
+
+    const [mes, ano] = exp.split('/').map(Number);
+    const now = new Date();
+    const expDate = new Date(2000 + ano, mes - 1);
+    if (expDate < now) return showAlert('al-card','Cartão expirado.','err');
+
+    confirmarPagamento();
+}
+
+// ── CONFIRMAR PAGAMENTO ──
+function confirmarPagamento() {
+    clearInterval(pixTimer);
+    const code = 'BBS-' + Math.floor(100000 + Math.random() * 900000);
+    localStorage.removeItem('bbs_cart');
+    localStorage.removeItem('bbs_cart_order');
+    localStorage.removeItem('bbs_frete');
+
+    document.getElementById('checkout-screen').style.display = 'none';
+    document.getElementById('success-screen').style.display  = 'block';
+    document.getElementById('order-code').textContent = code;
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── ALERT ──
+function showAlert(id, msg, tipo) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.className   = 'alert ' + tipo;
+    setTimeout(() => el.className = 'alert', 5000);
+}
+</script>
+</body>
+</html>
