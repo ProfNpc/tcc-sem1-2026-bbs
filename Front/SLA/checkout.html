@@ -31,7 +31,7 @@ header{padding:16px 5%;background:rgba(8,8,8,.9);border-bottom:1px solid var(--b
 .back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5}
 
 /* ── PROGRESS ── */
-.progress-wrap{padding:32px 5% 0;max-width:900px;margin:0 auto}
+.progress-wrap{padding:32px 5% 0;max-width:1200px;margin:0 auto}
 .progress{display:flex;align-items:center;margin-bottom:40px}
 .step{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;position:relative}
 .step::after{content:'';position:absolute;top:18px;left:50%;width:100%;height:2px;
@@ -212,6 +212,70 @@ header{padding:16px 5%;background:rgba(8,8,8,.9);border-bottom:1px solid var(--b
     color:#fff;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;
     cursor:pointer;text-decoration:none;display:inline-block}
 
+
+/* ── BRINDES CHECKOUT ── */
+.brindes-co-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 4px;
+}
+.brinde-co-card {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid rgba(0,224,122,.3);
+    background: rgba(0,224,122,.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s;
+}
+.brinde-co-card:hover { transform: translateY(-3px); }
+.brinde-co-img {
+    width: 100%; aspect-ratio: 1 / 1;
+    object-fit: cover; display: block;
+    background: #111;
+}
+.brinde-co-body {
+    padding: 12px 14px;
+    flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 6px;
+}
+.brinde-co-name { font-size: .82rem; font-weight: 700; color: #fff; line-height: 1.3; }
+.brinde-co-sub  { font-size: .7rem; color: #00e07a; font-weight: 600; }
+.brinde-co-free {
+    position: absolute; top: 10px; right: 10px;
+    background: #00e07a; color: #000; font-size: .65rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 20px;
+}
+.brinde-co-locked {
+    border-color: rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    opacity: .55;
+    filter: grayscale(.6);
+}
+.brinde-co-locked .brinde-co-sub { color: #666; }
+.brinde-co-lock-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(30,30,30,.9); color: #888; font-size: .65rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,.1);
+}
+.brinde-co-progress-bar {
+    height: 4px; border-radius: 4px;
+    background: rgba(255,255,255,.08); margin: 4px 0 2px; overflow: hidden;
+}
+.brinde-co-progress-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg,#ff416c,#ff4b2b);
+    transition: width .4s;
+}
+.brinde-next-wrap {
+    margin-top: 14px; padding: 12px 16px;
+    background: rgba(245,166,35,.07); border: 1px solid rgba(245,166,35,.25);
+    border-radius: 10px; font-size: .8rem; color: #f5a623; line-height: 1.5;
+}
+.brinde-next-wrap strong { color: #fff; }
+
 /* ── MOBILE ── */
 @media(max-width:700px){
     .checkout-layout{grid-template-columns:1fr}
@@ -274,6 +338,25 @@ header{padding:16px 5%;background:rgba(8,8,8,.9);border-bottom:1px solid var(--b
                     <p class="card-title">Itens do Pedido</p>
                     <div id="items-list"></div>
                 </div>
+
+                <!-- ══ BRINDES ══ -->
+                <div class="card" id="brindes-co-card">
+                    <p class="card-title" style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff416c" stroke-width="2.2">
+                            <path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/>
+                            <path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                        </svg>
+                        Seus Brindes Exclusivos BBS
+                    </p>
+                    <div class="brindes-co-wrap" id="brindes-co-list">
+                        <!-- preenchido pelo JS -->
+                    </div>
+                    <div class="brinde-next-wrap" id="brinde-next-wrap" style="display:none">
+                        <span id="brinde-next-txt"></span>
+                    </div>
+                </div>
+
                 <div class="nav-btns">
                     <button class="btn-next" onclick="goStep(2)">Continuar para Entrega →</button>
                 </div>
@@ -538,17 +621,6 @@ header{padding:16px 5%;background:rgba(8,8,8,.9);border-bottom:1px solid var(--b
             <div class="card" style="position:sticky;top:86px">
                 <p class="card-title">Resumo do Pedido</p>
                 <div id="summary-items"></div>
-
-                <!-- BRINDES NO CHECKOUT -->
-                <div id="checkout-brindes" style="margin:16px 0;padding:14px;background:rgba(255,65,108,0.06);border:1px solid rgba(255,65,108,0.18);border-radius:12px;">
-                    <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,65,108,0.8);margin-bottom:10px;">🎁 Seus Brindes</p>
-                    <p id="ck-brinde-atual" style="font-size:.82rem;color:#e0e0e0;margin-bottom:8px;font-weight:500;"></p>
-                    <div style="background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden;height:5px;margin-bottom:7px;">
-                        <div id="ck-brinde-bar" style="height:100%;background:linear-gradient(90deg,#ff416c,#ff4b2b);width:0%;transition:width .6s ease;border-radius:6px;"></div>
-                    </div>
-                    <p id="ck-brinde-prox" style="font-size:.74rem;color:#888;"></p>
-                </div>
-
                 <div style="margin-top:16px">
                     <div class="summary-row"><span>Subtotal</span><span id="s-subtotal">R$ 0,00</span></div>
                     <div class="summary-row"><span>Frete</span><span id="s-frete">R$ 15,90</span></div>
@@ -586,60 +658,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     renderItems();
     renderSummary();
-    renderBrindesCheckout();
     loadSavedAddresses();
     gerarPixCode();
     gerarBoletoCode();
+    renderBrindesCheckout();
 });
-
-// ── BRINDES NO CHECKOUT ──
-const BRINDES_TIERS = [
-    { min: 0,    label: 'Adesivo BBS' },
-    { min: 299,  label: 'Adesivo + Chaveiro BBS' },
-    { min: 799,  label: 'Adesivo + Chaveiro + Mousepad' },
-    { min: 1499, label: 'Kit + Garrafa Térmica BBS 🍶' },
-    { min: 2999, label: 'Kit Completo + Camiseta BBS 🎁' },
-];
-
-function renderBrindesCheckout() {
-    const sub = calcSubtotal();
-    let currentTier = null, nextTier = null;
-    for (let i = BRINDES_TIERS.length - 1; i >= 0; i--) {
-        if (sub >= BRINDES_TIERS[i].min) { currentTier = BRINDES_TIERS[i]; break; }
-    }
-    for (let i = 0; i < BRINDES_TIERS.length; i++) {
-        if (sub < BRINDES_TIERS[i].min) { nextTier = BRINDES_TIERS[i]; break; }
-    }
-
-    const elAtual = document.getElementById('ck-brinde-atual');
-    const elBar   = document.getElementById('ck-brinde-bar');
-    const elProx  = document.getElementById('ck-brinde-prox');
-    if (!elAtual) return;
-
-    if (sub === 0) {
-        elAtual.textContent = 'Adicione produtos para ganhar brindes';
-        elBar.style.width = '0%';
-        elProx.textContent = '';
-        return;
-    }
-
-    if (currentTier) {
-        elAtual.innerHTML = `✓ Você ganhou: <strong style="color:#ff416c">${currentTier.label}</strong>`;
-    } else {
-        elAtual.textContent = 'Adicione mais produtos para ganhar brindes';
-    }
-
-    if (nextTier) {
-        const rangeMin = currentTier ? currentTier.min : 0;
-        const pct = Math.min(((sub - rangeMin) / (nextTier.min - rangeMin)) * 100, 100);
-        elBar.style.width = pct + '%';
-        const diff = nextTier.min - sub;
-        elProx.innerHTML = `Faltam <strong>R$ ${diff.toLocaleString('pt-BR',{minimumFractionDigits:2})}</strong> para: ${nextTier.label}`;
-    } else {
-        elBar.style.width = '100%';
-        elProx.innerHTML = '🏆 Nível máximo desbloqueado!';
-    }
-}
 
 // ── RENDERIZAR ITENS ──
 function renderItems() {
@@ -1012,6 +1035,68 @@ function showAlert(id, msg, tipo) {
     el.className   = 'alert ' + tipo;
     setTimeout(() => el.className = 'alert', 5000);
 }
+
+// ── BRINDES ──
+const BRINDES_TIERS_CO = [
+    { min:0,    nome:'Adesivo BBS Premium',         img:'brinde-adesivo.png',  sub:'Qualquer compra' },
+    { min:299,  nome:'Adesivo + Chaveiro BBS',       img:'brinde-chaveiro.png', sub:'Acima de R$ 299' },
+    { min:799,  nome:'Kit + Mousepad BBS Exclusivo', img:'brinde-mousepad.png', sub:'Acima de R$ 799' },
+    { min:1499, nome:'Kit + Garrafa Térmica BBS',    img:'brinde-garrafa.png',  sub:'Acima de R$ 1.499' },
+    { min:2999, nome:'Kit Completo + Moletom BBS',   img:'brinde-moletom.png',  sub:'Acima de R$ 2.999' },
+];
+
+function renderBrindesCheckout() {
+    const sub   = calcSubtotal();
+    const lista = document.getElementById('brindes-co-list');
+    const nWrap = document.getElementById('brinde-next-wrap');
+    const nTxt  = document.getElementById('brinde-next-txt');
+    if (!lista) return;
+
+    let cards = '';
+    BRINDES_TIERS_CO.forEach((t, i) => {
+        const ganhou     = sub >= t.min;
+        const idxProximo = BRINDES_TIERS_CO.findIndex(x => sub < x.min);
+        const isProximo  = !ganhou && idxProximo === i;
+        const prevMin    = i > 0 ? BRINDES_TIERS_CO[i - 1].min : 0;
+        const pct        = ganhou ? 100 : isProximo
+            ? Math.min(Math.round(((sub - prevMin) / (t.min - prevMin)) * 100), 99)
+            : 0;
+
+        cards += `
+        <div class="brinde-co-card ${ganhou ? '' : 'brinde-co-locked'}">
+            <div style="position:relative">
+                <img class="brinde-co-img" src="${t.img}" alt="${t.nome}"
+                    onerror="this.src='';this.style.cssText='width:100%;aspect-ratio:1;background:rgba(255,65,108,.12);display:block'">
+                ${ganhou
+                    ? `<span class="brinde-co-free">GRÁTIS</span>`
+                    : `<span class="brinde-co-lock-badge">🔒 ${t.min > 0 ? 'R$ ' + t.min.toLocaleString('pt-BR') : 'Qualquer compra'}</span>`}
+            </div>
+            <div class="brinde-co-body">
+                <p class="brinde-co-name">${t.nome}</p>
+                <p class="brinde-co-sub">${ganhou ? '✓ Desbloqueado!' : t.sub}</p>
+                ${isProximo ? `
+                <div class="brinde-co-progress-bar">
+                    <div class="brinde-co-progress-fill" style="width:${pct}%"></div>
+                </div>
+                <p style="font-size:.68rem;color:#888;margin-top:2px">${pct}% concluído</p>` : ''}
+            </div>
+        </div>`;
+    });
+
+    lista.innerHTML = cards;
+
+    const proximo = BRINDES_TIERS_CO.find(t => sub < t.min);
+    if (!nWrap) return;
+    if (proximo) {
+        const diff = (proximo.min - sub).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        nWrap.innerHTML = `🎯 Faltam apenas <strong>${diff}</strong> para ganhar também: <strong>${proximo.nome}</strong>`;
+        nWrap.style.cssText = 'display:block;margin-top:14px;padding:12px 16px;background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.25);border-radius:10px;font-size:.8rem;color:#f5a623';
+    } else {
+        nWrap.innerHTML = '🏆 <strong>Parabéns!</strong> Você desbloqueou todos os brindes BBS!';
+        nWrap.style.cssText = 'display:block;margin-top:14px;padding:12px 16px;background:rgba(0,224,122,.07);border:1px solid rgba(0,224,122,.25);border-radius:10px;font-size:.8rem;color:#00e07a';
+    }
+}
+
 </script>
 </body>
 </html>

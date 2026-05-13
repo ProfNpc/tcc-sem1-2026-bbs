@@ -14,7 +14,7 @@
 
         html {
             scroll-behavior: smooth;
-            font-size: 90%;
+            font-size: 87.5%;
         }
 
         body {
@@ -328,7 +328,7 @@
 
         .produto {
             background: var(--card-bg);
-            padding: clamp(14px, 1.6vw, 25px);
+            padding: 25px;
             border-radius: 24px;
             border: 1px solid var(--glass-border);
             text-align: center;
@@ -345,20 +345,20 @@
         }
 
         .produto h3 {
-            margin: clamp(8px, 1vw, 15px) 0 5px 0;
-            font-size: clamp(0.9rem, 1.1vw, 1.4rem);
+            margin: 15px 0 5px 0;
+            font-size: 1.4rem;
         }
 
         .produto p {
             color: var(--text-muted);
             margin: 0;
-            font-size: clamp(0.72rem, 0.8vw, 0.9rem);
+            font-size: 0.9rem;
         }
 
         /* ── CARROSSEL ── */
         .img-container {
             width: 100%;
-            height: clamp(140px, 14vw, 220px);
+            height: 220px;
             background: #fff;
             border-radius: 18px;
             margin-bottom: 20px;
@@ -944,12 +944,12 @@
         .categoria-row {
             flex: 1;
             display: flex;
-            gap: clamp(14px, 1.6vw, 28px);
+            gap: 25px;
             overflow-x: hidden;
             padding: 10px 4px 22px;
         }
         .categoria-row .produto {
-            flex: 0 0 clamp(200px, 19vw, 340px);
+            flex: 0 0 300px;
             min-width: 0;
         }
 
@@ -1339,137 +1339,4 @@
         width: 100%;
         left: -100%;
     }
-}
-
-/* ════════════════════════════════════════
-   BRINDES / PRESENTES
-════════════════════════════════════════ */
-.brindes-banner {
-    width: 90%;
-    max-width: 1900px;
-    margin: 0 auto 50px;
-    background: linear-gradient(135deg, rgba(255,65,108,0.08) 0%, rgba(10,10,10,0.9) 50%, rgba(255,75,43,0.08) 100%);
-    border: 1px solid rgba(255,65,108,0.2);
-    border-radius: 20px;
-    padding: 28px 36px;
-    backdrop-filter: blur(16px);
-}
-.brindes-titulo {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: rgba(255,65,108,0.8);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.brindes-tiers {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 14px;
-}
-.brinde-tier {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 14px;
-    padding: 18px;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-.brinde-tier::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--primary-gradient);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-.brinde-tier.ativo { border-color: rgba(255,65,108,0.4); background: rgba(255,65,108,0.07); }
-.brinde-tier.ativo::before { opacity: 1; }
-.brinde-tier.proximo { border-color: rgba(245,166,35,0.3); }
-.brinde-valor {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-}
-.brinde-tier.ativo .brinde-valor { color: #ff416c; }
-.brinde-itens {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-.brinde-item {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 0.82rem;
-    color: #ccc;
-}
-.brinde-item svg {
-    width: 16px; height: 16px;
-    stroke: currentColor; fill: none; stroke-width: 2;
-    flex-shrink: 0; color: #666;
-}
-.brinde-tier.ativo .brinde-item svg { color: #00e07a; }
-.brinde-lock {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 10px;
-    font-size: 0.72rem;
-    color: #555;
-}
-.brinde-lock svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
-.brinde-tier.ativo .brinde-lock { color: #00e07a; }
-
-/* Barra de progresso no carrinho */
-.brindes-progress-cart {
-    margin: 0 0 18px;
-    padding: 16px;
-    background: rgba(255,65,108,0.06);
-    border: 1px solid rgba(255,65,108,0.15);
-    border-radius: 12px;
-}
-.brindes-progress-label {
-    font-size: 0.75rem;
-    color: #aaa;
-    margin-bottom: 8px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.brindes-progress-label span { color: #ff416c; }
-.brindes-progress-bar-wrap {
-    height: 6px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 8px;
-}
-.brindes-progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ff416c, #ff4b2b);
-    border-radius: 10px;
-    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-}
-.brindes-next-label {
-    font-size: 0.72rem;
-    color: #666;
-}
-.brindes-next-label strong { color: #f5a623; }
-.brindes-ganhou {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #00e07a;
-    margin-top: 6px;
 }
