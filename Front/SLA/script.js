@@ -512,3 +512,102 @@ window.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('bbs_frete_info', freteInfo);
             window.location.href = 'checkout.html';
         }
+
+/* ════════════════════════════════════════
+   SISTEMA DE BRINDES
+════════════════════════════════════════ */
+const BRINDES_TIERS = [
+    { min: 0,    max: 299,   label: 'Adesivo BBS',                         id: 0 },
+    { min: 299,  max: 799,   label: 'Adesivo + Chaveiro BBS',               id: 1 },
+    { min: 799,  max: 1499,  label: 'Adesivo + Chaveiro + Mousepad',        id: 2 },
+    { min: 1499, max: 2999,  label: 'Kit + Garrafa Térmica BBS 🍶',         id: 3 },
+    { min: 2999, max: 99999, label: 'Kit Completo + Camiseta BBS 🎁',       id: 4 },
+];
+
+function calcSubtotalBrindes() {
+    return (typeof cartOrder !== 'undefined' ? cartOrder : []).reduce((s, id) => {
+        const item = (typeof cart !== 'undefined' ? cart : {})[id];
+        return item ? s + item.price * item.qty : s;
+    }, 0);
+}
+
+function atualizarBrindes() {
+    const total = calcSubtotalBrindes();
+
+    // ── Atualizar banner da página ──
+    BRINDES_TIERS.forEach((tier, i) => {
+        const el = document.getElementById(`btier-${i}`);
+        const bl = document.getElementById(`bl-${i}`);
+        const falta = document.getElementById(`falta-${i}`);
+        if (!el) return;
+
+        el.classList.remove('ativo', 'proximo');
+
+        if (total >= tier.min) {
+            el.classList.add('ativo');
+            if (bl) bl.textContent = '✓ Brinde desbloqueado!';
+        } else {
+            const diff = tier.min - total;
+            if (falta) falta.textContent = `R$ ${diff.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            if (i === BRINDES_TIERS.findIndex(t => total < t.min)) {
+                el.classList.add('proximo');
+            }
+        }
+    });
+
+    // ── Atualizar bloco no carrinho ──
+    const bcLabel  = document.getElementById('bc-label');
+    const bcBar    = document.getElementById('bc-bar');
+    const bcNext   = document.getElementById('bc-next');
+    const bcGanhou = document.getElementById('bc-ganhou');
+    const bcGTxt   = document.getElementById('bc-ganhou-txt');
+    if (!bcLabel) return;
+
+    // Tier atual e próximo
+    let currentTier = null;
+    let nextTier    = null;
+    for (let i = BRINDES_TIERS.length - 1; i >= 0; i--) {
+        if (total >= BRINDES_TIERS[i].min) { currentTier = BRINDES_TIERS[i]; break; }
+    }
+    for (let i = 0; i < BRINDES_TIERS.length; i++) {
+        if (total < BRINDES_TIERS[i].min) { nextTier = BRINDES_TIERS[i]; break; }
+    }
+
+    if (total === 0) {
+        bcLabel.textContent = 'Adicione produtos para ganhar brindes';
+        if (bcBar) bcBar.style.width = '0%';
+        if (bcNext) bcNext.innerHTML = '';
+        if (bcGanhou) bcGanhou.style.display = 'none';
+        return;
+    }
+
+    if (currentTier) {
+        bcLabel.innerHTML = `Você ganhou: <strong>${currentTier.label}</strong>`;
+        if (bcGanhou) { bcGanhou.style.display = 'flex'; if (bcGTxt) bcGTxt.textContent = currentTier.label; }
+    }
+
+    if (nextTier) {
+        const diff     = nextTier.min - total;
+        const rangeMin = currentTier ? currentTier.min : 0;
+        const pct      = Math.min(((total - rangeMin) / (nextTier.min - rangeMin)) * 100, 100);
+        if (bcBar) bcBar.style.width = pct + '%';
+        if (bcNext) bcNext.innerHTML = `Faltam <strong>R$ ${diff.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong> para ganhar: ${nextTier.label}`;
+        if (bcGanhou) bcGanhou.style.display = currentTier ? 'flex' : 'none';
+    } else {
+        if (bcBar) bcBar.style.width = '100%';
+        if (bcNext) bcNext.innerHTML = '🏆 Nível máximo de brindes desbloqueado!';
+    }
+}
+
+// Hook no renderCart para atualizar brindes junto
+const __origRenderCart = typeof renderCart === 'function' ? renderCart : null;
+if (__origRenderCart) {
+    renderCart = function() {
+        __origRenderCart();
+        atualizarBrindes();
+    };
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    atualizarBrindes();
+});

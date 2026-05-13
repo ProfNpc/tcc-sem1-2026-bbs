@@ -39,6 +39,19 @@
     <div class="cart-footer" style="padding: 30px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);">
         
         <div class="frete-secao" style="margin-bottom: 20px;">
+            <!-- BRINDES PROGRESS -->
+            <div class="brindes-progress-cart" id="brindes-cart-block">
+                <p class="brindes-progress-label">🎁 Brinde — <span id="bc-label">Adicione produtos</span></p>
+                <div class="brindes-progress-bar-wrap">
+                    <div class="brindes-progress-bar-fill" id="bc-bar" style="width:0%"></div>
+                </div>
+                <p class="brindes-next-label" id="bc-next"></p>
+                <div class="brindes-ganhou" id="bc-ganhou" style="display:none">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span id="bc-ganhou-txt"></span>
+                </div>
+            </div>
+
             <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">CALCULAR ENTREGA</p>
             <div style="display: flex; gap: 10px;">
                 <input type="text" id="cep-cart" placeholder="00000-000" maxlength="9" 
@@ -314,6 +327,103 @@
             </article> CABOU GRAÇAS A DEUS-->
 
 
+
+        <!-- ══ BRINDES ══ -->
+        <div class="brindes-banner" id="brindes-banner">
+            <p class="brindes-titulo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                Brindes Exclusivos BBS — Ganhe presentes em cada compra!
+            </p>
+            <div class="brindes-tiers">
+
+                <div class="brinde-tier" id="btier-0">
+                    <p class="brinde-valor">Qualquer Compra</p>
+                    <div class="brinde-itens">
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg>
+                            Adesivo BBS Premium
+                        </div>
+                    </div>
+                    <div class="brinde-lock">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span id="bl-0">Adicione qualquer produto</span>
+                    </div>
+                </div>
+
+                <div class="brinde-tier" id="btier-1">
+                    <p class="brinde-valor">Acima de R$ 299</p>
+                    <div class="brinde-itens">
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg>
+                            Adesivo BBS Premium
+                        </div>
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            Chaveiro BBS Metálico
+                        </div>
+                    </div>
+                    <div class="brinde-lock">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span id="bl-1">Faltam <strong id="falta-1">R$ 299</strong></span>
+                    </div>
+                </div>
+
+                <div class="brinde-tier" id="btier-2">
+                    <p class="brinde-valor">Acima de R$ 799</p>
+                    <div class="brinde-itens">
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg>
+                            Adesivo + Chaveiro BBS
+                        </div>
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                            Mousepad BBS Exclusivo
+                        </div>
+                    </div>
+                    <div class="brinde-lock">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span id="bl-2">Faltam <strong id="falta-2">R$ 799</strong></span>
+                    </div>
+                </div>
+
+                <div class="brinde-tier" id="btier-3">
+                    <p class="brinde-valor">Acima de R$ 1.499</p>
+                    <div class="brinde-itens">
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg>
+                            Kit Completo (acima)
+                        </div>
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><path d="M6.5 2h11l1.5 5H5L6.5 2z"/><path d="M3 7h18v3a9 9 0 0 1-18 0V7z"/></svg>
+                            🍶 Garrafa Térmica BBS
+                        </div>
+                    </div>
+                    <div class="brinde-lock">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span id="bl-3">Faltam <strong id="falta-3">R$ 1.499</strong></span>
+                    </div>
+                </div>
+
+                <div class="brinde-tier" id="btier-4">
+                    <p class="brinde-valor">Acima de R$ 2.999</p>
+                    <div class="brinde-itens">
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/><path d="M8 7V5a2 2 0 0 0-4 0v2"/></svg>
+                            Kit Garrafa Completo
+                        </div>
+                        <div class="brinde-item">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            🎁 Camiseta BBS Exclusiva
+                        </div>
+                    </div>
+                    <div class="brinde-lock">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span id="bl-4">Faltam <strong id="falta-4">R$ 2.999</strong></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
         <div class="categorias-wrap" id="produtos">
 
