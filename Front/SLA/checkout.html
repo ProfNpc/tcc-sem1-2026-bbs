@@ -538,6 +538,17 @@ header{padding:16px 5%;background:rgba(8,8,8,.9);border-bottom:1px solid var(--b
             <div class="card" style="position:sticky;top:86px">
                 <p class="card-title">Resumo do Pedido</p>
                 <div id="summary-items"></div>
+
+                <!-- BRINDES NO CHECKOUT -->
+                <div id="checkout-brindes" style="margin:16px 0;padding:14px;background:rgba(255,65,108,0.06);border:1px solid rgba(255,65,108,0.18);border-radius:12px;">
+                    <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,65,108,0.8);margin-bottom:10px;">🎁 Seus Brindes</p>
+                    <p id="ck-brinde-atual" style="font-size:.82rem;color:#e0e0e0;margin-bottom:8px;font-weight:500;"></p>
+                    <div style="background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden;height:5px;margin-bottom:7px;">
+                        <div id="ck-brinde-bar" style="height:100%;background:linear-gradient(90deg,#ff416c,#ff4b2b);width:0%;transition:width .6s ease;border-radius:6px;"></div>
+                    </div>
+                    <p id="ck-brinde-prox" style="font-size:.74rem;color:#888;"></p>
+                </div>
+
                 <div style="margin-top:16px">
                     <div class="summary-row"><span>Subtotal</span><span id="s-subtotal">R$ 0,00</span></div>
                     <div class="summary-row"><span>Frete</span><span id="s-frete">R$ 15,90</span></div>
@@ -575,10 +586,60 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     renderItems();
     renderSummary();
+    renderBrindesCheckout();
     loadSavedAddresses();
     gerarPixCode();
     gerarBoletoCode();
 });
+
+// ── BRINDES NO CHECKOUT ──
+const BRINDES_TIERS = [
+    { min: 0,    label: 'Adesivo BBS' },
+    { min: 299,  label: 'Adesivo + Chaveiro BBS' },
+    { min: 799,  label: 'Adesivo + Chaveiro + Mousepad' },
+    { min: 1499, label: 'Kit + Garrafa Térmica BBS 🍶' },
+    { min: 2999, label: 'Kit Completo + Camiseta BBS 🎁' },
+];
+
+function renderBrindesCheckout() {
+    const sub = calcSubtotal();
+    let currentTier = null, nextTier = null;
+    for (let i = BRINDES_TIERS.length - 1; i >= 0; i--) {
+        if (sub >= BRINDES_TIERS[i].min) { currentTier = BRINDES_TIERS[i]; break; }
+    }
+    for (let i = 0; i < BRINDES_TIERS.length; i++) {
+        if (sub < BRINDES_TIERS[i].min) { nextTier = BRINDES_TIERS[i]; break; }
+    }
+
+    const elAtual = document.getElementById('ck-brinde-atual');
+    const elBar   = document.getElementById('ck-brinde-bar');
+    const elProx  = document.getElementById('ck-brinde-prox');
+    if (!elAtual) return;
+
+    if (sub === 0) {
+        elAtual.textContent = 'Adicione produtos para ganhar brindes';
+        elBar.style.width = '0%';
+        elProx.textContent = '';
+        return;
+    }
+
+    if (currentTier) {
+        elAtual.innerHTML = `✓ Você ganhou: <strong style="color:#ff416c">${currentTier.label}</strong>`;
+    } else {
+        elAtual.textContent = 'Adicione mais produtos para ganhar brindes';
+    }
+
+    if (nextTier) {
+        const rangeMin = currentTier ? currentTier.min : 0;
+        const pct = Math.min(((sub - rangeMin) / (nextTier.min - rangeMin)) * 100, 100);
+        elBar.style.width = pct + '%';
+        const diff = nextTier.min - sub;
+        elProx.innerHTML = `Faltam <strong>R$ ${diff.toLocaleString('pt-BR',{minimumFractionDigits:2})}</strong> para: ${nextTier.label}`;
+    } else {
+        elBar.style.width = '100%';
+        elProx.innerHTML = '🏆 Nível máximo desbloqueado!';
+    }
+}
 
 // ── RENDERIZAR ITENS ──
 function renderItems() {

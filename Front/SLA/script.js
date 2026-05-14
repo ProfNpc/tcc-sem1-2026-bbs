@@ -187,8 +187,14 @@
                 const nome  = p.querySelector('h3').textContent.toLowerCase();
                 const desc  = p.querySelector('p').textContent.toLowerCase();
                 const pMarca = (p.dataset.marca || '').toLowerCase();
+                const periSubtipos = ['monitor','mouse','teclado','mousepad','headset'];
+                const tipoMatch = !tipo
+                    || p.dataset.tipo === tipo
+                    || p.dataset.subtipo === tipo
+                    || (tipo === 'periferico' && p.dataset.tipo === 'periferico')
+                    || (periSubtipos.includes(tipo) && p.dataset.subtipo === tipo);
                 const ok = (!busca || nome.includes(busca) || desc.includes(busca))
-                    && (!tipo  || p.dataset.tipo === tipo)
+                    && tipoMatch
                     && (!marca || pMarca === marca);
                 p.style.display = ok ? 'flex' : 'none';
             });
