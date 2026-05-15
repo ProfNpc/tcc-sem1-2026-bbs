@@ -124,7 +124,15 @@
         </div>`;
             });
 
-            list.innerHTML = html || '<p style="color:var(--text-muted);text-align:center;margin-top:40px;">Seu carrinho está vazio.</p>';
+            list.innerHTML = html || `<div class="cart-empty">
+                <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.2">
+                    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                <p>Seu carrinho está vazio</p>
+                <span>Adicione produtos para começar<br>a montar seu setup!</span>
+                <button onclick="toggleCart()" class="cart-empty-cta">Explorar Produtos</button>
+            </div>`;
             count.textContent = totalQty;
 
             if (totalQty === 0) valorFreteGlobal = 0;
@@ -187,7 +195,7 @@
                 const nome  = p.querySelector('h3').textContent.toLowerCase();
                 const desc  = p.querySelector('p').textContent.toLowerCase();
                 const pMarca = (p.dataset.marca || '').toLowerCase();
-                const periSubtipos = ['monitor','mouse','teclado','mousepad','headset'];
+                const periSubtipos = ['monitor','mouse','teclado','mousepad','headset','webcam'];
                 const tipoMatch = !tipo
                     || p.dataset.tipo === tipo
                     || p.dataset.subtipo === tipo
@@ -519,101 +527,216 @@ window.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'checkout.html';
         }
 
-/* ════════════════════════════════════════
-   SISTEMA DE BRINDES
-════════════════════════════════════════ */
-const BRINDES_TIERS = [
-    { min: 0,    max: 299,   label: 'Adesivo BBS',                         id: 0 },
-    { min: 299,  max: 799,   label: 'Adesivo + Chaveiro BBS',               id: 1 },
-    { min: 799,  max: 1499,  label: 'Adesivo + Chaveiro + Mousepad',        id: 2 },
-    { min: 1499, max: 2999,  label: 'Kit + Garrafa Térmica BBS 🍶',         id: 3 },
-    { min: 2999, max: 99999, label: 'Kit Completo + Camiseta BBS 🎁',       id: 4 },
-];
+/* ════════════════════════════════════
+   ANNOUNCEMENT BAR
+════════════════════════════════════ */
+let annIdx = 0;
+const annMsgs = document.querySelectorAll?.('#ann-track span') || [];
+function annSlide(dir) {
+    const track = document.getElementById('ann-track');
+    if (!track) return;
+    const total = track.children.length;
+    annIdx = (annIdx + dir + total) % total;
+    track.style.transform = `translateX(-${annIdx * 100}%)`;
+}
+setInterval(() => annSlide(1), 4000);
 
-function calcSubtotalBrindes() {
-    return (typeof cartOrder !== 'undefined' ? cartOrder : []).reduce((s, id) => {
-        const item = (typeof cart !== 'undefined' ? cart : {})[id];
-        return item ? s + item.price * item.qty : s;
-    }, 0);
+/* ════════════════════════════════════
+   HAMBURGER MENU
+════════════════════════════════════ */
+function toggleMobileMenu() {
+    const nav = document.querySelector('header nav');
+    const btn = document.getElementById('hamburger');
+    nav?.classList.toggle('open');
+    btn?.classList.toggle('open');
+}
+document.addEventListener('click', e => {
+    const nav = document.querySelector('header nav');
+    const btn = document.getElementById('hamburger');
+    if (nav?.classList.contains('open') && !nav.contains(e.target) && !btn?.contains(e.target)) {
+        nav.classList.remove('open');
+        btn?.classList.remove('open');
+    }
+});
+
+/* ════════════════════════════════════
+   SEARCH AUTOCOMPLETE
+════════════════════════════════════ */
+function searchSuggest(query) {
+    const box = document.getElementById('search-suggest');
+    if (!box) return;
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) { box.style.display = 'none'; return; }
+
+    const produtos = [...document.querySelectorAll('.produto')];
+    const matches = produtos.filter(p => {
+        const nome = p.querySelector('h3')?.textContent.toLowerCase() || '';
+        const marca = (p.dataset.marca || '').toLowerCase();
+        return nome.includes(q) || marca.includes(q);
+    }).slice(0, 6);
+
+    if (!matches.length) {
+        box.innerHTML = '<p class="suggest-empty">Nenhum produto encontrado</p>';
+        box.style.display = 'block'; return;
+    }
+
+    box.innerHTML = matches.map(p => {
+        const nome  = p.querySelector('h3').textContent;
+        const preco = p.querySelector('.preco').textContent;
+        const img   = p.querySelector('img')?.src || '';
+        const tipo  = p.dataset.tipo || '';
+        const id    = p.dataset.id;
+        return `<div class="suggest-item" onclick="goToProduct(${id})">
+            <img src="${img}" alt="${nome}" loading="lazy">
+            <div class="suggest-item-info">
+                <p class="suggest-item-cat">${tipo}</p>
+                <p class="suggest-item-name">${nome}</p>
+                <p class="suggest-item-price">${preco}</p>
+            </div>
+        </div>`;
+    }).join('');
+    box.style.display = 'block';
 }
 
-function atualizarBrindes() {
-    const total = calcSubtotalBrindes();
-
-    // ── Atualizar banner da página ──
-    BRINDES_TIERS.forEach((tier, i) => {
-        const el = document.getElementById(`btier-${i}`);
-        const bl = document.getElementById(`bl-${i}`);
-        const falta = document.getElementById(`falta-${i}`);
-        if (!el) return;
-
-        el.classList.remove('ativo', 'proximo');
-
-        if (total >= tier.min) {
-            el.classList.add('ativo');
-            if (bl) bl.textContent = '✓ Brinde desbloqueado!';
-        } else {
-            const diff = tier.min - total;
-            if (falta) falta.textContent = `R$ ${diff.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            if (i === BRINDES_TIERS.findIndex(t => total < t.min)) {
-                el.classList.add('proximo');
-            }
-        }
-    });
-
-    // ── Atualizar bloco no carrinho ──
-    const bcLabel  = document.getElementById('bc-label');
-    const bcBar    = document.getElementById('bc-bar');
-    const bcNext   = document.getElementById('bc-next');
-    const bcGanhou = document.getElementById('bc-ganhou');
-    const bcGTxt   = document.getElementById('bc-ganhou-txt');
-    if (!bcLabel) return;
-
-    // Tier atual e próximo
-    let currentTier = null;
-    let nextTier    = null;
-    for (let i = BRINDES_TIERS.length - 1; i >= 0; i--) {
-        if (total >= BRINDES_TIERS[i].min) { currentTier = BRINDES_TIERS[i]; break; }
+function goToProduct(id) {
+    document.getElementById('search-suggest').style.display = 'none';
+    document.getElementById('busca').value = '';
+    filtrarProdutos();
+    const el = document.querySelector(`.produto[data-id="${id}"]`);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.outline = '2px solid #ff416c';
+        el.style.outlineOffset = '4px';
+        setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 1800);
     }
-    for (let i = 0; i < BRINDES_TIERS.length; i++) {
-        if (total < BRINDES_TIERS[i].min) { nextTier = BRINDES_TIERS[i]; break; }
-    }
+}
 
-    if (total === 0) {
-        bcLabel.textContent = 'Adicione produtos para ganhar brindes';
-        if (bcBar) bcBar.style.width = '0%';
-        if (bcNext) bcNext.innerHTML = '';
-        if (bcGanhou) bcGanhou.style.display = 'none';
+document.addEventListener('click', e => {
+    if (!e.target.closest('#busca') && !e.target.closest('.search-suggest-box')) {
+        document.getElementById('search-suggest')?.style && (document.getElementById('search-suggest').style.display = 'none');
+    }
+});
+
+/* ════════════════════════════════════
+   KEYBOARD SHORTCUTS
+════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+    // ESC fecha tudo
+    if (e.key === 'Escape') {
+        document.getElementById('modal')?.style && (document.getElementById('modal').style.display = 'none');
+        document.getElementById('cart-sidebar')?.classList.remove('open');
+        document.getElementById('perfil-sidebar')?.classList.remove('open');
+        document.getElementById('perfil-overlay') && (document.getElementById('perfil-overlay').style.display = 'none');
+        document.getElementById('search-suggest') && (document.getElementById('search-suggest').style.display = 'none');
+        document.getElementById('compare-modal')?.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    // / ou Ctrl+K foca na busca
+    if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        const busca = document.getElementById('busca');
+        if (busca) { busca.focus(); busca.select(); busca.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    }
+});
+
+/* ════════════════════════════════════
+   NEWSLETTER
+════════════════════════════════════ */
+function assinarNewsletter() {
+    const email = document.getElementById('nl-email')?.value.trim();
+    const msg   = document.getElementById('nl-msg');
+    if (!msg) return;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = '⚠️ Informe um e-mail válido.';
+        msg.style.color = '#ff8fa0';
         return;
     }
-
-    if (currentTier) {
-        bcLabel.innerHTML = `Você ganhou: <strong>${currentTier.label}</strong>`;
-        if (bcGanhou) { bcGanhou.style.display = 'flex'; if (bcGTxt) bcGTxt.textContent = currentTier.label; }
+    const subs = JSON.parse(localStorage.getItem('bbs_newsletter') || '[]');
+    if (subs.includes(email)) {
+        msg.textContent = '✓ Este e-mail já está cadastrado!';
+        msg.style.color = '#f5a623';
+        return;
     }
+    subs.push(email);
+    localStorage.setItem('bbs_newsletter', JSON.stringify(subs));
+    document.getElementById('nl-email').value = '';
+    msg.textContent = '🎉 Cadastrado com sucesso! Boas ofertas chegando.';
+    msg.style.color = '#00e07a';
+    setTimeout(() => { msg.textContent = ''; }, 5000);
+}
 
-    if (nextTier) {
-        const diff     = nextTier.min - total;
-        const rangeMin = currentTier ? currentTier.min : 0;
-        const pct      = Math.min(((total - rangeMin) / (nextTier.min - rangeMin)) * 100, 100);
-        if (bcBar) bcBar.style.width = pct + '%';
-        if (bcNext) bcNext.innerHTML = `Faltam <strong>R$ ${diff.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong> para ganhar: ${nextTier.label}`;
-        if (bcGanhou) bcGanhou.style.display = currentTier ? 'flex' : 'none';
+/* ════════════════════════════════════
+   SHARE PRODUCT
+════════════════════════════════════ */
+function compartilharProduto() {
+    const nome  = document.getElementById('modal-title')?.textContent;
+    const preco = _modalCurrentPrice ? `R$ ${_modalCurrentPrice.toLocaleString('pt-BR')}` : '';
+    const texto = `🖥️ Confira o ${nome} por ${preco} na Bits Bytes Store!\n${window.location.href}#produto-${_modalCurrentId}`;
+    if (navigator.share) {
+        navigator.share({ title: nome, text: texto, url: window.location.href });
     } else {
-        if (bcBar) bcBar.style.width = '100%';
-        if (bcNext) bcNext.innerHTML = '🏆 Nível máximo de brindes desbloqueado!';
+        navigator.clipboard.writeText(texto).then(() => {
+            const btn = document.querySelector('.btn-modal-share');
+            if (btn) {
+                btn.innerHTML = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+                btn.style.color = '#00e07a';
+                setTimeout(() => {
+                    btn.innerHTML = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';
+                    btn.style.color = '';
+                }, 2000);
+            }
+        });
     }
 }
 
-// Hook no renderCart para atualizar brindes junto
-const __origRenderCart = typeof renderCart === 'function' ? renderCart : null;
-if (__origRenderCart) {
-    renderCart = function() {
-        __origRenderCart();
-        atualizarBrindes();
-    };
+/* ── LIMPAR BUSCA ── */
+function limparBusca() {
+    const input = document.getElementById('busca');
+    const clear = document.getElementById('busca-clear');
+    const box   = document.getElementById('search-suggest');
+    if (input) input.value = '';
+    if (clear) clear.style.display = 'none';
+    if (box)   box.style.display   = 'none';
+    filtrarProdutos();
+    input?.focus();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    atualizarBrindes();
-});
+// Show/hide clear button as user types
+const _origSearchSuggest = window.searchSuggest;
+window.searchSuggest = function(query) {
+    const clear = document.getElementById('busca-clear');
+    if (clear) clear.style.display = query.length > 0 ? 'block' : 'none';
+    if (_origSearchSuggest) _origSearchSuggest(query);
+    else {
+        // fallback inline
+        const box = document.getElementById('search-suggest');
+        if (!box) return;
+        const q = query.trim().toLowerCase();
+        if (q.length < 2) { box.style.display = 'none'; return; }
+        const matches = [...document.querySelectorAll('.produto')].filter(p => {
+            const nome = (p.querySelector('h3')?.textContent || '').toLowerCase();
+            const marca = (p.dataset.marca || '').toLowerCase();
+            return nome.includes(q) || marca.includes(q);
+        }).slice(0, 6);
+        if (!matches.length) {
+            box.innerHTML = '<p class="suggest-empty">Nenhum produto encontrado</p>';
+            box.style.display = 'block'; return;
+        }
+        box.innerHTML = matches.map(p => {
+            const nome  = p.querySelector('h3').textContent;
+            const preco = p.querySelector('.preco').textContent;
+            const img   = p.querySelector('img')?.src || '';
+            const tipo  = p.dataset.tipo || '';
+            const id    = p.dataset.id;
+            return `<div class="suggest-item" onclick="goToProduct(${id})">
+                <img src="${img}" alt="${nome}" loading="lazy">
+                <div class="suggest-item-info">
+                    <p class="suggest-item-cat">${tipo}</p>
+                    <p class="suggest-item-name">${nome}</p>
+                    <p class="suggest-item-price">${preco}</p>
+                </div>
+            </div>`;
+        }).join('');
+        box.style.display = 'block';
+    }
+};

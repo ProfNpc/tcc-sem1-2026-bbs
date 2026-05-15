@@ -21,6 +21,7 @@
             <a href="#sobre">Sobre</a>
             <a href="#contato">Contato</a>
             <a href="area-cliente.html">Minha Conta</a>
+            <a href="admin.html" style="color:var(--accent,#ff416c);font-size:.78rem;opacity:.7" title="Admin">⚙ Admin</a>
             <div class="cart-btn-nav" id="btn-minha-conta" onclick="togglePerfilPanel()" style="cursor:pointer;">
                 <span id="nav-conta-label">Entrar</span>
             </div>
@@ -261,7 +262,15 @@
 
     <main id="home">
         <div class="topo-container">
-            <input type="text" id="busca" placeholder="O que você deseja buildar hoje?" onkeyup="filtrarProdutos()">
+            <div class="busca-wrap">
+                <svg class="busca-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="busca" placeholder="Buscar produto, marca, categoria..." 
+                    onkeyup="filtrarProdutos();searchSuggest(this.value)"
+                    oninput="filtrarProdutos();searchSuggest(this.value)"
+                    autocomplete="off">
+                <button class="busca-clear" id="busca-clear" onclick="limparBusca()" style="display:none" title="Limpar">×</button>
+                <div id="search-suggest" class="search-suggest-box" style="display:none"></div>
+            </div>
             <button class="btn-filtro-master" onclick="toggleFiltros()">Filtros</button>
         </div>
 
@@ -294,28 +303,6 @@
                 style="background:rgba(255,255,255,0.05); color:white; border:1px solid var(--glass-border); border-radius:12px; cursor:pointer; height:52px; align-self:flex-end; font-weight: 600; transition: 0.3s;">RESETAR
                 FILTROS</button>
         </div>
-
-        <!--<article class="produto" data-id="X"<(Numero do produto só somar +1 ao anterior) data-tipo="ssd"<(aqui vc deve verificar qual o tipo do produto e colocar as opções seja ela ssd,mãe,gpu(placa de video),cpu(Processador),Ram(memoria ram) data-marca="kingston"<(nome da marca tbm para filtrar os produtos)
-                data-info='[XXX]'>(descrição do produto sempre colocar dessa maneira ["XXX","XXX","XXX"]
-                <div class="img-container"> (Mantem)
-                    <img class="active" src="Aqui dentro vc coloca o link da imagem" alt="essa tag é para caso a imagem não apareça ela é substituida por um texto exemplo (SSD de lado papai)">
-                    <img class="active" src="mesma padrão mas com links de imagens diferentes" alt="Coloque oque aparecer na imagem">
-                    <img class="active" src="não vou repetir" alt="vsfd seus bandos de burro"> Recomendo Colocar no minimo 3 imagens por produto
-                    <div class="carousel-progress" IGNORA
-                        <div class="carousel-progress-fill"></div> IGNORA
-                    </div> IGNORA
-                    <div class="carousel-dots"></div> IGNORA
-                </div>
-                <h3>SSD NV2 1TB</h3> Titulo do produto
-                <p>Kingston NVMe M.2</p> Subtitulo do produto
-                <span class="preco">R$ 750,00</span> Preço do produto
-                <div class="btns-produto"> Ignora
-                    <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>Ignora
-                    <button class="btn-buy"Ignora
-                        onclick="addToCart(Aqui vai ser o mesmo numero do data-id que está no começo,'Isso vai ser oque vai aparecer escrito no carrinho então sempre coloque o nome desse jeito >Estou colocando parenteses apenas para definir oque vc deve escrever mas não é obrigatorio (SSD NV2 1TB'),(750), Aqui vc deve colocar o link da imagem para ela aparecer ao lado do produto no carrinho recomendo vc colocar sempre a primeira imagem do produto'https://m.media-amazon.com/images/I/71NfMZKkpQL._AC_SX679_.jpg')">Adicionar
-                        ao Carrinho</button> ignore
-                </div> ignore
-            </article> CABOU GRAÇAS A DEUS-->
 
 
 
@@ -927,51 +914,55 @@
 
 
 
-        <!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ -->
-         <!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ -->
-          <!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ -->
-           <!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ --><!-- ══ PERIFÉRICOS ══ -->
-
-
-                <!-- ══ MONITORES ══ -->
+        
+        <!-- ══ MONITORES ══ -->
         <section class="categoria-secao" id="cat-monitor">
             <div class="categoria-header">
                 <span class="cat-linha"></span>
                 <div class="cat-titulo-wrap">
                     <h2 class="cat-titulo">Monitores</h2>
-                    <span class="cat-subtag">IPS · VA · 144Hz · 165Hz · 240Hz</span>
+                    <span class="cat-subtag">IPS · 144Hz · 4K · Curvo</span>
                 </div>
                 <span class="cat-linha right"></span>
             </div>
             <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
                 <div class="categoria-row">
-<article class="produto" data-id="23" data-tipo="monitor" data-marca="LG" data-info='["27\\" IPS Full HD","144Hz","1ms GtG","AMD FreeSync + G-Sync","HDMI 2.0 + DisplayPort 1.2"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg" alt="Monitor LG 27"><img src="https://m.media-amazon.com/images/I/41+03QO-4NL._AC_SL1200_.jpg" alt="LG traseira"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>LG UltraGear 27" 144Hz</h3><p>IPS Full HD · FreeSync · 1ms</p>
-    <span class="preco">R$ 1.299,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(23,'LG UltraGear 27 144Hz',1299.99,'https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
-<article class="produto" data-id="40" data-tipo="monitor" data-marca="Samsung" data-info='["27\\" VA Curvo QHD 2560x1440","165Hz","1ms GTG","AMD FreeSync Premium","DisplayPort 1.2 + HDMI 2.0"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg" alt="Samsung G5"><img src="https://m.media-amazon.com/images/I/71eL3F+SLaL._AC_SX679_.jpg" alt="G5 lateral"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Samsung G5 27" QHD 165Hz</h3><p>VA Curvo 1000R · FreeSync Premium</p>
+
+<article class="produto" data-id="23" data-tipo="periferico" data-subtipo="monitor" data-marca="LG"
+    data-info='["Monitor IPS 27\" Full HD","144Hz Taxa de Atualização","1ms Tempo de Resposta","AMD FreeSync Premium","HDMI 2.0 + DisplayPort 1.2"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg" alt="Monitor LG 27">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Monitor LG 27" 144Hz</h3>
+    <p>LG UltraGear IPS Full HD</p>
     <span class="preco">R$ 1.499,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(40,'Samsung G5 27 165Hz',1499.99,'https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(23,'Monitor LG 27 144Hz',1499.99,'https://m.media-amazon.com/images/I/51Z9x1zdkGL._AC_SY355_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="41" data-tipo="monitor" data-marca="AOC" data-info='["23.8\\" IPS Full HD","165Hz","1ms GTG","AMD FreeSync Premium","HDMI + DisplayPort + USB Hub"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg" alt="AOC 24G2"><img src="https://m.media-amazon.com/images/I/61YBpVe7cvL._AC_SX679_.jpg" alt="AOC traseira"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>AOC 24G2SPU 165Hz</h3><p>IPS Full HD · USB Hub · 1ms</p>
-    <span class="preco">R$ 799,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(41,'AOC 24G2SPU 165Hz',799.99,'https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+
+<article class="produto" data-id="30" data-tipo="periferico" data-subtipo="monitor" data-marca="Samsung"
+    data-info='["Monitor VA 24\" Full HD","165Hz Taxa de Atualização","1ms MPRT","AMD FreeSync","HDMI + VGA"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/71q6TFqB7AL._AC_SX679_.jpg" alt="Samsung Odyssey G3">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Samsung Odyssey G3 24"</h3>
+    <p>Monitor Gamer 165Hz VA</p>
+    <span class="preco">R$ 999,99</span>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(30,'Samsung Odyssey G3 24',999.99,'https://m.media-amazon.com/images/I/71q6TFqB7AL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="50" data-tipo="monitor" data-marca="Samsung" data-info='["32\\" VA Curvo QHD 2560x1440","240Hz","1ms GTG","AMD FreeSync Premium Pro","USB Hub + HDMI 2.1"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/61yDHB+J2gL._AC_SX679_.jpg" alt="Samsung G7"><img src="https://m.media-amazon.com/images/I/81HFAvmHjSL._AC_SX679_.jpg" alt="G7 lado"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Samsung G7 32" 240Hz</h3><p>VA Curvo QHD · FreeSync Pro</p>
-    <span class="preco">R$ 2.499,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(50,'Samsung G7 32 240Hz',2499.99,'https://m.media-amazon.com/images/I/61yDHB+J2gL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
+
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 6 15 12 9 18"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
             </div>
         </section>
 
@@ -979,32 +970,51 @@
         <section class="categoria-secao" id="cat-mouse">
             <div class="categoria-header">
                 <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap"><h2 class="cat-titulo">Mouses</h2><span class="cat-subtag">Gaming · Wireless · Alta Precisão</span></div>
+                <div class="cat-titulo-wrap">
+                    <h2 class="cat-titulo">Mouses</h2>
+                    <span class="cat-subtag">Gamer · Sem fio · Alta precisão</span>
+                </div>
                 <span class="cat-linha right"></span>
             </div>
             <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
                 <div class="categoria-row">
-<article class="produto" data-id="24" data-tipo="mouse" data-marca="Logitech" data-info='["Sensor HERO 25K — 25.600 DPI","11 Botões Programáveis","Pesos Ajustáveis 5x3.6g","LIGHTSYNC RGB","Switches mecânicos duráveis"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg" alt="G502"><img src="https://m.media-amazon.com/images/I/71hU5Hqf2jL._AC_SX679_.jpg" alt="G502 lateral"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Logitech G502 Hero</h3><p>25.600 DPI · Pesos Ajustáveis</p>
+
+<article class="produto" data-id="24" data-tipo="periferico" data-subtipo="mouse" data-marca="Logitech"
+    data-info='["Mouse Gamer Óptico","25.600 DPI Ajustável","11 Botões Programáveis","Hero 25K Sensor","RGB LIGHTSYNC"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg" alt="Logitech G502 Hero">
+        <img src="https://m.media-amazon.com/images/I/71hU5Hqf2jL._AC_SX679_.jpg" alt="G502 Hero lateral">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Logitech G502 Hero</h3>
+    <p>Mouse Gamer 25.600 DPI</p>
     <span class="preco">R$ 399,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(24,'Logitech G502 Hero',399.99,'https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(24,'Logitech G502 Hero',399.99,'https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="42" data-tipo="mouse" data-marca="Razer" data-info='["Sensor Focus Pro 30.000 DPI","Ultra Leve 63g","Switches Óptico 90M cliques","HyperPolling 4000Hz","Wireless 2.4GHz — 90h bateria"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/61ZTMYf8TuL._AC_SX679_.jpg" alt="DeathAdder V3"><img src="https://m.media-amazon.com/images/I/71BpRXMnLPL._AC_SX679_.jpg" alt="DeathAdder lado"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Razer DeathAdder V3</h3><p>30.000 DPI · 63g · Wireless</p>
-    <span class="preco">R$ 499,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(42,'Razer DeathAdder V3',499.99,'https://m.media-amazon.com/images/I/61ZTMYf8TuL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+
+<article class="produto" data-id="32" data-tipo="periferico" data-subtipo="mouse" data-marca="Redragon"
+    data-info='["Mouse Gamer Óptico","12.400 DPI","7 Botões Programáveis","Sensor Precisão Pixart","RGB Chroma"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/61E3PrjOhkL._AC_SX679_.jpg" alt="Redragon M711">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Redragon M711 Cobra</h3>
+    <p>Mouse Gamer 12.400 DPI RGB</p>
+    <span class="preco">R$ 179,99</span>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(32,'Redragon M711 Cobra',179.99,'https://m.media-amazon.com/images/I/61E3PrjOhkL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="43" data-tipo="mouse" data-marca="SteelSeries" data-info='["Sensor TrueMove Core 8.500 DPI","6 Botões Programáveis","RGB Prism 2 Zonas","Switches 60M cliques","Ultra leve 77g"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/61A9u0IVKDL._AC_SX679_.jpg" alt="Rival 3"><img src="https://m.media-amazon.com/images/I/71UWm5NwF1L._AC_SX679_.jpg" alt="Rival 3 lado"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>SteelSeries Rival 3</h3><p>8.500 DPI · RGB · 77g</p>
-    <span class="preco">R$ 199,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(43,'SteelSeries Rival 3',199.99,'https://m.media-amazon.com/images/I/61A9u0IVKDL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
+
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 6 15 12 9 18"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
             </div>
         </section>
 
@@ -1012,65 +1022,51 @@
         <section class="categoria-secao" id="cat-teclado">
             <div class="categoria-header">
                 <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap"><h2 class="cat-titulo">Teclados</h2><span class="cat-subtag">Mecânico · RGB · TKL · Full-Size</span></div>
+                <div class="cat-titulo-wrap">
+                    <h2 class="cat-titulo">Teclados</h2>
+                    <span class="cat-subtag">Mecânico · TKL · RGB · Switches</span>
+                </div>
                 <span class="cat-linha right"></span>
             </div>
             <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
                 <div class="categoria-row">
-<article class="produto" data-id="25" data-tipo="teclado" data-marca="Redragon" data-info='["Mecânico TKL 87 Teclas","Switches Red Lineares","RGB por tecla — 12 modos","Anti-Ghosting N-Key Rollover","Cabo USB trançado removível"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg" alt="K552"><img src="https://m.media-amazon.com/images/I/71o3OQqMtOL._AC_SX679_.jpg" alt="K552 detalhe"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Redragon Kumara K552</h3><p>Mecânico TKL · RGB · Red Switch</p>
-    <span class="preco">R$ 249,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(25,'Redragon Kumara K552',249.99,'https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
-<article class="produto" data-id="44" data-tipo="teclado" data-marca="Logitech" data-info='["Mecânico TKL Hotswap","GX Red Lineares (trocáveis)","LIGHTSYNC RGB por tecla","N-Key Rollover Anti-Ghosting","Cabo USB-C removível"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg" alt="G Pro X"><img src="https://m.media-amazon.com/images/I/71FLtQaOuGL._AC_SX679_.jpg" alt="G Pro X detalhe"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Logitech G Pro X TKL</h3><p>Mecânico Hotswap · RGB</p>
-    <span class="preco">R$ 699,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(44,'Logitech G Pro X TKL',699.99,'https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
-<article class="produto" data-id="45" data-tipo="teclado" data-marca="Corsair" data-info='["Mecânico Full-Size 104 Teclas","Cherry MX Red Lineares","8000Hz Hyper-Polling","Per-Key RGB iCUE","Apoio de Pulso em Couro"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71mFxcSNpDL._AC_SX679_.jpg" alt="K70"><img src="https://m.media-amazon.com/images/I/71pZL3IDVSL._AC_SX679_.jpg" alt="K70 detalhe"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Corsair K70 RGB MK.2</h3><p>Cherry MX Red · 8000Hz · iCUE</p>
-    <span class="preco">R$ 999,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(45,'Corsair K70 RGB MK.2',999.99,'https://m.media-amazon.com/images/I/71mFxcSNpDL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
-                </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 6 15 12 9 18"/></svg></button>
-            </div>
-        </section>
 
-        <!-- ══ HEADSETS ══ -->
-        <section class="categoria-secao" id="cat-headset">
-            <div class="categoria-header">
-                <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap"><h2 class="cat-titulo">Headsets</h2><span class="cat-subtag">7.1 Surround · Wireless · Noise Cancel</span></div>
-                <span class="cat-linha right"></span>
-            </div>
-            <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <div class="categoria-row">
-<article class="produto" data-id="26" data-tipo="headset" data-marca="HyperX" data-info='["Drivers 53mm","Surround 7.1 Virtual USB","Microfone Destacável Noise Cancel","Almofadas Memory Foam","Compatível PC/PS4-5/Xbox/Switch"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg" alt="Cloud II"><img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg" alt="Cloud II mic"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>HyperX Cloud II</h3><p>7.1 Surround · Memory Foam</p>
-    <span class="preco">R$ 549,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(26,'HyperX Cloud II',549.99,'https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+<article class="produto" data-id="25" data-tipo="periferico" data-subtipo="teclado" data-marca="Redragon"
+    data-info='["Teclado Mecânico TKL","Switches Red Lineares","Iluminação RGB por Tecla","Anti-Ghosting N-Key Rollover","Keycaps ABS Double-Shot"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg" alt="Redragon K552">
+        <img src="https://m.media-amazon.com/images/I/71o3OQqMtOL._AC_SX679_.jpg" alt="Redragon K552 detalhe">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Redragon Kumara K552</h3>
+    <p>Teclado Mecânico TKL RGB</p>
+    <span class="preco">R$ 249,99</span>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(25,'Redragon Kumara K552',249.99,'https://m.media-amazon.com/images/I/71CkbBHCYFL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="46" data-tipo="headset" data-marca="Logitech" data-info='["Drivers Pro-G 40mm","LIGHTSPEED Wireless latência baixa","Microfone Bi-direcional","LIGHTSYNC RGB","Autonomia 29 horas"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71h8-1MBUJL._AC_SX679_.jpg" alt="G733"><img src="https://m.media-amazon.com/images/I/81yrJMnMTmL._AC_SX679_.jpg" alt="G733 lado"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Logitech G733 Wireless</h3><p>LIGHTSPEED · 29h · RGB</p>
-    <span class="preco">R$ 799,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(46,'Logitech G733 Wireless',799.99,'https://m.media-amazon.com/images/I/71h8-1MBUJL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+
+<article class="produto" data-id="35" data-tipo="periferico" data-subtipo="teclado" data-marca="HyperX"
+    data-info='["Teclado Mecânico TKL","Switches HyperX Red","RGB Dinâmico por Tecla","USB-C Removível","Anti-Ghosting 100%"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/71E26kbbXJL._AC_SX679_.jpg" alt="HyperX Alloy">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>HyperX Alloy Origins Core</h3>
+    <p>Teclado Mecânico TKL Alumínio</p>
+    <span class="preco">R$ 599,99</span>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(35,'HyperX Alloy Origins Core',599.99,'https://m.media-amazon.com/images/I/71E26kbbXJL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="47" data-tipo="headset" data-marca="Razer" data-info='["Drivers Titanium 50mm","Surround 7.1 Virtual USB","Microfone Cardióide Destacável","Espuma de memória almofadas","Compatível PC/PS4-5/Xbox"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71A8XtJuPoL._AC_SX679_.jpg" alt="BlackShark"><img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg" alt="BlackShark lado"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Razer BlackShark V2 X</h3><p>Titanium 50mm · 7.1 Virtual</p>
-    <span class="preco">R$ 399,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(47,'Razer BlackShark V2 X',399.99,'https://m.media-amazon.com/images/I/71A8XtJuPoL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
+
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 6 15 12 9 18"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
             </div>
         </section>
 
@@ -1078,32 +1074,102 @@
         <section class="categoria-secao" id="cat-mousepad">
             <div class="categoria-header">
                 <span class="cat-linha"></span>
-                <div class="cat-titulo-wrap"><h2 class="cat-titulo">Mousepads</h2><span class="cat-subtag">Extended · XL · Premium · RGB</span></div>
+                <div class="cat-titulo-wrap">
+                    <h2 class="cat-titulo">Mousepads</h2>
+                    <span class="cat-subtag">Extended · Speed · Control · RGB</span>
+                </div>
                 <span class="cat-linha right"></span>
             </div>
             <div class="categoria-row-wrapper">
-                <button class="cat-arrow" onclick="scrollCat(this,-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
                 <div class="categoria-row">
-<article class="produto" data-id="48" data-tipo="mousepad" data-marca="Redragon" data-info='["900x400x4mm Extended","Superfície tecido alta velocidade","Base borracha antiderrapante","Bordas costuradas para durabilidade","Lavável à mão"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg" alt="Redragon Pisces"><img src="https://m.media-amazon.com/images/I/81P9c6-kVAL._AC_SX679_.jpg" alt="Pisces detalhe"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Redragon Pisces 900x400</h3><p>Extended 4mm · Base Borracha</p>
+
+<article class="produto" data-id="36" data-tipo="periferico" data-subtipo="mousepad" data-marca="Redragon"
+    data-info='["Mousepad Extended 80x30cm","Superfície Speed","Base Antiderrapante","Bordas Costuradas","Material Premium"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/71vOT7BPQUL._AC_SX679_.jpg" alt="Redragon Flick XL">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Redragon Flick XL</h3>
+    <p>Mousepad Extended 80x30cm</p>
     <span class="preco">R$ 129,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(48,'Redragon Pisces 900x400',129.99,'https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(36,'Redragon Flick XL',129.99,'https://m.media-amazon.com/images/I/71vOT7BPQUL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
-<article class="produto" data-id="49" data-tipo="mousepad" data-marca="SteelSeries" data-info='["900x300x4mm Large","Superfície QcK Micro-Texturizada","Base borracha espessa","Bordas overlock reforçadas","Escolha dos profissionais de eSports"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg" alt="QcK Large"><img src="https://m.media-amazon.com/images/I/71jX7ohcLWL._AC_SX679_.jpg" alt="QcK detalhe"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>SteelSeries QcK Large</h3><p>900x300 · QcK Texturizado</p>
-    <span class="preco">R$ 199,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(49,'SteelSeries QcK Large',199.99,'https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
-</article>
-<article class="produto" data-id="51" data-tipo="mousepad" data-marca="Logitech" data-info='["940x450x3mm XL Desk","Superfície premium controle e velocidade","Base borracha 3mm","Bordas overlock precisas","Design ultra-fino elegante"]'>
-    <div class="img-container"><img class="active" src="https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg" alt="Deskpad"><img src="https://m.media-amazon.com/images/I/81P9c6-kVAL._AC_SX679_.jpg" alt="Deskpad detalhe"><div class="carousel-progress"><div class="carousel-progress-fill"></div></div><div class="carousel-dots"></div></div>
-    <h3>Logitech Deskpad Studio XL</h3><p>940x450mm · Ultra-Fino</p>
+
+<article class="produto" data-id="37" data-tipo="periferico" data-subtipo="mousepad" data-marca="HyperX"
+    data-info='["Mousepad RGB 90x42cm","Superfície Micro-Texturizada","Iluminação LED Personalizável","USB Passthrough","Base Antiderrapante"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/71OFHYT1jaL._AC_SX679_.jpg" alt="HyperX Pulsefire Mat">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>HyperX Pulsefire Mat RGB</h3>
+    <p>Mousepad Gamer 90x42cm RGB</p>
     <span class="preco">R$ 249,99</span>
-    <div class="btns-produto"><button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button><button class="btn-buy" onclick="addToCart(51,'Logitech Deskpad Studio XL',249.99,'https://m.media-amazon.com/images/I/71gQBKG+JRL._AC_SX679_.jpg')">Adicionar ao Carrinho</button></div>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(37,'HyperX Pulsefire Mat RGB',249.99,'https://m.media-amazon.com/images/I/71OFHYT1jaL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
 </article>
+
                 </div>
-                <button class="cat-arrow" onclick="scrollCat(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 6 15 12 9 18"/></svg></button>
+                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+            </div>
+        </section>
+
+        <!-- ══ HEADSETS & OUTROS ══ -->
+        <section class="categoria-secao" id="cat-periferico">
+            <div class="categoria-header">
+                <span class="cat-linha"></span>
+                <div class="cat-titulo-wrap">
+                    <h2 class="cat-titulo">Headsets & Outros</h2>
+                    <span class="cat-subtag">Áudio · Webcam · Periféricos</span>
+                </div>
+                <span class="cat-linha right"></span>
+            </div>
+            <div class="categoria-row-wrapper">
+                <button class="cat-arrow" onclick="scrollCat(this,-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <div class="categoria-row">
+
+<article class="produto" data-id="26" data-tipo="periferico" data-subtipo="headset" data-marca="HyperX"
+    data-info='["Headset Gamer Over-Ear","Surround Sound 7.1 Virtual","Microfone Destacável com Noise Cancel","Almofadas em Memory Foam","Compatível PC, PS4, PS5, Xbox"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg" alt="HyperX Cloud II">
+        <img src="https://m.media-amazon.com/images/I/71T1BPTHoWL._AC_SX679_.jpg" alt="HyperX Cloud II microfone">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>HyperX Cloud II</h3>
+    <p>Headset Gamer 7.1 Surround</p>
+    <span class="preco">R$ 549,99</span>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(26,'HyperX Cloud II',549.99,'https://m.media-amazon.com/images/I/71Kxk3yLaaL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
+</article>
+
+<article class="produto" data-id="40" data-tipo="periferico" data-subtipo="webcam" data-marca="Logitech"
+    data-info='["Webcam Full HD 1080p","30fps Suave","Microfone Duplo Stereo","Autofoco Rápido","Compatível Zoom, Teams, Meet"]'>
+    <div class="img-container">
+        <img class="active" src="https://m.media-amazon.com/images/I/61JGJVzBSnL._AC_SX679_.jpg" alt="Logitech C920">
+        <div class="carousel-progress"><div class="carousel-progress-fill"></div></div>
+        <div class="carousel-dots"></div>
+    </div>
+    <h3>Logitech C920 HD Pro</h3>
+    <p>Webcam Full HD 1080p 30fps</p>
+    <span class="preco">R$ 699,99</span>
+    <div class="btns-produto">
+        <button class="btn-info" onclick="abrirModal(this)">Ver Descrição</button>
+        <button class="btn-buy" onclick="addToCart(40,'Logitech C920 HD Pro',699.99,'https://m.media-amazon.com/images/I/61JGJVzBSnL._AC_SX679_.jpg')">Adicionar ao Carrinho</button>
+    </div>
+</article>
+
+                </div>
+                <button class="cat-arrow" onclick="scrollCat(this,1)" aria-label="Próximo"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
             </div>
         </section>
 
