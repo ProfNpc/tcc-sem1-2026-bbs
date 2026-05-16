@@ -159,68 +159,119 @@
 
         /* ── FILTROS ── */
         const marcasPorTipo = {
-            gpu:       ['nvidia', 'Amd'],
-            cpu:       ['Intel', 'Amd'],
+            gpu:       ['Nvidia', 'AMD'],
+            cpu:       ['Intel', 'AMD', 'Ryzen'],
             ram:       ['Kingston', 'Corsair', 'Crucial'],
-            ssd:       ['Kingston', 'Samsung', 'wd'],
-            fonte:     ['Corsair','Redragon','Thermaltake', 'Be Quiet!'],
-            cooler:    ['Cooler Master', 'NZXT', 'be quiet!'],
+            ssd:       ['Kingston', 'Samsung', 'WD'],
+            fonte:     ['Corsair', 'Redragon', 'Thermaltake', 'Be Quiet!'],
+            cooler:    ['Cooler Master', 'NZXT', 'Be Quiet!'],
             gabinete:  ['Corsair', 'NZXT', 'Lian Li'],
+            monitor:   ['LG', 'Samsung', 'Acer', 'Asus'],
+            mouse:     ['Logitech', 'Redragon', 'Razer'],
+            teclado:   ['Logitech', 'HyperX', 'Redragon', 'Razer'],
+            headset:   ['HyperX', 'Logitech', 'Razer'],
+            mousepad:  ['Redragon', 'HyperX', 'SteelSeries'],
             periferico:['Logitech', 'Redragon', 'HyperX'],
         };
 
+        let _filtroCat   = '';
+        let _filtroMarca = '';
+
         function toggleFiltros() {
             const p = document.getElementById('painelFiltros');
-            p.style.display = p.style.display === 'grid' ? 'none' : 'grid';
+            const aberto = p.classList.toggle('visible');
+            const btn = document.querySelector('.btn-filtro-master');
+            if (btn) btn.classList.toggle('active', aberto);
         }
 
-        function atualizarSubFiltros() {
-            const tipo = document.getElementById('fTipo').value;
-            const select = document.getElementById('fMarca');
-            select.innerHTML = '<option value="">Todas</option>';
-            if (tipo && marcasPorTipo[tipo]) {
-                marcasPorTipo[tipo].forEach(m => {
-                    select.innerHTML += `<option value="${m}">${m.charAt(0).toUpperCase() + m.slice(1)}</option>`;
-                });
-                select.disabled = false;
-            } else { select.disabled = true; }
+        function selectCatChip(el, val) {
+            _filtroCat   = val;
+            _filtroMarca = '';
+            document.querySelectorAll('#cat-chips .fchip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            renderMarcaChips(val);
             filtrarProdutos();
         }
 
+        function selectMarcaChip(el, val) {
+            _filtroMarca = (_filtroMarca === val) ? '' : val; // toggle
+            document.querySelectorAll('#marca-chips .fchip').forEach(c => c.classList.remove('active'));
+            if (_filtroMarca) el.classList.add('active');
+            filtrarProdutos();
+        }
+
+        function renderMarcaChips(tipo) {
+            const wrap  = document.getElementById('marca-filter-wrap');
+            const chips = document.getElementById('marca-chips');
+            const marcas = marcasPorTipo[tipo];
+            if (!tipo || !marcas) { wrap.style.display = 'none'; chips.innerHTML = ''; return; }
+            wrap.style.display = 'block';
+            chips.innerHTML = marcas.map(m =>
+                `<button class="fchip" data-val="${m.toLowerCase()}" onclick="selectMarcaChip(this,'${m.toLowerCase()}')">
+                    ${m}
+                </button>`
+            ).join('');
+        }
+
         function filtrarProdutos() {
-            const busca = document.getElementById('busca').value.toLowerCase();
-            const tipo  = document.getElementById('fTipo').value;
-            const marca = document.getElementById('fMarca').value.toLowerCase();
+            const busca    = (document.getElementById('busca')?.value || '').toLowerCase();
+            const precoMin = parseFloat(document.getElementById('fPrecoMin')?.value) || 0;
+            const precoMax = parseFloat(document.getElementById('fPrecoMax')?.value) || Infinity;
+
+            let totalVisiveis = 0;
             document.querySelectorAll('.produto').forEach(p => {
-                const nome  = p.querySelector('h3').textContent.toLowerCase();
-                const desc  = p.querySelector('p').textContent.toLowerCase();
+                const nome   = p.querySelector('h3').textContent.toLowerCase();
+                const desc   = p.querySelector('p').textContent.toLowerCase();
                 const pMarca = (p.dataset.marca || '').toLowerCase();
                 const periSubtipos = ['monitor','mouse','teclado','mousepad','headset','webcam'];
-                const tipoMatch = !tipo
-                    || p.dataset.tipo === tipo
-                    || p.dataset.subtipo === tipo
-                    || (tipo === 'periferico' && p.dataset.tipo === 'periferico')
-                    || (periSubtipos.includes(tipo) && p.dataset.subtipo === tipo);
+                const tipoMatch = !_filtroCat
+                    || p.dataset.tipo === _filtroCat
+                    || p.dataset.subtipo === _filtroCat
+                    || (_filtroCat === 'periferico' && p.dataset.tipo === 'periferico')
+                    || (periSubtipos.includes(_filtroCat) && p.dataset.subtipo === _filtroCat);
+                const marcaMatch = !_filtroMarca || pMarca === _filtroMarca || pMarca.includes(_filtroMarca);
+
+                // preço
+                const precoEl = p.querySelector('.preco');
+                const precoNum = precoEl ? parseFloat(precoEl.textContent.replace(/[^\d,]/g,'').replace(',','.')) : 0;
+                const precoMatch = precoNum >= precoMin && precoNum <= precoMax;
+
                 const ok = (!busca || nome.includes(busca) || desc.includes(busca))
-                    && tipoMatch
-                    && (!marca || pMarca === marca);
+                    && tipoMatch && marcaMatch && precoMatch;
                 p.style.display = ok ? 'flex' : 'none';
+                if (ok) totalVisiveis++;
             });
+
             document.querySelectorAll('.categoria-secao').forEach(sec => {
                 const visivel = [...sec.querySelectorAll('.produto')].some(p => p.style.display !== 'none');
                 sec.style.display = visivel ? '' : 'none';
             });
+
+            // atualizar badge de resultados
+            const infoEl = document.getElementById('filter-active-info');
+            const countEl = document.getElementById('filter-result-count');
+            const filtroAtivo = _filtroCat || _filtroMarca || busca || precoMin || precoMax < Infinity;
+            if (infoEl) infoEl.style.display = filtroAtivo ? 'flex' : 'none';
+            if (countEl) countEl.textContent = `${totalVisiveis} produto(s) encontrado(s)`;
         }
 
         function limparFiltros() {
-            document.getElementById('busca').value = '';
-            document.getElementById('fTipo').value = '';
-            document.getElementById('fMarca').innerHTML = '<option value="">Selecione...</option>';
-            document.getElementById('fMarca').disabled = true;
+            _filtroCat = ''; _filtroMarca = '';
+            document.querySelectorAll('#cat-chips .fchip').forEach((c,i) => c.classList.toggle('active', i===0));
+            document.getElementById('marca-filter-wrap').style.display = 'none';
+            document.getElementById('marca-chips').innerHTML = '';
+            const busca = document.getElementById('busca');
+            if (busca) busca.value = '';
+            const min = document.getElementById('fPrecoMin');
+            const max = document.getElementById('fPrecoMax');
+            if (min) min.value = '';
+            if (max) max.value = '';
             document.querySelectorAll('.categoria-secao').forEach(sec => sec.style.display = '');
             filtrarProdutos();
         }
 
+        // compatibilidade legacy (atualizarSubFiltros era chamado pelo select antigo)
+        function atualizarSubFiltros() { filtrarProdutos(); }
         /* ── AI CHAT ── */
         function toggleAIChat() {
             const win = document.getElementById('ai-chat-container');

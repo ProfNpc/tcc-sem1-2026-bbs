@@ -275,33 +275,84 @@
         </div>
 
         <div class="painel-filtros" id="painelFiltros">
-            <div class="filter-group"><label>Categoria</label>
-                <select id="fTipo" onchange="atualizarSubFiltros()">
-                    <option value="">Todas</option>
-                    <option value="gpu">Placa de Vídeo</option>
-                    <option value="cpu">Processador</option>
-                    <option value="ram">Memória RAM</option>
-                    <option value="ssd">SSD</option>
-                    <option value="mãe">Placa Mãe</option>
-                    <option value="fonte">Fonte</option>
-                    <option value="cooler">Cooler</option>
-                    <option value="gabinete">Gabinete</option>
-                    <option value="monitor">Monitor</option>
-                    <option value="mouse">Mouse</option>
-                    <option value="teclado">Teclado</option>
-                    <option value="headset">Headset</option>
-                    <option value="mousepad">Mousepad</option>
 
-                </select>
+            <!-- LINHA 1: CATEGORIAS -->
+            <div class="filter-section-label">Categoria</div>
+            <div class="filter-chips-row" id="cat-chips">
+                <button class="fchip active" data-val="" onclick="selectCatChip(this,'')">
+                    Todas
+                </button>
+                <button class="fchip" data-val="gpu" onclick="selectCatChip(this,'gpu')">
+                    Placas de Vídeo
+                </button>
+                <button class="fchip" data-val="cpu" onclick="selectCatChip(this,'cpu')">
+                    Processadores
+                </button>
+                <button class="fchip" data-val="ram" onclick="selectCatChip(this,'ram')">
+                    Memória RAM
+                </button>
+                <button class="fchip" data-val="ssd" onclick="selectCatChip(this,'ssd')">
+                    SSD / NVMe
+                </button>
+                <button class="fchip" data-val="mãe" onclick="selectCatChip(this,'mãe')">
+                    Placa Mãe
+                </button>
+                <button class="fchip" data-val="fonte" onclick="selectCatChip(this,'fonte')">
+                    Fontes
+                </button>
+                <button class="fchip" data-val="cooler" onclick="selectCatChip(this,'cooler')">
+                    Coolers
+                </button>
+                <button class="fchip" data-val="gabinete" onclick="selectCatChip(this,'gabinete')">
+                    Gabinetes
+                </button>
+                <button class="fchip" data-val="monitor" onclick="selectCatChip(this,'monitor')">
+                    Monitores
+                </button>
+                <button class="fchip" data-val="mouse" onclick="selectCatChip(this,'mouse')">
+                    Mouses
+                </button>
+                <button class="fchip" data-val="teclado" onclick="selectCatChip(this,'teclado')">
+                    Teclados
+                </button>
+                <button class="fchip" data-val="headset" onclick="selectCatChip(this,'headset')">
+                    Headsets
+                </button>
+                <button class="fchip" data-val="mousepad" onclick="selectCatChip(this,'mousepad')">
+                    Mousepads
+                </button>
             </div>
-            <div class="filter-group"><label>Marca</label>
-                <select id="fMarca" onchange="filtrarProdutos()" disabled>
-                    <option value="">Selecione...</option>
-                </select>
+
+            <!-- LINHA 2: MARCAS (aparece quando categoria selecionada) -->
+            <div id="marca-filter-wrap" style="display:none">
+                <div class="filter-section-label" style="margin-top:16px">Marca</div>
+                <div class="filter-chips-row" id="marca-chips"></div>
             </div>
-            <button onclick="limparFiltros()"
-                style="background:rgba(255,255,255,0.05); color:white; border:1px solid var(--glass-border); border-radius:12px; cursor:pointer; height:52px; align-self:flex-end; font-weight: 600; transition: 0.3s;">RESETAR
-                FILTROS</button>
+
+            <!-- LINHA 3: PREÇO + RESET -->
+            <div class="filter-bottom-row">
+                <div class="filter-price-group">
+                    <span class="filter-section-label" style="margin:0">Preço</span>
+                    <div class="price-inputs">
+                        <div class="price-input-wrap">
+                            <span>R$</span>
+                            <input type="number" id="fPrecoMin" placeholder="Mín" min="0" oninput="filtrarProdutos()">
+                        </div>
+                        <span class="price-sep">—</span>
+                        <div class="price-input-wrap">
+                            <span>R$</span>
+                            <input type="number" id="fPrecoMax" placeholder="Máx" min="0" oninput="filtrarProdutos()">
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-active-info" id="filter-active-info" style="display:none">
+                    <span id="filter-result-count">0 produtos</span>
+                </div>
+                <button onclick="limparFiltros()" class="btn-reset-filters">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.96"/></svg>
+                    Limpar Filtros
+                </button>
+            </div>
         </div>
 
 

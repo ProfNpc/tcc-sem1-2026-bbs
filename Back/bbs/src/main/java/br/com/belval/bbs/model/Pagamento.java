@@ -27,9 +27,19 @@ public class Pagamento {
 
     public Double getValor() {
         return valor;
-        }
+    }
+    
+    public void setValor(Double valor) {
+		this.valor = valor;
+	}
 
-    public void setDataPagamento(LocalDate dataPagamento) {
+
+    public LocalDate getDataPagamento() {
+		return dataPagamento;
+	}
+
+	
+	public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 
@@ -69,21 +79,10 @@ public class Pagamento {
         Pagamento p = new Pagamento();
 
         p.setIdPagamento(1);
-        p.setValor(150.75);
         p.setDataPagamento(LocalDate.now());
         p.setFormaPagamento("PIX");
 
         System.out.println("id: " + p.getIdPagamento());
         System.out.println(p.toString());
     }
-
-	private void setValor(double d) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void setValor(int i, int j) {
-		// TODO Auto-generated method stub
-		
-	}
 }
