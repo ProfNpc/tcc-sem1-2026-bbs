@@ -76,4 +76,9 @@ public class Pagamento {
         System.out.println("id: " + p.getIdPagamento());
         System.out.println(p.toString());
     }
+
+	private void setValor(double d) {
+		// TODO Auto-generated method stub
+		
+	}
 }

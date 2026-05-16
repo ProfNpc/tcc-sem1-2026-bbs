@@ -186,6 +186,62 @@ header {
 }
 .btn-add-img:hover { border-color: rgba(255,65,108,.4); color: var(--red); }
 
+/* ── IMG TABS ── */
+.img-tabs { display: flex; gap: 0; margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.img-tab {
+    flex: 1; padding: 9px 14px; background: transparent; border: none;
+    color: var(--muted); font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600;
+    cursor: pointer; transition: .2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.img-tab.active { background: rgba(255,65,108,.12); color: var(--red); }
+.img-tab:not(.active):hover { background: rgba(255,255,255,.04); color: #bbb; }
+.img-tab-panel { display: none; }
+.img-tab-panel.active { display: block; }
+
+/* ── DROP ZONE ── */
+.drop-zone {
+    border: 2px dashed rgba(255,255,255,.12); border-radius: 14px;
+    padding: 32px 20px; text-align: center; cursor: pointer; transition: .25s;
+    background: rgba(255,255,255,.02); position: relative;
+}
+.drop-zone:hover, .drop-zone.drag-over {
+    border-color: rgba(255,65,108,.5); background: rgba(255,65,108,.04);
+}
+.drop-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.drop-zone-icon { font-size: 2.2rem; margin-bottom: 10px; }
+.drop-zone-text { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+.drop-zone-text strong { color: var(--red); }
+.uploaded-imgs-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px; margin-top: 14px;
+}
+.uploaded-img-item {
+    position: relative; border-radius: 10px; overflow: hidden;
+    background: rgba(255,255,255,.04); border: 1px solid var(--border);
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+}
+.uploaded-img-item img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.uploaded-img-item .badge-principal {
+    position: absolute; top: 4px; left: 4px;
+    background: var(--grad); color: #fff; font-size: .55rem; font-weight: 800;
+    padding: 2px 6px; border-radius: 10px; text-transform: uppercase; letter-spacing: .5px;
+}
+.uploaded-img-item .btn-rm-img {
+    position: absolute; top: 4px; right: 4px; width: 20px; height: 20px;
+    background: rgba(255,65,108,.85); border: none; border-radius: 50%; color: #fff;
+    font-size: .75rem; line-height: 1; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; transition: .15s;
+}
+.uploaded-img-item .btn-rm-img:hover { background: var(--red); transform: scale(1.1); }
+.img-count-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,65,108,.1); border: 1px solid rgba(255,65,108,.25);
+    border-radius: 20px; padding: 3px 10px; font-size: .72rem; color: var(--red);
+    font-weight: 700; margin-top: 10px;
+}
+
 /* ── PRODUTO PREVIEW ── */
 .produto-preview {
     background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 14px;
@@ -496,12 +552,45 @@ header {
 
                         <div class="card">
                             <div class="card-title">Imagens do Produto</div>
-                            <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Cole URLs das imagens (Amazon, Kabum, Pichau, etc.). A primeira será a imagem principal.</p>
-                            <div class="img-url-list" id="img-list"></div>
-                            <button class="btn-add-img" onclick="addImgRow()">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                Adicionar URL de Imagem
-                            </button>
+
+                            <!-- TABS -->
+                            <div class="img-tabs">
+                                <button class="img-tab active" id="tab-url" onclick="switchImgTab('url')">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                    Colar URL
+                                </button>
+                                <button class="img-tab" id="tab-upload" onclick="switchImgTab('upload')">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                                    Fazer Upload
+                                </button>
+                            </div>
+
+                            <!-- PAINEL URL -->
+                            <div class="img-tab-panel active" id="panel-url">
+                                <p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Cole a URL da imagem (Amazon, KaBuM, Pichau…). A 1ª será a principal.</p>
+                                <div class="img-url-list" id="img-list"></div>
+                                <button class="btn-add-img" onclick="addImgRow()">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    Adicionar URL de Imagem
+                                </button>
+                            </div>
+
+                            <!-- PAINEL UPLOAD -->
+                            <div class="img-tab-panel" id="panel-upload">
+                                <p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Envie imagens do seu computador. A 1ª adicionada será a principal. JPG, PNG, WEBP.</p>
+                                <div class="drop-zone" id="drop-zone" ondragover="dzDragOver(event)" ondragleave="dzDragLeave(event)" ondrop="dzDrop(event)">
+                                    <input type="file" id="file-input" accept="image/*" multiple onchange="handleFileSelect(this.files)">
+                                    <div class="drop-zone-icon">🖼️</div>
+                                    <div class="drop-zone-text">
+                                        <strong>Clique para escolher</strong> ou arraste as imagens aqui<br>
+                                        <span style="font-size:.7rem;opacity:.6">JPG · PNG · WEBP · GIF — máx. 5 MB por imagem</span>
+                                    </div>
+                                </div>
+                                <div class="uploaded-imgs-grid" id="uploaded-grid"></div>
+                                <div id="upload-count-wrap" style="display:none;margin-top:6px">
+                                    <span class="img-count-badge" id="upload-count-badge">📷 0 imagem(ns)</span>
+                                </div>
+                            </div>
                         </div>
 
                         <div style="display:flex;gap:12px">
@@ -683,9 +772,19 @@ function renderSpecs() {
 }
 
 /* ════════════════════════════════
-   IMAGENS
+   IMAGENS — MODO URL
 ════════════════════════════════ */
 let imgRows = [];
+let uploadedImgs = []; // { id, dataUrl, name }
+let currentImgTab = 'url';
+
+function switchImgTab(tab) {
+    currentImgTab = tab;
+    document.querySelectorAll('.img-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.img-tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+}
 
 function addImgRow() {
     const id = Date.now();
@@ -703,7 +802,7 @@ function renderImgList() {
     list.innerHTML = imgRows.map((row, i) => `
         <div class="img-url-row">
             <span style="font-size:.7rem;color:var(--muted);width:18px;flex-shrink:0">${i+1}</span>
-            <img class="img-thumb" id="thumb-${row.id}" src="" alt="" onerror="this.src=''">
+            <img class="img-thumb" id="thumb-${row.id}" src="${row.url||''}" alt="" onerror="this.src=''">
             <input type="text" placeholder="https://..." value="${row.url}"
                 oninput="updateImgUrl(${row.id}, this.value)" onpaste="setTimeout(()=>updateImgUrl(${row.id},this.value),50)">
             <button class="btn-rem" onclick="removeImgRow(${row.id})">×</button>
@@ -719,13 +818,85 @@ function updateImgUrl(id, url) {
 }
 
 /* ════════════════════════════════
+   IMAGENS — MODO UPLOAD
+════════════════════════════════ */
+function dzDragOver(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.add('drag-over');
+}
+function dzDragLeave(e) {
+    document.getElementById('drop-zone').classList.remove('drag-over');
+}
+function dzDrop(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.remove('drag-over');
+    handleFileSelect(e.dataTransfer.files);
+}
+
+function handleFileSelect(files) {
+    const MAX_MB = 5;
+    [...files].forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > MAX_MB * 1024 * 1024) {
+            alert(`"${file.name}" excede ${MAX_MB}MB e foi ignorado.`); return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+            const id = Date.now() + Math.random();
+            uploadedImgs.push({ id, dataUrl: e.target.result, name: file.name });
+            renderUploadedGrid();
+            updatePreview();
+        };
+        reader.readAsDataURL(file);
+    });
+    // reset file input so same file can be re-selected
+    document.getElementById('file-input').value = '';
+}
+
+function removeUploadedImg(id) {
+    uploadedImgs = uploadedImgs.filter(img => img.id !== id);
+    renderUploadedGrid();
+    updatePreview();
+}
+
+function renderUploadedGrid() {
+    const grid = document.getElementById('uploaded-grid');
+    const countWrap = document.getElementById('upload-count-wrap');
+    const badge = document.getElementById('upload-count-badge');
+    if (uploadedImgs.length === 0) {
+        grid.innerHTML = '';
+        countWrap.style.display = 'none';
+        return;
+    }
+    countWrap.style.display = 'block';
+    badge.textContent = `📷 ${uploadedImgs.length} imagem(ns) adicionada(s)`;
+    grid.innerHTML = uploadedImgs.map((img, i) => `
+        <div class="uploaded-img-item">
+            ${i === 0 ? '<span class="badge-principal">Principal</span>' : ''}
+            <img src="${img.dataUrl}" alt="${img.name}">
+            <button class="btn-rm-img" onclick="removeUploadedImg(${img.id})">×</button>
+        </div>`).join('');
+}
+
+/* retorna array de strings (URL ou base64) para salvar */
+function getImagemsFinal() {
+    if (currentImgTab === 'url') {
+        return imgRows.map(r => r.url).filter(Boolean);
+    } else {
+        return uploadedImgs.map(i => i.dataUrl);
+    }
+}
+
+/* ════════════════════════════════
    PREVIEW AO VIVO
 ════════════════════════════════ */
 function updatePreview() {
     const nome  = document.getElementById('p-nome')?.value || '';
     const sub   = document.getElementById('p-desc')?.value || '';
     const preco = parseFloat(document.getElementById('p-preco')?.value) || 0;
-    const imgUrl = imgRows.find(r => r.url)?.url || '';
+    const imgUrl = currentImgTab === 'url'
+        ? (imgRows.find(r => r.url)?.url || '')
+        : (uploadedImgs[0]?.dataUrl || '');
 
     document.getElementById('pv-nome').textContent  = nome || 'Nome do Produto';
     document.getElementById('pv-sub').textContent   = sub  || 'Descrição curta';
@@ -759,13 +930,13 @@ function salvarProduto() {
     const marca  = document.getElementById('p-marca').value.trim();
     const tipo   = document.getElementById('p-tipo').value;
     const estoque = parseInt(document.getElementById('p-estoque').value) || 99;
-    const imgs   = imgRows.map(r => r.url).filter(Boolean);
+    const imgs = getImagemsFinal();
 
     if (!nome || !desc || !preco || !marca || !tipo) {
         showCadAlert('Preencha todos os campos obrigatórios (*).', 'err'); return;
     }
     if (imgs.length === 0) {
-        showCadAlert('Adicione ao menos uma imagem.', 'err'); return;
+        showCadAlert('Adicione ao menos uma imagem (URL ou upload).', 'err'); return;
     }
 
     const prods = getAdminProds();
@@ -786,6 +957,8 @@ function limparForm() {
     document.getElementById('p-tipo').value = '';
     specs = []; renderSpecs();
     imgRows = []; addImgRow();
+    uploadedImgs = []; renderUploadedGrid();
+    switchImgTab('url');
     updatePreview();
 }
 
