@@ -4,100 +4,108 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Produto {
 
-	private Integer id;
-	private String nome;
-	private String descricao;
-	private BigDecimal preco;
-	private Integer estoque;
-	private LocalDateTime dataCriacao;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	public Produto() {
-		
-	}
-	
-	public Integer getId() {
-		return id;
-	}
+    private String nome;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    private String descricao;
 
-	public String getNome() {
-		return nome;
-	}
+    private BigDecimal preco;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    private Integer estoque;
 
-	public String getDescricao() {
-		return descricao;
-	}
+    private LocalDateTime dataCriacao;
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public Produto() {
 
-	public BigDecimal getPreco() {
-		return preco;
-	}
+    }
 
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getEstoque() {
-		return estoque;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setEstoque(Integer estoque) {
-		this.estoque = estoque;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-	
-	
+    public String getDescricao() {
+        return descricao;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		return Objects.equals(id, other.id);
-	}
+    public BigDecimal getPreco() {
+        return preco;
+    }
 
-	@Override
-	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", estoque="
-				+ estoque + ", dataCriacao=" + dataCriacao + "]";
-	}
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
 
-	public static void main(String[] args) {
-		Produto p = new Produto();
-		p.setId(223);
-		Integer id = p.getId();
-				System.out.println("id"+id);
-				
+    public Integer getEstoque() {
+        return estoque;
+    }
 
-	}
-	
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null)
+            return false;
+
+        if (getClass() != obj.getClass())
+            return false;
+
+        Produto other = (Produto) obj;
+
+        return Objects.equals(id, other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Produto [id=" + id +
+                ", nome=" + nome +
+                ", descricao=" + descricao +
+                ", preco=" + preco +
+                ", estoque=" + estoque +
+                ", dataCriacao=" + dataCriacao + "]";
+    }
 }
-

@@ -1,7 +1,7 @@
 package br.com.belval.bbs.model;
 
 import java.util.Objects;
-@Entity
+
 public class Categoria {
 
     private Integer idCategoria;
@@ -10,8 +10,7 @@ public class Categoria {
    
     public Categoria() {
     }
-@Id
-@GenerateValue(strategy = GenerationType.IDENTITY)
+
     public Integer getIdCategoria() {
         return this.idCategoria;
     }

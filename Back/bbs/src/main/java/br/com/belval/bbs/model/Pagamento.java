@@ -1,7 +1,7 @@
 package br.com.belval.bbs.model;
 
-import java.util.Objects;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Pagamento {
 
@@ -76,4 +76,14 @@ public class Pagamento {
         System.out.println("id: " + p.getIdPagamento());
         System.out.println(p.toString());
     }
+
+	private void setValor(double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setValor(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
 }
