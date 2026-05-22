@@ -4,7 +4,7 @@ import {
   criarProduto,
   atualizarProduto,
   deletarProduto,
-} from "../services/produtosService";
+} from "../services/localProdutosService";
 
 const CATEGORIAS = [
   { id: "gpu",      label: "Placas de Vídeo"   },
@@ -34,7 +34,7 @@ const FORM_VAZIO = {
 const fmt = v =>
   Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-export default function AdminPage({ fechar }) {
+export default function AdminPage({ fechar, onProdutoSalvo }) {
   const [produtos, setProdutos]           = useState([]);
   const [loading, setLoading]             = useState(true);
   const [erro, setErro]                   = useState("");
@@ -54,7 +54,7 @@ export default function AdminPage({ fechar }) {
       const data = await listarProdutos();
       setProdutos(Array.isArray(data) ? data : Array.from(data));
     } catch {
-      setErro("Não foi possível conectar ao servidor. Verifique se o Spring Boot está rodando na porta 8080.");
+      setErro("Não foi possível carregar os produtos.");
     } finally {
       setLoading(false);
     }
@@ -116,6 +116,7 @@ export default function AdminPage({ fechar }) {
       }
       fecharModal();
       carregar();
+      onProdutoSalvo?.();
     } catch (e) {
       setErro(e.message);
     }
@@ -127,6 +128,7 @@ export default function AdminPage({ fechar }) {
       setConfirmDelete(null);
       flash("🗑️ Produto removido.");
       carregar();
+      onProdutoSalvo?.();
     } catch (e) {
       setErro(e.message);
       setConfirmDelete(null);
@@ -244,13 +246,13 @@ export default function AdminPage({ fechar }) {
                 <div style={{ ...S.field, gridColumn: "1/-1" }}>
                   <label style={S.label}>Categoria</label>
                   <select
-                    style={{ ...S.input, cursor: "pointer" }}
+                    style={{ ...S.input, cursor: "pointer", background: "#111", color: "#fff" }}
                     value={form.tipo}
                     onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))}
                   >
-                    <option value="">— Selecione uma categoria —</option>
+                    <option value="" style={{ background: "#111", color: "#fff" }}>— Selecione uma categoria —</option>
                     {CATEGORIAS.map(c => (
-                      <option key={c.id} value={c.id}>{c.label}</option>
+                      <option key={c.id} value={c.id} style={{ background: "#111", color: "#fff" }}>{c.label}</option>
                     ))}
                   </select>
                 </div>
@@ -340,7 +342,7 @@ export default function AdminPage({ fechar }) {
             <div style={S.empty}>
               <div style={spinnerStyle} />
               <p style={{ color: "#555", marginTop: 16, fontFamily: "'Poppins',sans-serif" }}>
-                Conectando ao Spring Boot (porta 8080)...
+                Carregando produtos...
               </p>
             </div>
           ) : produtosFiltrados.length === 0 ? (

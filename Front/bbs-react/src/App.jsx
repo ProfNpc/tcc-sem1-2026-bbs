@@ -8,17 +8,22 @@ import Checkout from "../public/Checkout";
 function App() {
   const [checkoutAberto, setCheckoutAberto] = useState(false);
   const [adminAberto, setAdminAberto]       = useState(false);
+  const [versaoProdutos, setVersaoProdutos] = useState(0);
  
   return (
     <div>
       <Header abrirAdmin={() => setAdminAberto(true)} />
-      <ProductList />
+      <ProductList versao={versaoProdutos} />
       <Cart abrirCheckout={() => setCheckoutAberto(true)} />
       {checkoutAberto && <Checkout fechar={() => setCheckoutAberto(false)} />}
-      {adminAberto    && <AdminPage fechar={() => setAdminAberto(false)} />}
+      {adminAberto && (
+        <AdminPage
+          fechar={() => setAdminAberto(false)}
+          onProdutoSalvo={() => setVersaoProdutos(v => v + 1)}
+        />
+      )}
     </div>
   );
 }
  
 export default App;
- 

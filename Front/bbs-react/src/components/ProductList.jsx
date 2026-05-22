@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { listarProdutos } from "../services/produtosService.js";
+import { listarProdutos } from "../services/localProdutosService.js";
 import { useCart } from "../context/CartContext";
 
 const CATEGORIAS = [
@@ -107,7 +107,7 @@ function ProdutoCard({ produto, addToCart }) {
   );
 }
 
-export default function ProductList() {
+export default function ProductList({ versao = 0 }) {
   const { addToCart } = useCart();
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading]   = useState(true);
@@ -115,6 +115,8 @@ export default function ProductList() {
 
   useEffect(() => {
     async function carregar() {
+      setLoading(true);
+      setErro("");
       try {
         const data = await listarProdutos();
         setProdutos(Array.isArray(data) ? data : Array.from(data));
@@ -125,7 +127,7 @@ export default function ProductList() {
       }
     }
     carregar();
-  }, []);
+  }, [versao]);
 
   if (loading) return (
     <div style={{
