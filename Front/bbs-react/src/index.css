@@ -1413,7 +1413,5 @@
     }
 }
 
-/* CORREÇÃO REACT - transition do cart sidebar */
-#cart-sidebar {
-  transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* ── REACT FIXES ── */
+#cart-sidebar { transition: right 0.5s cubic-bezier(0.4,0,0.2,1); }

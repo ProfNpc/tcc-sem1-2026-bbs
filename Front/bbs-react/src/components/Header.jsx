@@ -1,42 +1,39 @@
-import { useCart } from '../context/CartContext';
-
-export default function Header() {
+import { useCart } from "../context/CartContext";
+ 
+export default function Header({ abrirAdmin }) {
   const { totalQty, setIsOpen } = useCart();
-
+ 
   return (
-    <header style={{
-      position: 'sticky', top: 0, zIndex: 900,
-      background: 'rgba(10,10,20,0.95)', backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(255,255,255,0.08)',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '0 40px', height: '70px',
-    }}>
-      <h1 style={{ margin: 0, color: 'white', cursor: 'pointer' }}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+    <header>
+      <h1 style={{ cursor: "pointer" }} onClick={() => window.scrollTo(0, 0)}>
         BBS
       </h1>
-      <nav style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-        <a href="#home" style={{ color: '#ccc', textDecoration: 'none' }}>Home</a>
-        <a href="#produtos" style={{ color: '#ccc', textDecoration: 'none' }}>Produtos</a>
-        <a href="#sobre" style={{ color: '#ccc', textDecoration: 'none' }}>Sobre</a>
-        <button
-          onClick={() => setIsOpen(true)}
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#produtos">Produtos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+ 
+        {/* Botão Admin */}
+        <div
+          onClick={abrirAdmin}
           style={{
-            background: 'rgba(255,65,108,0.15)', border: '1px solid rgba(255,65,108,0.4)',
-            color: 'white', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', gap: '8px',
+            cursor: "pointer",
+            padding: "6px 14px",
+            background: "rgba(255,65,108,.12)",
+            border: "1px solid rgba(255,65,108,.3)",
+            borderRadius: "8px",
+            color: "#ff416c",
+            fontWeight: "600",
+            fontSize: ".85rem",
           }}
         >
-          🛒 Carrinho
-          {totalQty > 0 && (
-            <span style={{
-              background: '#ff416c', borderRadius: '50%',
-              width: '22px', height: '22px', display: 'flex',
-              alignItems: 'center', justifyContent: 'center',
-              fontSize: '0.75rem', fontWeight: 'bold',
-            }}>{totalQty}</span>
-          )}
-        </button>
+          ⚙️ Admin
+        </div>
+ 
+        <div className="cart-btn-nav" onClick={() => setIsOpen(true)}>
+          🛒 Carrinho <span id="cart-count">{totalQty}</span>
+        </div>
       </nav>
     </header>
   );
