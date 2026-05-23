@@ -244,13 +244,13 @@ export default function AdminPage({ fechar }) {
                 <div style={{ ...S.field, gridColumn: "1/-1" }}>
                   <label style={S.label}>Categoria</label>
                   <select
-                    style={{ ...S.input, cursor: "pointer" }}
+                    style={{ ...S.input, cursor: "pointer", background: "#111", color: "#888", colorScheme: "dark" }}
                     value={form.tipo}
                     onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))}
                   >
-                    <option value="">— Selecione uma categoria —</option>
+                    <option value="" style={{ background: "#111", color: "#888" }}>— Selecione uma categoria —</option>
                     {CATEGORIAS.map(c => (
-                      <option key={c.id} value={c.id}>{c.label}</option>
+                      <option key={c.id} value={c.id} style={{ background: "#111", color: "#888" }}>{c.label}</option>
                     ))}
                   </select>
                 </div>
