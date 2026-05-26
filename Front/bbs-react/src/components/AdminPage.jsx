@@ -148,7 +148,13 @@ export default function AdminPage({ fechar }) {
 
   return (
     <>
-      <style>{`@keyframes bbsSpin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes bbsSpin { to { transform: rotate(360deg); } }
+        .categoria-select option:not([value=""]) {
+          background-color: #000 !important;
+          color: #fff !important;
+        }
+      `}</style>
 
       <div style={S.overlay}>
 
@@ -244,11 +250,17 @@ export default function AdminPage({ fechar }) {
                 <div style={{ ...S.field, gridColumn: "1/-1" }}>
                   <label style={S.label}>Categoria</label>
                   <select
-                    style={{ ...S.input, cursor: "pointer" }}
+                    className="categoria-select"
+                    style={{
+                      ...S.input,
+                      cursor: "pointer",
+                      backgroundColor: form.tipo ? "#000" : undefined,
+                      color: form.tipo ? "#423d3dff" : undefined,
+                    }}
                     value={form.tipo}
                     onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))}
                   >
-                    <option value="">— Selecione uma categoria —</option>
+                    <option value=""> Selecione uma categoria </option>
                     {CATEGORIAS.map(c => (
                       <option key={c.id} value={c.id}>{c.label}</option>
                     ))}
