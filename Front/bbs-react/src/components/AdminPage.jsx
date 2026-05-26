@@ -4,7 +4,7 @@ import {
   criarProduto,
   atualizarProduto,
   deletarProduto,
-} from "../services/localProdutosService";
+} from "../services/produtosService";
 
 const CATEGORIAS = [
   { id: "gpu",      label: "Placas de Vídeo"   },
@@ -34,7 +34,7 @@ const FORM_VAZIO = {
 const fmt = v =>
   Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-export default function AdminPage({ fechar, onProdutoSalvo }) {
+export default function AdminPage({ fechar }) {
   const [produtos, setProdutos]           = useState([]);
   const [loading, setLoading]             = useState(true);
   const [erro, setErro]                   = useState("");
@@ -54,7 +54,7 @@ export default function AdminPage({ fechar, onProdutoSalvo }) {
       const data = await listarProdutos();
       setProdutos(Array.isArray(data) ? data : Array.from(data));
     } catch {
-      setErro("Não foi possível carregar os produtos.");
+      setErro("Não foi possível conectar ao servidor. Verifique se o Spring Boot está rodando na porta 8080.");
     } finally {
       setLoading(false);
     }
@@ -116,7 +116,6 @@ export default function AdminPage({ fechar, onProdutoSalvo }) {
       }
       fecharModal();
       carregar();
-      onProdutoSalvo?.();
     } catch (e) {
       setErro(e.message);
     }
@@ -128,7 +127,6 @@ export default function AdminPage({ fechar, onProdutoSalvo }) {
       setConfirmDelete(null);
       flash("🗑️ Produto removido.");
       carregar();
-      onProdutoSalvo?.();
     } catch (e) {
       setErro(e.message);
       setConfirmDelete(null);
@@ -246,13 +244,13 @@ export default function AdminPage({ fechar, onProdutoSalvo }) {
                 <div style={{ ...S.field, gridColumn: "1/-1" }}>
                   <label style={S.label}>Categoria</label>
                   <select
-                    style={{ ...S.input, cursor: "pointer", background: "#111", color: "#fff" }}
+                    style={{ ...S.input, cursor: "pointer" }}
                     value={form.tipo}
                     onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))}
                   >
-                    <option value="" style={{ background: "#111", color: "#fff" }}>— Selecione uma categoria —</option>
+                    <option value="">— Selecione uma categoria —</option>
                     {CATEGORIAS.map(c => (
-                      <option key={c.id} value={c.id} style={{ background: "#111", color: "#fff" }}>{c.label}</option>
+                      <option key={c.id} value={c.id}>{c.label}</option>
                     ))}
                   </select>
                 </div>
@@ -342,7 +340,7 @@ export default function AdminPage({ fechar, onProdutoSalvo }) {
             <div style={S.empty}>
               <div style={spinnerStyle} />
               <p style={{ color: "#555", marginTop: 16, fontFamily: "'Poppins',sans-serif" }}>
-                Carregando produtos...
+                Conectando ao Spring Boot (porta 8080)...
               </p>
             </div>
           ) : produtosFiltrados.length === 0 ? (
