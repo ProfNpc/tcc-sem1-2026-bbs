@@ -1,7 +1,7 @@
 package br.com.belval.bbs.model;
 
-import java.util.Objects;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Pagamento {
 
@@ -27,9 +27,19 @@ public class Pagamento {
 
     public Double getValor() {
         return valor;
-        }
+    }
+    
+    public void setValor(Double valor) {
+		this.valor = valor;
+	}
 
-    public void setDataPagamento(LocalDate dataPagamento) {
+
+    public LocalDate getDataPagamento() {
+		return dataPagamento;
+	}
+
+	
+	public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 
@@ -69,7 +79,6 @@ public class Pagamento {
         Pagamento p = new Pagamento();
 
         p.setIdPagamento(1);
-        p.setValor(150.75);
         p.setDataPagamento(LocalDate.now());
         p.setFormaPagamento("PIX");
 
