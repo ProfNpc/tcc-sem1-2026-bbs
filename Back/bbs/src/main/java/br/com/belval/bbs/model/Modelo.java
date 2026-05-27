@@ -47,6 +47,18 @@ public class Modelo {
     }
  
     @Override
+	
+	public String toString() {
+	
+	    return "modelo [idModelo=" + idModelo +
+	
+	           ", nome=" + nome ;
+	
+	          
+	
+	}
+
+	@Override
 
     public boolean equals(Object obj) {
 
@@ -61,18 +73,6 @@ public class Modelo {
         Modelo other = (Modelo) obj;
 
         return Objects.equals(idModelo, other.idModelo);
-
-    }
- 
-    @Override
-
-    public String toString() {
-
-        return "modelo [idModelo=" + idModelo +
-
-               ", nome=" + nome ;
-
-              
 
     }
  
