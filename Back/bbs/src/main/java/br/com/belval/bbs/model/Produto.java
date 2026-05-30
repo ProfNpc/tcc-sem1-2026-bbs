@@ -1,115 +1,77 @@
 package br.com.belval.bbs.model;
- 
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
- 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
- 
+
 @Entity
 public class Produto {
- 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
- 
+
     private String nome;
     private String descricao;
     private BigDecimal preco;
     private Integer estoque;
     private LocalDateTime dataCriacao;
- 
-    // Novos campos
     private String imgUrl;
     private String tipo;
- 
+
+    // NOVO: define se o produto aparece ou não na loja.
+    // true = aparece, false = fica escondido.
+    // Começa como true por padrão quando um produto é criado.
+    private Boolean ativo = true;
+
     public Produto() {
     }
- 
-    public Integer getId() {
-        return id;
-    }
- 
-    public void setId(Integer id) {
-        this.id = id;
-    }
- 
-    public String getNome() {
-        return nome;
-    }
- 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
- 
-    public String getDescricao() {
-        return descricao;
-    }
- 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
- 
-    public BigDecimal getPreco() {
-        return preco;
-    }
- 
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
- 
-    public Integer getEstoque() {
-        return estoque;
-    }
- 
-    public void setEstoque(Integer estoque) {
-        this.estoque = estoque;
-    }
- 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
- 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
- 
-    public String getImgUrl() {
-        return imgUrl;
-    }
- 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
- 
-    public String getTipo() {
-        return tipo;
-    }
- 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
- 
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public BigDecimal getPreco() { return preco; }
+    public void setPreco(BigDecimal preco) { this.preco = preco; }
+
+    public Integer getEstoque() { return estoque; }
+    public void setEstoque(Integer estoque) { this.estoque = estoque; }
+
+    public LocalDateTime getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
+
+    public String getImgUrl() { return imgUrl; }
+    public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
+
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
+
+    // NOVO: getter e setter do campo ativo
+    public Boolean getAtivo() { return ativo; }
+    public void setAtivo(Boolean ativo) { this.ativo = ativo; }
+
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
- 
+    public int hashCode() { return Objects.hash(id); }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         Produto other = (Produto) obj;
         return Objects.equals(id, other.id);
     }
- 
+
     @Override
     public String toString() {
         return "Produto [id=" + id +
@@ -119,6 +81,7 @@ public class Produto {
                 ", estoque=" + estoque +
                 ", dataCriacao=" + dataCriacao +
                 ", imgUrl=" + imgUrl +
-                ", tipo=" + tipo + "]";
+                ", tipo=" + tipo +
+                ", ativo=" + ativo + "]";
     }
 }
