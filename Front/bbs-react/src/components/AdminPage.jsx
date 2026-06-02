@@ -4,6 +4,7 @@ import {
   criarProduto,
   atualizarProduto,
   deletarProduto,
+  alternarStatusProduto,
 } from "../services/produtosService";
 
 const CATEGORIAS = [
@@ -29,6 +30,7 @@ const FORM_VAZIO = {
   estoque: "",
   imgUrl: "",
   tipo: "",
+  ativo: true,
 };
 
 const fmt = v =>
@@ -80,6 +82,7 @@ export default function AdminPage({ fechar }) {
       estoque:   produto.estoque   ?? "",
       imgUrl:    produto.imgUrl    ?? "",
       tipo:      produto.tipo      ?? "",
+      ativo:     produto.ativo     ?? true, // carrega o status atual do produto
     });
     setEditandoId(produto.id);
     setErro("");
@@ -104,6 +107,7 @@ export default function AdminPage({ fechar }) {
       estoque:   form.estoque !== "" ? parseInt(form.estoque) : 0,
       imgUrl:    form.imgUrl.trim(),
       tipo:      form.tipo,
+      ativo:     form.ativo, // envia o status para o back-end
     };
 
     try {
@@ -130,6 +134,19 @@ export default function AdminPage({ fechar }) {
     } catch (e) {
       setErro(e.message);
       setConfirmDelete(null);
+    }
+  }
+
+  // Chama o PATCH no back-end e atualiza a tabela na hora, sem precisar recarregar tudo
+  async function toggleStatus(produto) {
+    try {
+      const atualizado = await alternarStatusProduto(produto.id);
+      setProdutos(prev =>
+        prev.map(p => p.id === produto.id ? { ...p, ativo: atualizado.ativo } : p)
+      );
+      flash(atualizado.ativo ? "✅ Produto ativado!" : "⚠️ Produto desativado!");
+    } catch (e) {
+      setErro(e.message);
     }
   }
 
@@ -232,7 +249,6 @@ export default function AdminPage({ fechar }) {
                     value={form.imgUrl}
                     onChange={e => setForm(f => ({ ...f, imgUrl: e.target.value }))}
                   />
-                  {/* Preview da imagem */}
                   {form.imgUrl && (
                     <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 12 }}>
                       <img
@@ -246,17 +262,12 @@ export default function AdminPage({ fechar }) {
                   )}
                 </div>
 
-                {/* Categoria / Tipo */}
-                <div style={{ ...S.field, gridColumn: "1/-1" }}>
+                {/* Categoria */}
+                <div style={S.field}>
                   <label style={S.label}>Categoria</label>
                   <select
                     className="categoria-select"
-                    style={{
-                      ...S.input,
-                      cursor: "pointer",
-                      backgroundColor: form.tipo ? "#000" : undefined,
-                      color: form.tipo ? "#423d3dff" : undefined,
-                    }}
+                    style={{ ...S.input, cursor: "pointer", backgroundColor: form.tipo ? "#000" : undefined }}
                     value={form.tipo}
                     onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))}
                   >
@@ -265,6 +276,30 @@ export default function AdminPage({ fechar }) {
                       <option key={c.id} value={c.id}>{c.label}</option>
                     ))}
                   </select>
+                </div>
+
+                {/* Status Ativo/Inativo */}
+                <div style={S.field}>
+                  <label style={S.label}>Status</label>
+                  <div
+                    onClick={() => setForm(f => ({ ...f, ativo: !f.ativo }))}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 12,
+                      padding: "12px 14px",
+                      background: form.ativo ? "rgba(0,224,122,.08)" : "rgba(255,65,108,.08)",
+                      border: `1px solid ${form.ativo ? "rgba(0,224,122,.3)" : "rgba(255,65,108,.3)"}`,
+                      borderRadius: 10, cursor: "pointer",
+                    }}
+                  >
+                    {/* Bolinha indicadora de status */}
+                    <div style={{
+                      width: 10, height: 10, borderRadius: "50%",
+                      background: form.ativo ? "#00e07a" : "#ff416c",
+                    }} />
+                    <span style={{ color: form.ativo ? "#00e07a" : "#ff8fa0", fontWeight: 600, fontSize: ".9rem" }}>
+                      {form.ativo ? "Ativo — aparece na loja" : "Inativo — oculto na loja"}
+                    </span>
+                  </div>
                 </div>
 
               </div>
@@ -310,7 +345,6 @@ export default function AdminPage({ fechar }) {
         {/* ════ CONTEÚDO PRINCIPAL ════ */}
         <div style={S.page}>
 
-          {/* HEADER */}
           <div style={S.header}>
             <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
               <button style={S.backBtn} onClick={fechar}>← Voltar à Loja</button>
@@ -322,13 +356,11 @@ export default function AdminPage({ fechar }) {
             <button style={S.btnPrimary} onClick={abrirNovo}>+ Novo Produto</button>
           </div>
 
-          {/* FLASH MESSAGES */}
           {sucesso && <div style={S.alertOk}>{sucesso}</div>}
           {erro && !modalAberto && !confirmDelete && (
             <div style={S.alertErr}>{erro}</div>
           )}
 
-          {/* TOOLBAR */}
           <div style={S.toolbar}>
             <input
               style={{ ...S.input, maxWidth: 380, margin: 0 }}
@@ -340,6 +372,15 @@ export default function AdminPage({ fechar }) {
               <span style={{ color: "#666", fontSize: ".85rem" }}>Total cadastrado:</span>
               <span style={{ color: "#ff416c", fontWeight: 700, fontSize: "1.1rem" }}>
                 {produtos.length} produto{produtos.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+            {/* Contador de ativos e inativos */}
+            <div style={{ ...S.statBox, gap: 16 }}>
+              <span style={{ fontSize: ".82rem", color: "#00e07a" }}>
+                ● {produtos.filter(p => p.ativo).length} ativos
+              </span>
+              <span style={{ fontSize: ".82rem", color: "#ff416c" }}>
+                ● {produtos.filter(p => !p.ativo).length} inativos
               </span>
             </div>
             <button style={S.btnRefresh} onClick={carregar} title="Recarregar lista">
@@ -372,7 +413,7 @@ export default function AdminPage({ fechar }) {
               <table style={S.table}>
                 <thead>
                   <tr>
-                    {["ID", "Imagem", "Nome", "Categoria", "Descrição", "Preço", "Estoque", "Cadastrado em", "Ações"].map(h => (
+                    {["ID", "Imagem", "Nome", "Categoria", "Descrição", "Preço", "Estoque", "Status", "Cadastrado em", "Ações"].map(h => (
                       <th key={h} style={S.th}>{h}</th>
                     ))}
                   </tr>
@@ -384,16 +425,15 @@ export default function AdminPage({ fechar }) {
                       style={{
                         ...S.tr,
                         background: i % 2 === 0 ? "rgba(255,255,255,.02)" : "transparent",
+                        // Produto inativo fica levemente apagado na tabela
+                        opacity: p.ativo ? 1 : 0.5,
                       }}
                     >
                       <td style={{ ...S.td, color: "#555", fontFamily: "monospace" }}>#{p.id}</td>
 
-                      {/* Miniatura da imagem */}
                       <td style={S.td}>
                         {p.imgUrl ? (
-                          <img
-                            src={p.imgUrl}
-                            alt={p.nome}
+                          <img src={p.imgUrl} alt={p.nome}
                             style={{ width: 48, height: 48, objectFit: "contain", borderRadius: 8, background: "rgba(255,255,255,.05)" }}
                           />
                         ) : (
@@ -409,7 +449,6 @@ export default function AdminPage({ fechar }) {
                         </p>
                       </td>
 
-                      {/* Categoria */}
                       <td style={S.td}>
                         {p.tipo ? (
                           <span style={S.badge}>
@@ -422,9 +461,7 @@ export default function AdminPage({ fechar }) {
 
                       <td style={{ ...S.td, color: "#777", fontSize: ".82rem", maxWidth: 220 }}>
                         {p.descricao
-                          ? p.descricao.length > 60
-                            ? p.descricao.slice(0, 60) + "…"
-                            : p.descricao
+                          ? p.descricao.length > 60 ? p.descricao.slice(0, 60) + "…" : p.descricao
                           : <span style={{ color: "#444" }}>—</span>
                         }
                       </td>
@@ -444,6 +481,28 @@ export default function AdminPage({ fechar }) {
                         }}>
                           {p.estoque ?? 0} un.
                         </span>
+                      </td>
+
+                      {/* Coluna de status com botão de toggle */}
+                      <td style={S.td}>
+                        <button
+                          onClick={() => toggleStatus(p)}
+                          style={{
+                            display: "flex", alignItems: "center", gap: 7,
+                            padding: "6px 14px", borderRadius: 20, border: "none",
+                            cursor: "pointer", fontWeight: 700, fontSize: ".75rem",
+                            fontFamily: "'Poppins',sans-serif",
+                            background: p.ativo ? "rgba(0,224,122,.12)" : "rgba(255,65,108,.12)",
+                            color: p.ativo ? "#00e07a" : "#ff8fa0",
+                          }}
+                          title="Clique para alternar o status"
+                        >
+                          <div style={{
+                            width: 8, height: 8, borderRadius: "50%",
+                            background: p.ativo ? "#00e07a" : "#ff416c",
+                          }} />
+                          {p.ativo ? "Ativo" : "Inativo"}
+                        </button>
                       </td>
 
                       <td style={{ ...S.td, color: "#555", fontSize: ".78rem", whiteSpace: "nowrap" }}>
@@ -475,7 +534,6 @@ export default function AdminPage({ fechar }) {
   );
 }
 
-// ── ESTILOS ──
 const S = {
   overlay:      { position: "fixed", inset: 0, background: "#080808", zIndex: 6000, overflowY: "auto", fontFamily: "'Poppins',sans-serif" },
   page:         { maxWidth: 1200, margin: "0 auto", padding: "32px 24px" },

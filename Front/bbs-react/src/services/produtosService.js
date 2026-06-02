@@ -1,16 +1,16 @@
-// ============================================================
-//  produtosService.js
-//  Coloque em: src/services/produtosService.js  (crie a pasta)
-//
-//  Porta 8080 conforme application.properties
-//  Campos: id, nome, descricao, preco, estoque, dataCriacao
-// ============================================================
-
 const BASE_URL = "http://localhost:8080/produtos";
 
+// Busca todos os produtos (usado pelo admin, mostra ativos e inativos)
 export async function listarProdutos() {
   const res = await fetch(BASE_URL);
   if (!res.ok) throw new Error("Erro ao listar produtos");
+  return res.json();
+}
+
+// NOVO: Busca só os produtos ativos (usado pela loja)
+export async function listarProdutosAtivos() {
+  const res = await fetch(`${BASE_URL}/ativos`);
+  if (!res.ok) throw new Error("Erro ao listar produtos ativos");
   return res.json();
 }
 
@@ -41,8 +41,14 @@ export async function atualizarProduto(id, produto) {
 }
 
 export async function deletarProduto(id) {
-  const res = await fetch(`${BASE_URL}/${id}`, {
-    method: "DELETE",
-  });
+  const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error("Erro ao deletar produto");
+}
+
+// NOVO: Alterna o status ativo/inativo do produto
+// Chama PATCH /produtos/{id}/status no back-end
+export async function alternarStatusProduto(id) {
+  const res = await fetch(`${BASE_URL}/${id}/status`, { method: "PATCH" });
+  if (!res.ok) throw new Error("Erro ao alterar status do produto");
+  return res.json();
 }

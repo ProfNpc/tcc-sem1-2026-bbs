@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { listarProdutos } from "../services/produtosService.js";
+import { listarProdutosAtivos } from "../services/produtosService.js"; // agora busca só os ativos
 import { useCart } from "../context/CartContext";
 
 const CATEGORIAS = [
@@ -58,9 +58,7 @@ function ProdutoCard({ produto, addToCart }) {
         overflow: "hidden",
       }}>
         {imgUrl ? (
-          <img
-            src={imgUrl}
-            alt={nome}
+          <img src={imgUrl} alt={nome}
             style={{ maxHeight: "140px", maxWidth: "100%", objectFit: "contain" }}
           />
         ) : (
@@ -116,7 +114,8 @@ export default function ProductList() {
   useEffect(() => {
     async function carregar() {
       try {
-        const data = await listarProdutos();
+        // Busca só os produtos com ativo = true no banco
+        const data = await listarProdutosAtivos();
         setProdutos(Array.isArray(data) ? data : Array.from(data));
       } catch {
         setErro("Não foi possível carregar os produtos. Verifique se o servidor está rodando.");
@@ -128,39 +127,22 @@ export default function ProductList() {
   }, []);
 
   if (loading) return (
-    <div style={{
-      display: "flex", alignItems: "center", justifyContent: "center",
-      padding: "80px 20px", flexDirection: "column", gap: 16,
-    }}>
-      <div style={{
-        width: 40, height: 40,
-        border: "3px solid rgba(255,255,255,.08)",
-        borderTop: "3px solid #ff416c",
-        borderRadius: "50%",
-        animation: "bbsSpin 0.8s linear infinite",
-      }} />
-      <p style={{ color: "#555", fontFamily: "'Poppins',sans-serif" }}>
-        Carregando produtos...
-      </p>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 20px", flexDirection: "column", gap: 16 }}>
+      <div style={{ width: 40, height: 40, border: "3px solid rgba(255,255,255,.08)", borderTop: "3px solid #ff416c", borderRadius: "50%", animation: "bbsSpin 0.8s linear infinite" }} />
+      <p style={{ color: "#555", fontFamily: "'Poppins',sans-serif" }}>Carregando produtos...</p>
       <style>{`@keyframes bbsSpin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 
   if (erro) return (
-    <div style={{
-      textAlign: "center", padding: "60px 20px",
-      color: "#ff8fa0", fontFamily: "'Poppins',sans-serif",
-    }}>
+    <div style={{ textAlign: "center", padding: "60px 20px", color: "#ff8fa0", fontFamily: "'Poppins',sans-serif" }}>
       <p style={{ fontSize: "2.5rem" }}>⚠️</p>
       <p>{erro}</p>
     </div>
   );
 
   if (produtos.length === 0) return (
-    <div style={{
-      textAlign: "center", padding: "60px 20px",
-      color: "#555", fontFamily: "'Poppins',sans-serif",
-    }}>
+    <div style={{ textAlign: "center", padding: "60px 20px", color: "#555", fontFamily: "'Poppins',sans-serif" }}>
       <p style={{ fontSize: "2.5rem" }}>📦</p>
       <p>Nenhum produto cadastrado ainda.</p>
     </div>
@@ -168,13 +150,10 @@ export default function ProductList() {
 
   const comTipo = produtos.filter(p => p.tipo);
   const semTipo = produtos.filter(p => !p.tipo);
-  const categoriasCom = CATEGORIAS.filter(cat =>
-    comTipo.some(p => p.tipo === cat.id)
-  );
+  const categoriasCom = CATEGORIAS.filter(cat => comTipo.some(p => p.tipo === cat.id));
 
   return (
     <div className="categorias-wrap" id="produtos">
-
       {categoriasCom.map(cat => (
         <section key={cat.id} className="categoria-secao">
           <div className="categoria-header">
@@ -187,11 +166,9 @@ export default function ProductList() {
           </div>
           <div className="categoria-row-wrapper">
             <div className="categoria-row">
-              {comTipo
-                .filter(p => p.tipo === cat.id)
-                .map(produto => (
-                  <ProdutoCard key={produto.id} produto={produto} addToCart={addToCart} />
-                ))}
+              {comTipo.filter(p => p.tipo === cat.id).map(produto => (
+                <ProdutoCard key={produto.id} produto={produto} addToCart={addToCart} />
+              ))}
             </div>
           </div>
         </section>
@@ -216,7 +193,6 @@ export default function ProductList() {
           </div>
         </section>
       )}
-
     </div>
   );
 }
