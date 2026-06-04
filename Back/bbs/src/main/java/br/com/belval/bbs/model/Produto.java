@@ -12,21 +12,42 @@ import jakarta.persistence.Id;
 @Entity
 public class Produto {
 
+    /*
+     * Entidade JPA que mapeia a tabela de produtos no banco.
+     *
+     * Campos importantes (usados pelos endpoints):
+     * - ativo: controla se o produto aparece na loja (GET /ativos)
+     * - id: identificador único (PK) e usado em /{id}, PUT, PATCH, DELETE
+     * - dataCriacao: registrada ao criar/atualizar (PATCH não altera)
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    // Nome exibido na UI e usado em busca por nome
     private String nome;
+    // Descrição exibida e usada em busca por descrição
     private String descricao;
+    // Preço do produto (BigDecimal para não perder precisão)
     private BigDecimal preco;
+    // Quantidade disponível em estoque
     private Integer estoque;
+    // Momento em que o produto foi criado (e preservado no PUT)
     private LocalDateTime dataCriacao;
+    // URL/Imagem base64 do produto (exibida no front)
+    // OBS: o SQL Server está truncando esse campo (erro de tamanho).
+    // Vamos aumentar o tamanho no mapeamento JPA.
+    @jakarta.persistence.Column(length = 1000000)
     private String imgUrl;
+    // "categoria"/tipo textual (ex: gpu, cpu, ram...) para agrupar no front
     private String tipo;
 
-    // NOVO: define se o produto aparece ou não na loja.
-    // true = aparece, false = fica escondido.
-    // Começa como true por padrão quando um produto é criado.
+    /*
+     * Status de visibilidade na loja.
+     * - true: aparece no catálogo público (GET /produtos/ativos)
+     * - false: fica escondido (admin ainda consegue ver em GET /produtos)
+     */
     private Boolean ativo = true;
 
     public Produto() {

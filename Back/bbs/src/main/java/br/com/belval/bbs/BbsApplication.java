@@ -9,11 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class BbsApplication {
 
-
+	/*
+	 * Ponto de entrada da aplicação Spring Boot.
+	 * Sobe o container e registra todos os controllers/endpoints.
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(BbsApplication.class, args);
 	}
 
+	/*
+	 * Endpoint de teste/health simples.
+	 * URL: GET /eco
+	 */
 	@GetMapping("/eco")
 	public String eco() {
 		return "eco!";

@@ -21,13 +21,30 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.belval.bbs.model.Produto;
 import br.com.belval.bbs.repository.ProdutoRepository;
 
+/*
+ * ProdutoController
+ * ------------------------------------------------------------
+ * Camada REST (Spring Web) responsável por expor endpoints HTTP
+ * para operações de CRUD e para alternar o status ativo/inativo
+ * dos produtos.
+ *
+ * Base da rota (prefixo): /produtos
+ * Exemplo completo: GET http://<host>:8080/produtos/ativos
+ */
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
 
+    /*
+     * repositório JPA (CrudRepository)
+     * - fornece findAll, findById, save, deleteById...
+     * - e também métodos derivados como findByAtivoTrue() e
+     *   findByNomeContainingOrDescricaoContaining(...)
+     */
     @Autowired
     private ProdutoRepository repository;
+
 
     /*
      * Listar TODOS os produtos (admin vê tudo, ativos e inativos)

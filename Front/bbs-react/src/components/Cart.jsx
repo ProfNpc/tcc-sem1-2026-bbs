@@ -31,19 +31,39 @@ export default function Cart({ abrirCheckout }) {
   // Consulta a API ViaCEP com o CEP digitado.
   // Se válido, define frete fixo de R$ 15,90 e exibe a cidade/UF.
   async function calcularFrete() {
+    /*
+     * Chamada de API externa (NÃO é o seu backend).
+     * URL:
+     *   GET https://viacep.com.br/ws/{cep}/json/
+     *
+     * O que faz:
+     * - valida o CEP (8 dígitos)
+     * - usa ViaCEP para obter cidade/UF
+     * - define um frete fixo no carrinho (R$ 15,90)
+     * - guarda um texto descritivo para exibir na UI
+     */
     const cepLimpo = cep.replace(/\D/g, ""); // remove traços e letras
     if (cepLimpo.length !== 8) return alert("CEP inválido!");
+
     setLoadingFrete(true);
     try {
+      // ViaCEP fetch
       const res  = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
       const data = await res.json();
+
+      // Se ViaCEP retornar erro, avisa e não altera frete
       if (data.erro) { alert("CEP não encontrado!"); return; }
-      setFreteGlobal(15.90);                                           // valor fixo de frete
-      setFreteInfo(`🚚 Entrega para ${data.localidade} - ${data.uf}`); // texto exibido na sidebar
+
+      // Frete fixo (regra do sistema atual)
+      setFreteGlobal(15.90);
+
+      // Texto exibido ao usuário
+      setFreteInfo(`🚚 Entrega para ${data.localidade} - ${data.uf}`);
     } catch {
       alert("Erro ao calcular frete.");
     } finally {
-      setLoadingFrete(false); // esconde o "..." do botão em qualquer caso
+      // Para o estado de loading do botão
+      setLoadingFrete(false);
     }
   }
 

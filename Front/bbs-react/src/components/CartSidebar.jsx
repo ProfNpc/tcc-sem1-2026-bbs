@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
+// ============================================================
+// CartSidebar.jsx — Sidebar do carrinho (versão alternativa)
+// ============================================================
+// Este componente é uma implementação alternativa da sidebar do carrinho.
+// Ele funciona com:
+// - Context API do carrinho (useCart / CartContext)
+// - Frete via API do ViaCEP usando o CEP digitado
+// - Finalização redirecionando para /checkout.html e persistindo dados no localStorage
+
 export default function CartSidebar() {
+  // useCart conecta este componente ao estado global do carrinho.
+  // Dica: mesmo que este arquivo esteja “paralelo” ao Cart.jsx, a lógica do estado é a mesma.
   const {
     cart, cartOrder, isOpen, setIsOpen,
     changeQty, freteGlobal, setFreteGlobal,
@@ -9,20 +20,68 @@ export default function CartSidebar() {
     totalQty, subtotal, total,
   } = useCart();
 
+  // CEP digitado pelo usuário no formulário de frete.
   const [cep, setCep] = useState('');
+
+  // Mensagem de status do frete (ex.: “Calculando...”, “CEP inválido!”)
   const [freteStatus, setFreteStatus] = useState('');
 
+  // ------------------------------------------------------------
+  // calcularFrete()
+  // - limpa o CEP
+  // - valida tamanho
+  // - chama ViaCEP
+  // - se der certo: fixa freteGlobal em 15,90 e monta freteInfo
+  // ------------------------------------------------------------
   async function calcularFrete() {
+    /*
+     * Chamada de API externa (ViaCEP) para obter dados do CEP.
+     * Não é o backend do seu projeto.
+     *
+     * URL:
+     *   GET https://viacep.com.br/ws/{cep}/json/
+     *
+     * Fluxo:
+     * - Remove tudo que não for número do CEP.
+     * - Valida se tem 8 dígitos.
+     * - Faz fetch no ViaCEP.
+     * - Se vier data.erro => CEP inválido/não encontrado.
+     * - Se ok => define freteGlobal fixo em R$ 15,90.
+     * - Atualiza freteInfo (texto cidade/UF) e freteStatus (mensagem local).
+     */
+
+    // Remove tudo que não for número para aceitar CEP com traço (ex: 01001-000)
     const cepLimpo = cep.replace(/\D/g, '');
-    if (cepLimpo.length !== 8) { setFreteStatus('CEP inválido!'); return; }
+
+    // Valida o padrão do CEP do Brasil (8 dígitos)
+    if (cepLimpo.length !== 8) {
+      setFreteStatus('CEP inválido!');
+      return;
+    }
+
+    // Atualiza a UI enquanto espera a resposta do servidor
     setFreteStatus('Calculando...');
+
     try {
+      // Consulta ViaCEP (fetch externo)
       const data = await (await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)).json();
-      if (data.erro) { setFreteStatus('CEP não encontrado!'); return; }
+
+      // Se o CEP não existir, a ViaCEP retorna { erro: true }
+      if (data.erro) {
+        setFreteStatus('CEP não encontrado!');
+        return;
+      }
+
+      // Este projeto usa frete fixo (poderia ser calculado por região, mas aqui está simplificado)
       setFreteGlobal(15.90);
+
+      // Texto usado na UI de frete do carrinho/checkout
       setFreteInfo(`🚚 Entrega para ${data.localidade} - ${data.uf}`);
+
+      // Mensagem local (no footer deste componente)
       setFreteStatus(`🚚 Entrega para ${data.localidade} - ${data.uf}`);
     } catch {
+      // Erro de rede, problema no fetch etc.
       setFreteStatus('Erro ao calcular frete.');
     }
   }

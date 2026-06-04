@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   listarProdutos,
   criarProduto,
@@ -28,7 +28,6 @@ const FORM_VAZIO = {
   descricao: "",
   preco: "",
   estoque: "",
-  imgUrl: "",
   tipo: "",
   ativo: true,
 };
@@ -46,6 +45,15 @@ export default function AdminPage({ fechar }) {
   const [modalAberto, setModalAberto]     = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [busca, setBusca]                 = useState("");
+
+  // ── Estado de upload de imagem ──────────────────────────────────────────────
+  // imagemArquivo  → File selecionado pelo usuário (enviado ao back-end)
+  // imagemPreview  → URL local para exibir o preview sem precisar fazer upload antes
+  // imgUrlExistente → URL que já estava salva no banco (usada quando não seleciona arquivo novo)
+  const [imagemArquivo, setImagemArquivo]   = useState(null);
+  const [imagemPreview, setImagemPreview]   = useState("");
+  const [imgUrlExistente, setImgUrlExistente] = useState("");
+  const inputFileRef = useRef(null);
 
   useEffect(() => { carregar(); }, []);
 
@@ -67,10 +75,19 @@ export default function AdminPage({ fechar }) {
     setTimeout(() => setSucesso(""), 3500);
   }
 
+  // Limpa os estados de imagem ao abrir o modal
+  function resetImagem() {
+    setImagemArquivo(null);
+    setImagemPreview("");
+    setImgUrlExistente("");
+    if (inputFileRef.current) inputFileRef.current.value = "";
+  }
+
   function abrirNovo() {
     setForm(FORM_VAZIO);
     setEditandoId(null);
     setErro("");
+    resetImagem();
     setModalAberto(true);
   }
 
@@ -80,12 +97,16 @@ export default function AdminPage({ fechar }) {
       descricao: produto.descricao ?? "",
       preco:     produto.preco     ?? "",
       estoque:   produto.estoque   ?? "",
-      imgUrl:    produto.imgUrl    ?? "",
       tipo:      produto.tipo      ?? "",
-      ativo:     produto.ativo     ?? true, // carrega o status atual do produto
+      ativo:     produto.ativo     ?? true,
     });
     setEditandoId(produto.id);
     setErro("");
+    resetImagem();
+    // Guarda a URL que já existe no banco para usar como fallback
+    setImgUrlExistente(produto.imgUrl ?? "");
+    // Exibe a imagem atual como preview inicial
+    setImagemPreview(produto.imgUrl ?? "");
     setModalAberto(true);
   }
 
@@ -94,28 +115,80 @@ export default function AdminPage({ fechar }) {
     setEditandoId(null);
     setForm(FORM_VAZIO);
     setErro("");
+    resetImagem();
+  }
+
+  // Chamado quando o usuário seleciona um arquivo no <input type="file">
+  function handleArquivoSelecionado(e) {
+    const arquivo = e.target.files[0];
+    if (!arquivo) return;
+
+    // Valida tipo de arquivo
+    const tiposPermitidos = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!tiposPermitidos.includes(arquivo.type)) {
+      setErro("Formato inválido. Use JPG, PNG, WEBP ou GIF.");
+      return;
+    }
+
+    // Valida tamanho (máx 5MB)
+    if (arquivo.size > 5 * 1024 * 1024) {
+      setErro("A imagem deve ter no máximo 5MB.");
+      return;
+    }
+
+    setErro("");
+    setImagemArquivo(arquivo);
+
+    // Gera preview local usando URL temporária (não faz upload ainda)
+    const urlLocal = URL.createObjectURL(arquivo);
+    setImagemPreview(urlLocal);
+  }
+
+  function removerImagem() {
+    setImagemArquivo(null);
+    setImagemPreview("");
+    setImgUrlExistente("");
+    if (inputFileRef.current) inputFileRef.current.value = "";
   }
 
   async function salvar() {
     if (!form.nome.trim()) { setErro("O campo Nome é obrigatório."); return; }
     if (!form.preco || isNaN(Number(form.preco))) { setErro("Informe um Preço válido."); return; }
 
-    const payload = {
-      nome:      form.nome.trim(),
-      descricao: form.descricao.trim(),
-      preco:     parseFloat(Number(form.preco).toFixed(2)),
-      estoque:   form.estoque !== "" ? parseInt(form.estoque) : 0,
-      imgUrl:    form.imgUrl.trim(),
-      tipo:      form.tipo,
-      ativo:     form.ativo, // envia o status para o back-end
-    };
-
     try {
       if (editandoId) {
-        await atualizarProduto(editandoId, payload);
+        // ── EDIÇÃO ────────────────────────────────────────────────────────────
+        // Se o usuário selecionou um arquivo novo → envia multipart/form-data
+        // Se não selecionou → envia JSON com a imgUrl que já existia no banco
+        if (imagemArquivo) {
+          await atualizarProdutoComImagem(editandoId, form, imagemArquivo);
+        } else {
+          await atualizarProduto(editandoId, {
+            nome:      form.nome.trim(),
+            descricao: form.descricao.trim(),
+            preco:     parseFloat(Number(form.preco).toFixed(2)),
+            estoque:   form.estoque !== "" ? parseInt(form.estoque) : 0,
+            imgUrl:    imgUrlExistente,   // mantém a URL que já estava no banco
+            tipo:      form.tipo,
+            ativo:     form.ativo,
+          });
+        }
         flash("✅ Produto atualizado com sucesso!");
       } else {
-        await criarProduto(payload);
+        // ── CRIAÇÃO ───────────────────────────────────────────────────────────
+        if (imagemArquivo) {
+          await criarProdutoComImagem(form, imagemArquivo);
+        } else {
+          await criarProduto({
+            nome:      form.nome.trim(),
+            descricao: form.descricao.trim(),
+            preco:     parseFloat(Number(form.preco).toFixed(2)),
+            estoque:   form.estoque !== "" ? parseInt(form.estoque) : 0,
+            imgUrl:    "",
+            tipo:      form.tipo,
+            ativo:     form.ativo,
+          });
+        }
         flash("✅ Produto criado com sucesso!");
       }
       fecharModal();
@@ -137,7 +210,6 @@ export default function AdminPage({ fechar }) {
     }
   }
 
-  // Chama o PATCH no back-end e atualiza a tabela na hora, sem precisar recarregar tudo
   async function toggleStatus(produto) {
     try {
       const atualizado = await alternarStatusProduto(produto.id);
@@ -170,6 +242,23 @@ export default function AdminPage({ fechar }) {
         .categoria-select option:not([value=""]) {
           background-color: #000 !important;
           color: #fff !important;
+        }
+        .upload-area {
+          border: 2px dashed rgba(255, 255, 255, 0.15);
+          border-radius: 10px;
+          padding: 20px;
+          text-align: center;
+          cursor: pointer;
+          transition: border-color .2s, background .2s;
+        }
+        .upload-area:hover {
+          border-color: rgba(255,65,108,.5);
+          background: rgba(255,65,108,.04);
+        }
+        .upload-area.tem-imagem {
+          border-style: solid;
+          border-color: rgba(255,65,108,.3);
+          padding: 12px;
         }
       `}</style>
 
@@ -240,27 +329,94 @@ export default function AdminPage({ fechar }) {
                   />
                 </div>
 
-                {/* URL da Imagem */}
+                {/* ── UPLOAD DE IMAGEM ─────────────────────────────────────── */}
                 <div style={{ ...S.field, gridColumn: "1/-1" }}>
-                  <label style={S.label}>URL da Imagem</label>
+                  <label style={S.label}>Imagem do Produto</label>
+
+                  {/* Input file oculto — acionado pelo clique na área de upload */}
                   <input
-                    style={S.input}
-                    placeholder="https://exemplo.com/imagem.jpg"
-                    value={form.imgUrl}
-                    onChange={e => setForm(f => ({ ...f, imgUrl: e.target.value }))}
+                    ref={inputFileRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    style={{ display: "none" }}
+                    onChange={handleArquivoSelecionado}
                   />
-                  {form.imgUrl && (
-                    <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 12 }}>
-                      <img
-                        src={form.imgUrl}
-                        alt="preview"
-                        onError={e => { e.target.style.display = "none"; }}
-                        style={{ height: 60, maxWidth: 100, objectFit: "contain", borderRadius: 8, background: "rgba(255,255,255,.05)", padding: 4 }}
-                      />
-                      <span style={{ fontSize: ".75rem", color: "#555" }}>Preview da imagem</span>
+
+                  {imagemPreview ? (
+                    /* ── Preview da imagem selecionada ou já existente ── */
+                    <div className="upload-area tem-imagem">
+                      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                        <img
+                          src={imagemPreview}
+                          alt="preview"
+                          onError={e => { e.target.style.display = "none"; }}
+                          style={{
+                            height: 80, maxWidth: 120,
+                            objectFit: "contain", borderRadius: 8,
+                            background: "rgba(255,255,255,.05)", padding: 4,
+                          }}
+                        />
+                        <div style={{ flex: 1, textAlign: "left" }}>
+                          {imagemArquivo ? (
+                            <>
+                              <p style={{ margin: 0, fontSize: ".85rem", color: "#00e07a", fontWeight: 600 }}>
+                                ✅ {imagemArquivo.name}
+                              </p>
+                              <p style={{ margin: "2px 0 0", fontSize: ".75rem", color: "#555" }}>
+                                {(imagemArquivo.size / 1024).toFixed(0)} KB
+                              </p>
+                            </>
+                          ) : (
+                            <p style={{ margin: 0, fontSize: ".85rem", color: "#888" }}>
+                              Imagem atual (do banco)
+                            </p>
+                          )}
+                          <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                            <button
+                              onClick={() => inputFileRef.current?.click()}
+                              style={{
+                                background: "rgba(255,255,255,.08)",
+                                border: "1px solid rgba(255,255,255,.12)",
+                                color: "#ccc", padding: "6px 14px",
+                                borderRadius: 8, cursor: "pointer",
+                                fontFamily: "'Poppins',sans-serif", fontSize: ".78rem",
+                              }}
+                            >
+                              Trocar imagem
+                            </button>
+                            <button
+                              onClick={removerImagem}
+                              style={{
+                                background: "rgba(255,65,108,.1)",
+                                border: "1px solid rgba(255,65,108,.2)",
+                                color: "#ff8fa0", padding: "6px 14px",
+                                borderRadius: 8, cursor: "pointer",
+                                fontFamily: "'Poppins',sans-serif", fontSize: ".78rem",
+                              }}
+                            >
+                              Remover
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* ── Área de clique para selecionar arquivo ── */
+                    <div
+                      className="upload-area"
+                      onClick={() => inputFileRef.current?.click()}
+                    >
+                      <div style={{ fontSize: "2.5rem", marginBottom: 8 }}>📷</div>
+                      <p style={{ margin: 0, color: "#888", fontSize: ".85rem" }}>
+                        Clique para selecionar uma imagem
+                      </p>
+                      <p style={{ margin: "4px 0 0", color: "#555", fontSize: ".75rem" }}>
+                        JPG, PNG, WEBP ou GIF · máx. 5 MB
+                      </p>
                     </div>
                   )}
                 </div>
+                {/* ─────────────────────────────────────────────────────────── */}
 
                 {/* Categoria */}
                 <div style={S.field}>
@@ -277,30 +433,63 @@ export default function AdminPage({ fechar }) {
                     ))}
                   </select>
                 </div>
+{/* Status Ativo/Inativo */}
+<div style={S.field}>
+  <label style={S.label}>Status</label>
+  <div style={{ display: "flex", gap: 10 }}>
 
-                {/* Status Ativo/Inativo */}
-                <div style={S.field}>
-                  <label style={S.label}>Status</label>
-                  <div
-                    onClick={() => setForm(f => ({ ...f, ativo: !f.ativo }))}
-                    style={{
-                      display: "flex", alignItems: "center", gap: 12,
-                      padding: "12px 14px",
-                      background: form.ativo ? "rgba(0,224,122,.08)" : "rgba(255,65,108,.08)",
-                      border: `1px solid ${form.ativo ? "rgba(0,224,122,.3)" : "rgba(255,65,108,.3)"}`,
-                      borderRadius: 10, cursor: "pointer",
-                    }}
-                  >
-                    {/* Bolinha indicadora de status */}
-                    <div style={{
-                      width: 10, height: 10, borderRadius: "50%",
-                      background: form.ativo ? "#00e07a" : "#ff416c",
-                    }} />
-                    <span style={{ color: form.ativo ? "#00e07a" : "#ff8fa0", fontWeight: 600, fontSize: ".9rem" }}>
-                      {form.ativo ? "Ativo — aparece na loja" : "Inativo — oculto na loja"}
-                    </span>
-                  </div>
-                </div>
+    {/* Botão ATIVO */}
+    <div
+      onClick={() => setForm(f => ({ ...f, ativo: true }))}
+      style={{
+        flex: 1, display: "flex", alignItems: "center", gap: 10,
+        padding: "12px 14px", borderRadius: 10, cursor: "pointer",
+        background: form.ativo ? "rgba(0,224,122,.08)" : "transparent",
+        border: `1px solid ${form.ativo ? "rgba(0,224,122,.3)" : "rgba(255,255,255,.08)"}`,
+        transition: "all .2s",
+      }}
+    >
+      <div style={{
+        width: 10, height: 10, borderRadius: "50%",
+        background: form.ativo ? "#00e07a" : "rgba(255,255,255,.15)",
+        transition: "background .2s",
+      }} />
+      <span style={{
+        fontWeight: 600, fontSize: ".85rem",
+        color: form.ativo ? "#00e07a" : "rgba(255,255,255,.25)",
+        transition: "color .2s",
+      }}>
+        Ativo
+      </span>
+    </div>
+
+    {/* Botão INATIVO */}
+    <div
+      onClick={() => setForm(f => ({ ...f, ativo: false }))}
+      style={{
+        flex: 1, display: "flex", alignItems: "center", gap: 10,
+        padding: "12px 14px", borderRadius: 10, cursor: "pointer",
+        background: !form.ativo ? "rgba(255,65,108,.08)" : "transparent",
+        border: `1px solid ${!form.ativo ? "rgba(255,65,108,.3)" : "rgba(255,255,255,.08)"}`,
+        transition: "all .2s",
+      }}
+    >
+      <div style={{
+        width: 10, height: 10, borderRadius: "50%",
+        background: !form.ativo ? "#ff416c" : "rgba(255,255,255,.15)",
+        transition: "background .2s",
+      }} />
+      <span style={{
+        fontWeight: 600, fontSize: ".85rem",
+        color: !form.ativo ? "#ff416c" : "rgba(255,255,255,.25)",
+        transition: "color .2s",
+      }}>
+        Inativo
+      </span>
+    </div>
+
+  </div>
+</div>
 
               </div>
 
@@ -356,7 +545,15 @@ export default function AdminPage({ fechar }) {
             <button style={S.btnPrimary} onClick={abrirNovo}>+ Novo Produto</button>
           </div>
 
-          {sucesso && <div style={S.alertOk}>{sucesso}</div>}
+          {sucesso && (
+            <div style={{
+              background: "rgba(0,224,122,.08)", border: "1px solid rgba(0,224,122,.25)",
+              color: "#00e07aff", padding: "12px 16px", borderRadius: 10,
+              fontSize: ".85rem", marginBottom: 16,
+            }}>
+              {sucesso}
+            </div>
+          )}
           {erro && !modalAberto && !confirmDelete && (
             <div style={S.alertErr}>{erro}</div>
           )}
@@ -374,7 +571,6 @@ export default function AdminPage({ fechar }) {
                 {produtos.length} produto{produtos.length !== 1 ? "s" : ""}
               </span>
             </div>
-            {/* Contador de ativos e inativos */}
             <div style={{ ...S.statBox, gap: 16 }}>
               <span style={{ fontSize: ".82rem", color: "#00e07a" }}>
                 ● {produtos.filter(p => p.ativo).length} ativos
@@ -424,8 +620,7 @@ export default function AdminPage({ fechar }) {
                       key={p.id}
                       style={{
                         ...S.tr,
-                        background: i % 2 === 0 ? "rgba(255,255,255,.02)" : "transparent",
-                        // Produto inativo fica levemente apagado na tabela
+                        background: i % 2 === 0 ? "rgba(61,59,59,.02)" : "transparent",
                         opacity: p.ativo ? 1 : 0.5,
                       }}
                     >
@@ -483,7 +678,6 @@ export default function AdminPage({ fechar }) {
                         </span>
                       </td>
 
-                      {/* Coluna de status com botão de toggle */}
                       <td style={S.td}>
                         <button
                           onClick={() => toggleStatus(p)}
@@ -560,10 +754,52 @@ const S = {
   closeBtn:     { background: "none", border: "none", color: "#666", fontSize: "1.8rem", cursor: "pointer", lineHeight: 1, padding: 0 },
   formGrid:     { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 20px", marginBottom: 24 },
   field:        { marginBottom: 0 },
-  label:        { display: "block", fontSize: ".68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px", color: "#555", marginBottom: 7 },
-  input:        { width: "100%", padding: "12px 14px", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 10, color: "#fff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
-  btnPrimary:   { flex: 1, padding: "13px 24px", background: "linear-gradient(45deg,#ff416c,#ff4b2b)", border: "none", borderRadius: 10, color: "#fff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", fontWeight: 700, cursor: "pointer" },
+  label:        { display: "block", fontSize: ".68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px", color: "#ffffffff", marginBottom: 7 },
+  input:        { width: "100%", padding: "12px 14px", background: "rgba(255, 255, 255, 0.99)", border: "1px solid rgba(136, 38, 38, 0.1)", borderRadius: 10, color: "#000000ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
+  btnPrimary:   { flex: 1, padding: "13px 24px", background: "linear-gradient(45deg,#ff416c,#ff4b2b)", border: "none", borderRadius: 10, color: "#9c3131ff", fontFamily: "  'Poppins',sans-serif", fontSize: ".9rem", fontWeight: 700, cursor: "pointer" },
   btnSecondary: { padding: "13px 24px", background: "transparent", border: "1px solid rgba(255,255,255,.12)", borderRadius: 10, color: "#888", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", cursor: "pointer" },
   alertErr:     { background: "rgba(255,65,108,.1)", border: "1px solid rgba(255,65,108,.3)", color: "#ff8fa0", padding: "12px 16px", borderRadius: 10, fontSize: ".85rem", marginBottom: 16 },
-  alertOk:      { background: "rgba(0,224,122,.08)", border: "1px solid rgba(0,224,122,.25)", color: "#00e07a", padding: "12px 16px", borderRadius: 10, fontSize: ".85rem", marginBottom: 16 },
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Funções auxiliares de upload (definidas fora do componente para clareza)
+// Montam um FormData com o arquivo + campos do produto e chamam o back-end.
+// O back-end salva a imagem em disco e devolve a URL pública no campo imgUrl.
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function criarProdutoComImagem(form, arquivo) {
+  const fd = new FormData();
+  fd.append("imagem", arquivo);                    // arquivo binário
+  fd.append("nome",      form.nome.trim());
+  fd.append("descricao", form.descricao.trim());
+  fd.append("preco",     parseFloat(Number(form.preco).toFixed(2)));
+  fd.append("estoque",   form.estoque !== "" ? parseInt(form.estoque) : 0);
+  fd.append("tipo",      form.tipo);
+  fd.append("ativo",     form.ativo);
+
+  const res = await fetch("http://localhost:8080/produtos/com-imagem", {
+    method: "POST",
+    // NÃO define Content-Type → o browser define automaticamente com boundary
+    body: fd,
+  });
+  if (!res.ok) throw new Error("Erro ao criar produto com imagem");
+  return res.json();
+}
+
+async function atualizarProdutoComImagem(id, form, arquivo) {
+  const fd = new FormData();
+  fd.append("imagem", arquivo);
+  fd.append("nome",      form.nome.trim());
+  fd.append("descricao", form.descricao.trim());
+  fd.append("preco",     parseFloat(Number(form.preco).toFixed(2)));
+  fd.append("estoque",   form.estoque !== "" ? parseInt(form.estoque) : 0);
+  fd.append("tipo",      form.tipo);
+  fd.append("ativo",     form.ativo);
+
+  const res = await fetch(`http://localhost:8080/produtos/${id}/com-imagem`, {
+    method: "PUT",
+    body: fd,
+  });
+  if (!res.ok) throw new Error("Erro ao atualizar produto com imagem");
+  return res.json();
+}

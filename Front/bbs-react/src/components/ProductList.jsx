@@ -106,16 +106,31 @@ function ProdutoCard({ produto, addToCart }) {
 }
 
 export default function ProductList() {
+  /*
+   * UI pública da loja.
+   * Responsabilidades:
+   * - Carregar produtos ativos via API Spring (listarProdutosAtivos)
+   * - Exibir os produtos agrupados por "tipo" (CATEGORIAS)
+   * - Passar addToCart para cada card.
+   */
   const { addToCart } = useCart();
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading]   = useState(true);
   const [erro, setErro]         = useState("");
 
   useEffect(() => {
+    /*
+     * useEffect roda uma vez ao montar o componente ([]).
+     * Aqui acontece o 1º fetch da loja.
+     */
     async function carregar() {
       try {
-        // Busca só os produtos com ativo = true no banco
+        // Chamada de API:
+        // GET http://localhost:8080/produtos/ativos
+        // (implementado no backend por ProdutoController.obterProdutosAtivos)
         const data = await listarProdutosAtivos();
+
+        // res.json() já vem como array na prática, mas garantimos.
         setProdutos(Array.isArray(data) ? data : Array.from(data));
       } catch {
         setErro("Não foi possível carregar os produtos. Verifique se o servidor está rodando.");
@@ -123,8 +138,10 @@ export default function ProductList() {
         setLoading(false);
       }
     }
+
     carregar();
   }, []);
+
 
   if (loading) return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 20px", flexDirection: "column", gap: 16 }}>
