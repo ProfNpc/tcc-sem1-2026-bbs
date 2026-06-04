@@ -239,9 +239,29 @@ export default function AdminPage({ fechar }) {
     <>
       <style>{`
         @keyframes bbsSpin { to { transform: rotate(360deg); } }
-        .categoria-select option:not([value=""]) {
-          background-color: #000 !important;
-          color: #fff !important;
+        .categoria-select option {
+          background-color: #1a1a1a !important;
+          color: #5f5555ff !important;
+        }
+        .categoria-select option[value=""] {
+          color: #5f5555ff !important;
+        }
+        .upload-area {
+          border: 2px dashed rgba(255,255,255,.15);
+          border-radius: 10px;
+          padding: 20px;
+          text-align: center;
+          cursor: pointer;
+          transition: border-color .2s, background .2s;
+        }
+        .upload-area:hover {
+          border-color: rgba(255,65,108,.5);
+          background: rgba(255,65,108,.04);
+        }
+        .upload-area.tem-imagem {
+          border-style: solid;
+          border-color: rgba(255,65,108,.3);
+          padding: 12px;
         }
         .upload-area {
           border: 2px dashed rgba(255, 255, 255, 0.15);
@@ -423,7 +443,7 @@ export default function AdminPage({ fechar }) {
                   <label style={S.label}>Categoria</label>
                   <select
                     className="categoria-select"
-                    style={{ ...S.input, cursor: "pointer", backgroundColor: form.tipo ? "#000" : undefined }}
+                    style={{ ...S.input, cursor: "pointer" }}
                     value={form.tipo}
                     onChange={e => setForm(f => ({ ...f, tipo: e.target.value }))}
                   >
@@ -755,8 +775,13 @@ const S = {
   formGrid:     { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 20px", marginBottom: 24 },
   field:        { marginBottom: 0 },
   label:        { display: "block", fontSize: ".68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px", color: "#ffffffff", marginBottom: 7 },
+<<<<<<< HEAD
   input:        { width: "100%", padding: "12px 14px", background: "rgba(255, 255, 255, 0.99)", border: "1px solid rgba(136, 38, 38, 0.1)", borderRadius: 10, color: "#000000ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
   btnPrimary:   { flex: 1, padding: "13px 24px", background: "linear-gradient(45deg,#ff416c,#ff4b2b)", border: "none", borderRadius: 10, color: "#9c3131ff", fontFamily: "  'Poppins',sans-serif", fontSize: ".9rem", fontWeight: 700, cursor: "pointer" },
+=======
+  input:        { width: "100%", padding: "12px 14px", background: "rgba(49, 41, 41, 0.99)", border: "1px solid rgba(136, 38, 38, 0.1)", borderRadius: 10, color: "#290606ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
+  btnPrimary:   { flex: 1, padding: "13px 24px", background: "linear-gradient(45deg,#ff416c,#ff4b2b)", border: "none", borderRadius: 10, color: "#9c3131ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", fontWeight: 700, cursor: "pointer" },
+>>>>>>> 1f54f07 (vou mexer no do maros pq tá melhors sla oq eu to escrenveod[wajda])
   btnSecondary: { padding: "13px 24px", background: "transparent", border: "1px solid rgba(255,255,255,.12)", borderRadius: 10, color: "#888", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", cursor: "pointer" },
   alertErr:     { background: "rgba(255,65,108,.1)", border: "1px solid rgba(255,65,108,.3)", color: "#ff8fa0", padding: "12px 16px", borderRadius: 10, fontSize: ".85rem", marginBottom: 16 },
 };
