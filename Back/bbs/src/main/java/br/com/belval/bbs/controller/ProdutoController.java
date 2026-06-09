@@ -31,48 +31,46 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.belval.bbs.model.Produto;
 import br.com.belval.bbs.repository.ProdutoRepository;
 
-/*
+/**
  * ProdutoController
  * ------------------------------------------------------------
- * Camada REST (Spring Web) responsável por expor endpoints HTTP
- * para operações de CRUD e para alternar o status ativo/inativo
- * dos produtos.
+ * Camada REST (Spring Web) que expõe endpoints HTTP para o Front-end.
+ *
+ * O que este controller faz (em português didático):
+ * 1) Recebe pedidos HTTP (GET/POST/PUT/PATCH/DELETE) do Front.
+ * 2) Busca/atualiza dados no banco via ProdutoRepository (JPA).
+ * 3) Para endpoints com imagem, salva o arquivo em disco e guarda a URL
+ *    pública da imagem no campo imgUrl do Produto.
  *
  * Base da rota (prefixo): /produtos
- * Exemplo completo: GET http://<host>:8080/produtos/ativos
  */
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
 
-    /*
-     * repositório JPA (CrudRepository)
-     * - fornece findAll, findById, save, deleteById...
-     * - e também métodos derivados como findByAtivoTrue() e
-     *   findByNomeContainingOrDescricaoContaining(...)
+    /**
+     * Repositório JPA.
+     * Fornece métodos como:
+     * - findAll()
+     * - findById(id)
+     * - save(entity)
+     * - deleteById(id)
+     * E também métodos derivados definidos no ProdutoRepository.
      */
     @Autowired
     private ProdutoRepository repository;
 
-<<<<<<< HEAD
-
-    /*
-     * Listar TODOS os produtos (admin vê tudo, ativos e inativos)
-     * GET /produtos
-=======
     /**
-     * Pasta onde as imagens são salvas em disco.
+     * Pasta onde as imagens são salvas.
      * Configurada em application.properties:
      *   app.upload.dir=uploads/imagens
-     * Padrão: "uploads/imagens" dentro da pasta raiz do projeto.
->>>>>>> 1f54f07 (vou mexer no do maros pq tá melhors sla oq eu to escrenveod[wajda])
      */
     @Value("${app.upload.dir:uploads/imagens}")
     private String uploadDir;
 
     /**
-     * URL base pública para acessar as imagens no navegador.
+     * URL base pública para acessar imagens no navegador.
      * Configurada em application.properties:
      *   app.upload.url-base=http://localhost:8080/imagens
      */
@@ -80,22 +78,40 @@ public class ProdutoController {
     private String uploadUrlBase;
 
     // =========================================================================
-    //  ENDPOINTS EXISTENTES (sem alteração)
+    //  ENDPOINTS CRUD (JSON puro)
     // =========================================================================
 
-    /** GET /produtos — lista todos (admin) */
+    /**
+     * GET /produtos
+     * Lista TODOS os produtos (admin vê tudo: ativos e inativos).
+     *
+     * Front chama:
+     *   GET http://localhost:8080/produtos
+     */
     @GetMapping
     public ResponseEntity<Iterable<Produto>> obterProdutos() {
         return ResponseEntity.ok(repository.findAll());
     }
 
-    /** GET /produtos/ativos — lista só os ativos (loja) */
+    /**
+     * GET /produtos/ativos
+     * Lista SOMENTE os produtos ativos (loja vê apenas o que está ativo).
+     *
+     * Front chama:
+     *   GET http://localhost:8080/produtos/ativos
+     */
     @GetMapping("/ativos")
     public ResponseEntity<List<Produto>> obterProdutosAtivos() {
         return ResponseEntity.ok(repository.findByAtivoTrue());
     }
 
-    /** GET /produtos/{id} */
+    /**
+     * GET /produtos/{id}
+     * Busca um produto por ID.
+     *
+     * Front chama:
+     *   GET http://localhost:8080/produtos/{id}
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarPorId(@PathVariable Integer id) {
         Optional<Produto> produtoOpt = repository.findById(id);
@@ -105,24 +121,49 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoOpt.get());
     }
 
-    /** GET /produtos/buscar/{texto} */
+    /**
+     * GET /produtos/buscar/{texto}
+     * Faz busca por nome OU descrição contendo o texto.
+     *
+     * Front chama:
+     *   GET http://localhost:8080/produtos/buscar/{texto}
+     */
     @GetMapping("/buscar/{texto}")
     public ResponseEntity<List<Produto>> buscarProdutos(@PathVariable String texto) {
-        List<Produto> produtos =
-                repository.findByNomeContainingOrDescricaoContaining(texto, texto);
+        List<Produto> produtos = repository.findByNomeContainingOrDescricaoContaining(texto, texto);
         return ResponseEntity.ok(produtos);
     }
 
-    /** POST /produtos — cria produto SEM imagem (JSON puro) */
+    /**
+     * POST /produtos
+     * Cria produto SEM imagem.
+     *
+     * Regras didáticas:
+     * - zera o id (setId(null)) para o banco gerar automaticamente
+     * - define dataCriacao como agora
+     * - se ativo vier null, assume ativo=true
+     */
     @PostMapping
     public ResponseEntity<Object> criarProduto(@RequestBody Produto produto) {
         produto.setId(null);
         produto.setDataCriacao(LocalDateTime.now());
-        if (produto.getAtivo() == null) produto.setAtivo(true);
+
+        if (produto.getAtivo() == null) {
+            produto.setAtivo(true);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto));
     }
 
-    /** PUT /produtos/{id} — atualiza produto SEM nova imagem (JSON puro) */
+    /**
+     * PUT /produtos/{id}
+     * Atualiza produto SEM imagem.
+     *
+     * Regras didáticas:
+     * - se não existir, retorna 404
+     * - mantém dataCriacao do produto existente
+     * - se ativo vier null, preserva o ativo existente
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Object> atualizarProduto(
             @PathVariable Integer id,
@@ -132,65 +173,90 @@ public class ProdutoController {
         if (produtoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
         }
+
         Produto existente = produtoOpt.get();
+
         produto.setId(id);
         produto.setDataCriacao(existente.getDataCriacao());
-        if (produto.getAtivo() == null) produto.setAtivo(existente.getAtivo());
+
+        if (produto.getAtivo() == null) {
+            produto.setAtivo(existente.getAtivo());
+        }
+
         return ResponseEntity.ok(repository.save(produto));
     }
 
-    /** PATCH /produtos/{id}/status — alterna ativo/inativo */
+    /**
+     * PATCH /produtos/{id}/status
+     * Alterna (liga/desliga) o campo ativo.
+     *
+     * regra didática:
+     * - se ativo=true  → torna false
+     * - se ativo=false → torna true
+     */
     @PatchMapping("/{id}/status")
     public ResponseEntity<Object> alternarStatus(@PathVariable Integer id) {
         Optional<Produto> produtoOpt = repository.findById(id);
         if (produtoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
         }
+
         Produto produto = produtoOpt.get();
         produto.setAtivo(!Boolean.TRUE.equals(produto.getAtivo()));
         return ResponseEntity.ok(repository.save(produto));
     }
 
-    /** DELETE /produtos/{id} */
+    /**
+     * DELETE /produtos/{id}
+     * Remove um produto do banco.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> apagarProduto(@PathVariable Integer id) {
         Optional<Produto> produtoOpt = repository.findById(id);
         if (produtoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
         }
+
         repository.deleteById(id);
         return ResponseEntity.ok("Produto apagado com sucesso!");
     }
 
     // =========================================================================
-    //  NOVOS ENDPOINTS COM UPLOAD DE IMAGEM (multipart/form-data)
+    //  ENDPOINTS COM UPLOAD DE IMAGEM (multipart/form-data)
     // =========================================================================
 
     /**
      * POST /produtos/com-imagem
-     * Cria um produto enviando a imagem como arquivo (multipart/form-data).
+     * Cria produto enviando a imagem como arquivo.
      *
-     * Campos do formulário:
-     *   imagem    → arquivo de imagem (MultipartFile)
-     *   nome      → String
-     *   descricao → String
-     *   preco     → BigDecimal
-     *   estoque   → Integer
-     *   tipo      → String
-     *   ativo     → Boolean
+     * Campos (multipart/form-data):
+     * - imagem   (MultipartFile)
+     * - nome      (String)
+     * - descricao (String)
+     * - preco     (BigDecimal)
+     * - estoque   (Integer)
+     * - tipo      (String)
+     * - ativo     (Boolean)
      *
-     * O arquivo é salvo em disco (pasta configurada em app.upload.dir).
-     * A URL pública é gravada no campo imgUrl do produto.
+     * Fluxo didático:
+     * 1) Recebe o arquivo no endpoint
+     * 2) Chama salvarArquivo(imagem)
+     * 3) salvarArquivo:
+     *    - cria pasta se não existir
+     *    - gera nome único (UUID)
+     *    - copia arquivo para o disco
+     *    - monta URL pública: uploadUrlBase + "/" + nomeArquivo
+     * 4) Salva Produto no banco com imgUrl=url retornada
      */
     @PostMapping("/com-imagem")
     public ResponseEntity<Object> criarProdutoComImagem(
-            @RequestParam("imagem")    MultipartFile imagem,
-            @RequestParam("nome")      String nome,
+            @RequestParam("imagem") MultipartFile imagem,
+            @RequestParam("nome") String nome,
             @RequestParam(value = "descricao", defaultValue = "") String descricao,
-            @RequestParam("preco")     BigDecimal preco,
-            @RequestParam(value = "estoque",   defaultValue = "0") Integer estoque,
-            @RequestParam(value = "tipo",      defaultValue = "") String tipo,
-            @RequestParam(value = "ativo",     defaultValue = "true") Boolean ativo) {
+            @RequestParam("preco") BigDecimal preco,
+            @RequestParam(value = "estoque", defaultValue = "0") Integer estoque,
+            @RequestParam(value = "tipo", defaultValue = "") String tipo,
+            @RequestParam(value = "ativo", defaultValue = "true") Boolean ativo) {
 
         try {
             String urlImagem = salvarArquivo(imagem);
@@ -214,19 +280,24 @@ public class ProdutoController {
 
     /**
      * PUT /produtos/{id}/com-imagem
-     * Atualiza um produto enviando uma nova imagem (multipart/form-data).
-     * Substitui a imagem anterior em disco e atualiza a URL no banco.
+     * Atualiza produto e substitui a imagem.
+     *
+     * Fluxo didático:
+     * - busca produto existente
+     * - salva novo arquivo (salvarArquivo)
+     * - atualiza campos e imgUrl
+     * - mantém dataCriacao (não sobrescreve)
      */
     @PutMapping("/{id}/com-imagem")
     public ResponseEntity<Object> atualizarProdutoComImagem(
             @PathVariable Integer id,
-            @RequestParam("imagem")    MultipartFile imagem,
-            @RequestParam("nome")      String nome,
+            @RequestParam("imagem") MultipartFile imagem,
+            @RequestParam("nome") String nome,
             @RequestParam(value = "descricao", defaultValue = "") String descricao,
-            @RequestParam("preco")     BigDecimal preco,
-            @RequestParam(value = "estoque",   defaultValue = "0") Integer estoque,
-            @RequestParam(value = "tipo",      defaultValue = "") String tipo,
-            @RequestParam(value = "ativo",     defaultValue = "true") Boolean ativo) {
+            @RequestParam("preco") BigDecimal preco,
+            @RequestParam(value = "estoque", defaultValue = "0") Integer estoque,
+            @RequestParam(value = "tipo", defaultValue = "") String tipo,
+            @RequestParam(value = "ativo", defaultValue = "true") Boolean ativo) {
 
         Optional<Produto> produtoOpt = repository.findById(id);
         if (produtoOpt.isEmpty()) {
@@ -244,8 +315,8 @@ public class ProdutoController {
             produto.setTipo(tipo.isBlank() ? null : tipo);
             produto.setAtivo(ativo);
             produto.setImgUrl(urlImagem);
-            // dataCriacao é mantida (não sobrescrita)
 
+            // dataCriacao é mantida (não sobrescrita)
             return ResponseEntity.ok(repository.save(produto));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -258,30 +329,35 @@ public class ProdutoController {
     // =========================================================================
 
     /**
-     * Salva o MultipartFile na pasta configurada em app.upload.dir,
-     * usando um nome único (UUID + extensão original) para evitar colisões.
+     * Salva o MultipartFile na pasta configurada em app.upload.dir.
      *
-     * @param arquivo MultipartFile recebido no request
-     * @return URL pública no formato http://localhost:8080/imagens/nome-do-arquivo.jpg
+     * Para evitar colisões:
+     * - o nome final do arquivo é UUID + extensão original
+     *
+     * @param arquivo arquivo recebido no request
+     * @return URL pública para o front exibir a imagem
      */
     private String salvarArquivo(MultipartFile arquivo) throws IOException {
         // Cria a pasta de destino se não existir
         Path pastaDestino = Paths.get(uploadDir);
         Files.createDirectories(pastaDestino);
 
-        // Gera nome único para o arquivo: UUID + extensão original
+        // Nome original (para pegar extensão)
         String nomeOriginal = arquivo.getOriginalFilename();
         String extensao = "";
         if (nomeOriginal != null && nomeOriginal.contains(".")) {
             extensao = nomeOriginal.substring(nomeOriginal.lastIndexOf("."));
         }
+
+        // Nome final: UUID + extensão
         String nomeArquivo = UUID.randomUUID().toString() + extensao;
 
-        // Copia o arquivo para o disco (substitui se já existir — não deve ocorrer com UUID)
+        // Copia o arquivo para o disco
         Path destino = pastaDestino.resolve(nomeArquivo);
         Files.copy(arquivo.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
 
-        // Retorna a URL pública que o front-end vai usar para exibir a imagem
+        // URL que o front vai usar
         return uploadUrlBase + "/" + nomeArquivo;
     }
 }
+

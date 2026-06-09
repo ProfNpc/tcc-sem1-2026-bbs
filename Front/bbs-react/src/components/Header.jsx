@@ -7,6 +7,21 @@
 import { useCart } from "../context/CartContext";
 
 export default function Header({ abrirAdmin }) {
+  // ==========================
+  // Header
+  // ==========================
+  // Barra superior da página (loja).
+  // Responsabilidades do componente:
+  // - Mostrar links de navegação por âncoras (#home, #produtos, ...)
+  // - Mostrar um botão “Admin” que abre o painel administrativo
+  //   (ação fornecida por props: abrirAdmin)
+  // - Mostrar o botão do carrinho com contador (totalQty)
+  //   e abrir a sidebar do carrinho via setIsOpen(true) (Context API)
+  //
+  // No React, isso é só UI:
+  // - Nenhuma chamada de API acontece aqui.
+  // - Toda persistência de dados do carrinho vem do CartContext.
+  
   // totalQty → número total de itens no carrinho (exibido no badge)
   // setIsOpen → abre/fecha a sidebar do carrinho
   const { totalQty, setIsOpen } = useCart();

@@ -12,10 +12,28 @@ import AdminPage from "./components/AdminPage";
 import Checkout from "../public/Checkout";
 
 function App() {
-  // ── Estados que controlam quais modais estão visíveis ──
+  /*
+   * App.jsx — raiz do React
+   * ------------------------------------------------------------
+   * Pense no App como o “cérebro” que decide:
+   * - qual tela/modaI fica visível agora
+   * - quem ganha props de “abrir/fechar”
+   *
+   * Aqui NÃO acontece regra de negócio (fetch, frete, etc.).
+   * Quem faz isso são os componentes:
+   * - ProductList: busca produtos na API do backend
+   * - Cart: gerencia a sidebar do carrinho e calcula/mostra frete
+   * - Checkout: fluxo de compra (3 etapas)
+   * - AdminPage: CRUD de produtos
+   */
 
-  // true  → mostra a tela de Checkout sobreposta à página
+
+  // ── Estados que controlam quais modais/telas estão visíveis ──
+
+  // true → mostra a tela de Checkout sobreposta à página
+
   const [checkoutAberto, setCheckoutAberto] = useState(false);
+
 
   // true  → mostra o painel de administração de produtos
   const [adminAberto, setAdminAberto] = useState(false);
@@ -39,11 +57,16 @@ function App() {
       <Cart abrirCheckout={() => setCheckoutAberto(true)} />
 
       {/* Renderiza o Checkout SOMENTE se checkoutAberto for true.
-          fechar fecha o modal voltando ao estado false */}
+          Quando o Checkout chama props "fechar", voltamos para false aqui.
+          Isso esconde o modal de Checkout e libera a página principal. */}
       {checkoutAberto && <Checkout fechar={() => setCheckoutAberto(false)} />}
 
+
       {/* Renderiza o Admin SOMENTE se adminAberto for true.
-          onProdutoSalvo incrementa versaoProdutos, forçando o ProductList a recarregar */}
+          Quando o Admin salva/cria/atualiza produtos,
+          ele chama onProdutoSalvo → incrementa versaoProdutos.
+          Esse valor muda e força o ProductList a refazer seu GET /produtos/ativos. */}
+
       {adminAberto && (
         <AdminPage
           fechar={() => setAdminAberto(false)}

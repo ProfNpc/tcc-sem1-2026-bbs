@@ -24,8 +24,11 @@ export default function Cart({ abrirCheckout }) {
 
   // CEP digitado pelo usuário no campo de frete
   const [cep, setCep] = useState("");
-  // true enquanto aguarda a resposta da API ViaCEP
+
+  // true enquanto aguarda a resposta da API ViaCEP.
+  // Serve para trocar “OK”/“...” no botão de cálculo.
   const [loadingFrete, setLoadingFrete] = useState(false);
+
 
   // ── calcularFrete ─────────────────────────────────────────
   // Consulta a API ViaCEP com o CEP digitado.
@@ -42,29 +45,51 @@ export default function Cart({ abrirCheckout }) {
      * - define um frete fixo no carrinho (R$ 15,90)
      * - guarda um texto descritivo para exibir na UI
      */
-    const cepLimpo = cep.replace(/\D/g, ""); // remove traços e letras
-    if (cepLimpo.length !== 8) return alert("CEP inválido!");
+    // Transformar o que o usuário digitou (ex: 01001-000)
+    // em apenas dígitos (01001000)
+    const cepLimpo = cep.replace(/\D/g, "");
 
+    // Validação simples: CEP BR sempre tem 8 dígitos
+    if (cepLimpo.length !== 8) {
+      alert("CEP inválido!");
+      return;
+    }
+
+    // Marca loading para trocar o texto do botão
     setLoadingFrete(true);
+
     try {
-      // ViaCEP fetch
-      const res  = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+      /*
+       * Chamada de API externa:
+       *   GET https://viacep.com.br/ws/{cep}/json/
+       *
+       * O que é retornado (principalmente):
+       * - data.localidade (cidade)
+       * - data.uf (UF/estado)
+       * - se der erro: data.erro = true
+       */
+      const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
       const data = await res.json();
 
-      // Se ViaCEP retornar erro, avisa e não altera frete
-      if (data.erro) { alert("CEP não encontrado!"); return; }
+      // Se ViaCEP disser que não achou, não mexe no frete
+      if (data.erro) {
+        alert("CEP não encontrado!");
+        return;
+      }
 
-      // Frete fixo (regra do sistema atual)
+      // Regra do projeto: frete fixo (independente da cidade)
       setFreteGlobal(15.90);
 
-      // Texto exibido ao usuário
+      // Texto que aparece na UI
       setFreteInfo(`🚚 Entrega para ${data.localidade} - ${data.uf}`);
     } catch {
+      // Qualquer problema de rede/servidor vira erro amigável
       alert("Erro ao calcular frete.");
     } finally {
       // Para o estado de loading do botão
       setLoadingFrete(false);
     }
+
   }
 
   return (

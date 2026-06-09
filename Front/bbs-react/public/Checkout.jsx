@@ -55,6 +55,44 @@ function gerarBoletoCode() {
 }
 
 export default function Checkout({ fechar }) {
+  // ============================================================
+  // Checkout
+  // ============================================================
+  // Este componente implementa o fluxo de compra em 3 etapas:
+  // Etapa 1 (step=1):
+  //   - mostra os itens do carrinho (montados com cartOrder/cart)
+  //   - mostra brindes desbloqueados conforme totalFinal
+  //   - botão “Continuar para Entrega” → seta step=2
+  //
+  // Etapa 2 (step=2):
+  //   - captura endereço (CEP + campos rua/num/cidade/UF)
+  //   - botão “Buscar CEP” chama buscarCEP() → consulta ViaCEP
+  //     (fetch externo https://viacep.com.br/ws/{cep}/json/)
+  //   - botão “Continuar para Pagamento” chama validarEntrega()
+  //     e, se ok, muda para step=3
+  //   - também existe seleção de tipo de frete (normal/expresso)
+  //
+  // Etapa 3 (step=3):
+  //   - seleção do método de pagamento (pix/credito/debito/boleto)
+  //   - se PIX:
+  //       - gera pixCode (local) e QR Code com QRCode.js
+  //       - timer regressivo de 15 min
+  //       - botão copiar PIX → navigator.clipboard.writeText(pixCode)
+  //   - se Cartão:
+  //       - cartão visual e campos do formulário (não envia para API nesse TCC)
+  //   - se Boleto:
+  //       - mostra código fictício e botão copiar
+  //
+  // Confirmação:
+  // - botão “Confirmar Pagamento/Confirmar Pedido” → confirmarPagamento()
+  //   - para timer do PIX
+  //   - gera orderCode aleatório
+  //   - chama limparCarrinho() (CartContext)
+  //   - exibe tela de sucesso
+  //
+  // Observação: neste projeto atual NÃO há POST/PUT para “criar pedido”
+  // no backend. A finalização é apenas fluxo/fake-pedido para UI.
+  
   // Pega os dados do carrinho do contexto global
   const { cart, cartOrder, subtotal, freteGlobal, limparCarrinho } = useCart();
 

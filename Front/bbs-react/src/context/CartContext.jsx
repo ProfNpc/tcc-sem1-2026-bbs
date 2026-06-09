@@ -14,6 +14,12 @@ const CartContext = createContext(null);
 // Componente que envolve o app (em main.jsx) e disponibiliza
 // todas as funções e dados do carrinho para os filhos.
 export function CartProvider({ children }) {
+  /*
+   * CartProvider = “pai” do contexto do carrinho.
+   * Tudo que o sistema precisa lembrar durante a sessão do usuário
+   * (itens, quantidade, frete, total e abertura da sidebar) fica aqui.
+   */
+
 
   // Objeto onde cada chave é o id do produto e o valor contém
   // { name, price, img, qty }. Exemplo: { 1: { name:"RTX 3060", qty:2, ... } }
@@ -122,5 +128,9 @@ export function CartProvider({ children }) {
 // Hook personalizado: qualquer componente que queira acessar o
 // carrinho chama useCart() em vez de lidar com o contexto direto.
 export function useCart() {
+  // Hook “ponteiro” para os componentes: pega o valor do CartContext
+  // (tudo que está dentro de <CartContext.Provider value={...}>)
+  // e retorna para o componente consumidor.
   return useContext(CartContext);
 }
+

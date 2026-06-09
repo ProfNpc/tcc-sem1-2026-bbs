@@ -86,9 +86,26 @@ function ProdutoCard({ produto, addToCart }) {
         </span>
       )}
 
+      {/*
+       * Botão do card do produto:
+       * - Se semEstoque=true:
+       *     - disabled fica true
+       *     - clique não acontece
+       *     - texto vira “Indisponível”
+       * - Se semEstoque=false:
+       *     - clique chama o contexto addToCart(...)
+       *
+       * addToCart(id, nome, price, img)
+       * → atualiza o carrinho global (CartContext)
+       * → abre a sidebar do carrinho
+       */}
       <button
         disabled={semEstoque}
-        onClick={() => !semEstoque && addToCart(id, nome, Number(preco), imgUrl || "🖥️")}
+        onClick={() => {
+          if (semEstoque) return;
+          // Chamando a “função do carrinho” (contexto)
+          addToCart(id, nome, Number(preco), imgUrl || "🖥️");
+        }}
         style={{
           background: semEstoque
             ? "rgba(255,255,255,.06)"
@@ -101,34 +118,52 @@ function ProdutoCard({ produto, addToCart }) {
       >
         {semEstoque ? "Indisponível" : "Adicionar ao Carrinho"}
       </button>
+
     </article>
   );
 }
 
 export default function ProductList() {
   /*
-   * UI pública da loja.
-   * Responsabilidades:
-   * - Carregar produtos ativos via API Spring (listarProdutosAtivos)
-   * - Exibir os produtos agrupados por "tipo" (CATEGORIAS)
-   * - Passar addToCart para cada card.
+   * ProductList.jsx — página pública (loja) que:
+   * 1) busca produtos ATIVOS no backend (GET /produtos/ativos)
+   * 2) organiza esses produtos em seções por categoria
+   * 3) monta cards com o botão “Adicionar ao Carrinho”
+   *
+   * Importante:
+   * - A chamada à API acontece dentro do useEffect abaixo.
+   * - O addToCart vem do contexto (CartContext), e o botão chama:
+   *     addToCart(id, nome, preco, imgUrl)
    */
   const { addToCart } = useCart();
+
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading]   = useState(true);
   const [erro, setErro]         = useState("");
 
   useEffect(() => {
     /*
-     * useEffect roda uma vez ao montar o componente ([]).
-     * Aqui acontece o 1º fetch da loja.
+     * useEffect roda 1 vez quando o componente nasce (dependências: []).
+     * É aqui que acontece o “primeiro fetch” da loja.
+     *
+     * Fluxo didático:
+     * - montar → chama carregar()
+     * - carregar() faz uma chamada REST para o Spring (produtos/ativos)
+     * - se der certo → setProdutos(data)
+     * - setLoading(false) em finally
      */
     async function carregar() {
       try {
-        // Chamada de API:
-        // GET http://localhost:8080/produtos/ativos
-        // (implementado no backend por ProdutoController.obterProdutosAtivos)
+        /*
+         * Chamada de API (backend):
+         *   Método: GET
+         *   Rota:   http://localhost:8080/produtos/ativos
+         *
+         * O que a API devolve:
+         * - um array com produtos que estão com ativo=true.
+         */
         const data = await listarProdutosAtivos();
+
 
         // res.json() já vem como array na prática, mas garantimos.
         setProdutos(Array.isArray(data) ? data : Array.from(data));

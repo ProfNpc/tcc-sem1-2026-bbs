@@ -36,6 +36,27 @@ const fmt = v =>
   Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function AdminPage({ fechar }) {
+  // ==========================
+  // AdminPage
+  // ==========================
+  // Função principal do Painel Admin.
+  // Responsabilidades (passo a passo do usuário):
+  // 1) Ao montar: chama carregar() → faz GET dos produtos no backend.
+  // 2) Usuário busca/filtra produtos na UI (somente client-side).
+  // 3) Usuário cria um novo produto (abre modal)
+  //    - Se tiver imagem: POST /produtos/com-imagem (multipart)
+  //    - Se não tiver imagem: POST /produtos (JSON)
+  // 4) Usuário edita um produto (abre modal no modo edição)
+  //    - Se escolher nova imagem: PUT /produtos/{id}/com-imagem (multipart)
+  //    - Se não escolher nova imagem: PUT /produtos/{id} (JSON, mantendo imgUrl)
+  // 5) Usuário alterna status (Ativo/Inativo) → PATCH /produtos/{id}/status
+  // 6) Usuário remove → DELETE /produtos/{id}
+  // 
+  // IMPORTANTE:
+  // - Este componente conversa com a API REST do Spring Boot.
+  // - As chamadas REST são feitas pelas funções do produtosService.js
+  //   e pelas funções locais de upload (FormData + fetch).
+  // 
   const [produtos, setProdutos]           = useState([]);
   const [loading, setLoading]             = useState(true);
   const [erro, setErro]                   = useState("");
@@ -775,13 +796,10 @@ const S = {
   formGrid:     { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 20px", marginBottom: 24 },
   field:        { marginBottom: 0 },
   label:        { display: "block", fontSize: ".68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px", color: "#ffffffff", marginBottom: 7 },
-<<<<<<< HEAD
   input:        { width: "100%", padding: "12px 14px", background: "rgba(255, 255, 255, 0.99)", border: "1px solid rgba(136, 38, 38, 0.1)", borderRadius: 10, color: "#000000ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
   btnPrimary:   { flex: 1, padding: "13px 24px", background: "linear-gradient(45deg,#ff416c,#ff4b2b)", border: "none", borderRadius: 10, color: "#9c3131ff", fontFamily: "  'Poppins',sans-serif", fontSize: ".9rem", fontWeight: 700, cursor: "pointer" },
-=======
-  input:        { width: "100%", padding: "12px 14px", background: "rgba(49, 41, 41, 0.99)", border: "1px solid rgba(136, 38, 38, 0.1)", borderRadius: 10, color: "#290606ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
+  input:        { width: "100%", padding: "12px 14px", background: "rgba(49, 41, 41, 0.99)", border: "1px solid rgba(255, 0, 0, 0.1)", borderRadius: 10, color: "#ffffffff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", outline: "none", boxSizing: "border-box" },
   btnPrimary:   { flex: 1, padding: "13px 24px", background: "linear-gradient(45deg,#ff416c,#ff4b2b)", border: "none", borderRadius: 10, color: "#9c3131ff", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", fontWeight: 700, cursor: "pointer" },
->>>>>>> 1f54f07 (vou mexer no do maros pq tá melhors sla oq eu to escrenveod[wajda])
   btnSecondary: { padding: "13px 24px", background: "transparent", border: "1px solid rgba(255,255,255,.12)", borderRadius: 10, color: "#888", fontFamily: "'Poppins',sans-serif", fontSize: ".9rem", cursor: "pointer" },
   alertErr:     { background: "rgba(255,65,108,.1)", border: "1px solid rgba(255,65,108,.3)", color: "#ff8fa0", padding: "12px 16px", borderRadius: 10, fontSize: ".85rem", marginBottom: 16 },
 };
