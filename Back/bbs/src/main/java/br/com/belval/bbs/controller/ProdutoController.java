@@ -49,6 +49,39 @@ import br.com.belval.bbs.repository.ProdutoRepository;
 @RequestMapping("/produtos")
 public class ProdutoController {
 
+    /*
+     * ============================================================
+     *  ProdutoController (BACK-END)
+     * ============================================================
+     * Este controller define endpoints REST (Spring Web) com prefixo:
+     *    /produtos
+     *
+     * Como ele conversa com o front (didático):
+     * 1) O Front faz requisições HTTP (GET/POST/PUT/DELETE/PATCH)
+     *    para estes endpoints.
+     * 2) O Spring mapeia a rota + método HTTP para a função Java.
+     * 3) A função usa o ProdutoRepository (JPA) para buscar/salvar no banco.
+     * 4) O controller retorna ResponseEntity com status HTTP e payload JSON.
+     *
+     * Endpoints implementados aqui:
+     * - GET     /produtos
+     * - GET     /produtos/ativos
+     * - GET     /produtos/{id}
+     * - GET     /produtos/buscar/{texto}
+     * - POST    /produtos
+     * - PUT     /produtos/{id}
+     * - PATCH   /produtos/{id}/status
+     * - DELETE  /produtos/{id}
+     * - POST    /produtos/com-imagem
+     * - PUT     /produtos/{id}/com-imagem
+     *
+     * Observação importante para o seu trabalho:
+     * - Os endpoints com imagem não são “fetch no navegador” puro: eles
+     *   recebem MultipartFile (multipart/form-data), salvam o arquivo no disco
+     *   e retornam a URL pública usada pelo front.
+     * ============================================================
+     */
+
     /**
      * Repositório JPA.
      * Fornece métodos como:
@@ -60,6 +93,7 @@ public class ProdutoController {
      */
     @Autowired
     private ProdutoRepository repository;
+
 
     /**
      * Pasta onde as imagens são salvas.

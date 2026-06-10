@@ -37,27 +37,36 @@ const fmt = v =>
 
 export default function AdminPage({ fechar }) {
   // ==========================
-  // AdminPage
+  // AdminPage (BBS Admin)
   // ==========================
-  // Função principal do Painel Admin.
-  // Responsabilidades (passo a passo do usuário):
-  // 1) Ao montar: chama carregar() → faz GET dos produtos no backend.
-  // 2) Usuário busca/filtra produtos na UI (somente client-side).
-  // 3) Usuário cria um novo produto (abre modal)
-  //    - Se tiver imagem: POST /produtos/com-imagem (multipart)
-  //    - Se não tiver imagem: POST /produtos (JSON)
-  // 4) Usuário edita um produto (abre modal no modo edição)
-  //    - Se escolher nova imagem: PUT /produtos/{id}/com-imagem (multipart)
-  //    - Se não escolher nova imagem: PUT /produtos/{id} (JSON, mantendo imgUrl)
-  // 5) Usuário alterna status (Ativo/Inativo) → PATCH /produtos/{id}/status
-  // 6) Usuário remove → DELETE /produtos/{id}
-  // 
-  // IMPORTANTE:
-  // - Este componente conversa com a API REST do Spring Boot.
-  // - As chamadas REST são feitas pelas funções do produtosService.js
-  //   e pelas funções locais de upload (FormData + fetch).
-  // 
+  // Este componente é a “página do administrador” para CRUD de produtos.
+  // Ele não faz persistência por conta própria: tudo que muda no banco
+  // acontece via chamadas HTTP para o backend Spring.
+  //
+  // Como funciona (fluxo didático do usuário):
+  // 1) Ao montar (useEffect → carregar):
+  //    - faz GET do catálogo (lista de produtos) no backend.
+  // 2) A UI permite filtrar na tela (somente lógica local em React).
+  // 3) Criar produto:
+  //    - Sem imagem: POST /produtos (payload JSON)
+  //    - Com imagem: POST /produtos/com-imagem (multipart/form-data)
+  //    - O backend recebe o MultipartFile, salva em disco e devolve imgUrl.
+  // 4) Editar produto:
+  //    - Sem trocar a imagem: PUT /produtos/{id} (mantém imgUrl atual)
+  //    - Com nova imagem: PUT /produtos/{id}/com-imagem (multipart)
+  // 5) Alternar status (Ativo/Inativo):
+  //    - PATCH /produtos/{id}/status (só inverte o campo ativo no banco)
+  // 6) Remover produto:
+  //    - DELETE /produtos/{id}
+  //
+  // Pontos importantes de integração:
+  // - As rotas REST são do backend em /produtos.
+  // - As chamadas “de produtos” (GET/POST/PUT/PATCH/DELETE) ficam
+  //   encapsuladas no produtosService.js.
+  // - Upload de imagem é feito aqui em funções auxiliares usando FormData + fetch.
+  //
   const [produtos, setProdutos]           = useState([]);
+
   const [loading, setLoading]             = useState(true);
   const [erro, setErro]                   = useState("");
   const [sucesso, setSucesso]             = useState("");

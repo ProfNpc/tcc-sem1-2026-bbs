@@ -1,31 +1,21 @@
-# TODO — Comentários didáticos + ajuste de botões
+# TODO - Comentários didáticos (sem alterar lógica)
 
-- [ ] Atualizar/expandir comentários didáticos nos arquivos do Front React:
-  - [x] Front/bbs-react/src/services/produtosService.js
-  - [x] Front/bbs-react/src/components/ProductList.jsx
-  - [x] Front/bbs-react/src/context/CartContext.jsx
-  - [x] Front/bbs-react/src/components/Cart.jsx
+- [x] Rever e comentar `Front/SLA/script.js`:
 
+   - [x] Explicar bloco de chamadas ViaCEP (`fetch`)
+   - [x] Explicar como CEP valida e atualiza UI e total
+  - [ ] Comentar seções: carrinho, filtros, modal, teclado/atalhos, newsletter, chat, etc.
+- [x] Rever e comentar `Front/SLA/frete.js`:
 
+  - [ ] Explicar função `calcularFrete()` e `fetch` ViaCEP
+  - [ ] Explicar como `valorFreteGlobal` e `atualizarTotalCarrinho()` funcionam
+- [x] Rever e comentar `Front/SLA/checkout.html` (somente comentários):
+  - [ ] Comentar `buscaCEP()` com ViaCEP e fluxo do step de entrega
+- [ ] (Se necessário) comentar `Front/SLA/chatbot.js` e `Front/SLA/carrinho.js`:
+  - [ ] Sem mudanças de lógica; somente documentação interna
+- [x] Checagem final: garantir que não houve alteração funcional (apenas comentários)
+- [x] Atualizar a checklist após cada arquivo (script.js, frete.js, checkout.html)
+- [x] Entregar resultados
 
-
-
-  - [ ] Front/bbs-react/src/components/AdminPage.jsx
-  - [ ] Front/bbs-react/src/components/Header.jsx
-  - [ ] Front/bbs-react/public/Checkout.jsx
-
-- [ ] Ajustar botões “sem cor/letra ruim” (sem remover nada):
-  - [ ] Front/bbs-react/src/index.css (contraste/estados hover/disabled)
-
-  - [ ] Possíveis inline styles em componentes do React apenas onde necessário
-
-
-- [ ] Back-end:
-  - [x] Back/bbs/src/main/java/br/com/belval/bbs/controller/ProdutoController.java: remover marcadores de conflito e deixar compilável (mantendo lógica existente) + adicionar comentários didáticos
-
-- [ ] Testar:
-  - [ ] Build do Back (mvn -q test ou mvn -q package)
-  - [ ] Build do Front (npm install; npm run build)
-  - [ ] Validar fluxo (loja → carrinho → checkout → admin)
 
 

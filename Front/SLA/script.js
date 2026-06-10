@@ -505,19 +505,54 @@ function toggleFormEndereco() {
 }
 
 async function buscarCEP() {
+    // ───────────────────────────────────────────────────────────────
+    // ViaCEP (API externa) - busca dados de endereço pelo CEP
+    //
+    // Fluxo:
+    // 1) Lê o valor do input #end-cep e remove tudo que não for dígito
+    //    (ex.: "12345-678" vira "12345678").
+    // 2) Valida se o CEP tem exatamente 8 dígitos.
+    // 3) Faz uma requisição HTTP GET para a API pública do ViaCEP:
+    //      https://viacep.com.br/ws/{cep}/json/
+    // 4) Converte a resposta para JSON (d) e verifica d.erro.
+    // 5) Preenche os campos do formulário com os dados retornados:
+    //    - logradouro -> #end-rua
+    //    - bairro     -> #end-bairro
+    //    - localidade -> #end-cidade
+    //    - uf         -> #end-uf
+    // 6) Foca no campo #end-num (para o usuário completar o número).
+    // ───────────────────────────────────────────────────────────────
+
     const cep = document.getElementById('end-cep').value.replace(/\D/g,'');
+
+    // ViaCEP espera CEP com 8 dígitos; se não tiver, já mostramos erro local.
     if (cep.length !== 8) return _ppAlert('pp-alert-end', 'CEP inválido.', 'error');
+
     try {
+        // Chamada externa (rede): busca o endereço correspondente ao CEP.
+        // `fetch` retorna uma Promise com a resposta HTTP.
         const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+        // Converte a resposta HTTP em objeto JavaScript via JSON.
         const d = await r.json();
+
+        // A API retorna { erro: true } quando não encontra o CEP.
         if (d.erro) return _ppAlert('pp-alert-end', 'CEP não encontrado.', 'error');
+
+        // Preenche automaticamente os inputs do endereço com valores vindos da API.
+        // Usamos `|| ''` para evitar que campos fiquem com `undefined`.
         document.getElementById('end-rua').value = d.logradouro || '';
         document.getElementById('end-bairro').value = d.bairro || '';
         document.getElementById('end-cidade').value = d.localidade || '';
         document.getElementById('end-uf').value = d.uf || '';
+
+        // Após preencher, direciona o usuário para o campo de número.
         document.getElementById('end-num').focus();
+
+        // Garante que a mensagem/alerta (pp-alert-end) esteja visível.
         document.getElementById('pp-alert-end').className = 'pp-alert';
     } catch(e) {
+        // Qualquer erro de rede/parse cai aqui.
         _ppAlert('pp-alert-end', 'Erro ao buscar CEP.', 'error');
     }
 }
