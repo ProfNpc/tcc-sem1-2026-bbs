@@ -13,7 +13,47 @@ import jakarta.persistence.Id;
 public class Produto {
 
     /*
+     * ============================================================
+     * Produto (MODEL)
+     * ============================================================
+     * Representa um item comercial que será persistido no banco (JPA).
+     *
+     * Campos e uso no sistema:
+     * - id (PK)                : identificado nas rotas /{id}
+     * - nome / descricao      : exibidos no front e usados em busca
+     * - preco                  : valor monetário do produto
+     * - estoque                : quantidade disponível
+     * - tipo                   : categoria/tipo textual (gpu, cpu, ram...)
+     * - dataCriacao            : timestamp de criação
+     * - imgUrl                 : URL pública da imagem salva no disco
+     * - ativo                  : controla visibilidade na loja (GET /ativos)
+     */
+
+    /*
+     * ============================================================
+     * Produto (MODEL)
+     * ============================================================
+     * Classe de domínio persistida no banco via JPA (@Entity).
+     *
+     * Uso no sistema:
+     * - Endpoints do ProdutoController operam sobre esta classe.
+     * - Campos são retornados ao front como JSON.
+     *
+     * Campos principais:
+     * - id        : PK e referência nas rotas /produtos/{id}
+     * - nome      : texto exibido e usado em busca
+     * - descricao : texto exibido e usado em busca
+     * - preco     : preço monetário (BigDecimal)
+     * - estoque   : quantidade disponível
+     * - dataCriacao : timestamp para histórico/controle
+     * - tipo      : categoria textual (ex: gpu, cpu...)
+     * - imgUrl    : URL da imagem pública do produto
+     * - ativo     : controla se o produto aparece na loja (GET /produtos/ativos)
+     */
+
+    /*
      * Entidade JPA que mapeia a tabela de produtos no banco.
+
      *
      * Campos importantes (usados pelos endpoints):
      * - ativo: controla se o produto aparece na loja (GET /ativos)

@@ -8,6 +8,11 @@ import { useCart } from "../context/CartContext";
 import { useState } from "react";
 
 export default function Cart({ abrirCheckout }) {
+  // Cart.jsx: Sidebar do carrinho (version principal)
+  // - Mostra itens do carrinho (via CartContext)
+  // - Calcula frete usando ViaCEP (API externa)
+  // - Mostra subtotal/total (inclui freteGlobal)
+  // - Ao finalizar, chama abrirCheckout() para abrir o fluxo de compra.
   // Dados e funções do contexto global do carrinho
   const {
     cart,           // Objeto com todos os itens { [id]: { name, price, img, qty } }

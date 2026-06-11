@@ -1,6 +1,21 @@
 package br.com.belval.bbs.model;
 
+/*
+ * Categoria (MODEL)
+ * ------------------------------------------------------------
+ * Representa uma categoria/tipo de produto.
+ *
+ * Campos:
+ * - idCategoria      -> identificador numérico da categoria
+ * - nomeCategoria    -> nome/descrição textual da categoria
+ *
+ * Observação:
+ * - Nesta classe não há anotações JPA (@Entity). Assim, pode estar como modelo
+ *   conceitual/DTO ou ainda não mapeada para o banco.
+ */
+
 import java.util.Objects;
+
 
 public class Categoria {
 

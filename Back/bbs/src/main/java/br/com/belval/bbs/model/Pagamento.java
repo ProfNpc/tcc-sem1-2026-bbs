@@ -1,6 +1,23 @@
 package br.com.belval.bbs.model;
 
+/*
+ * Pagamento (MODEL)
+ * ------------------------------------------------------------
+ * Representa uma forma/registro de pagamento.
+ *
+ * Campos:
+ * - idPagamento     -> identificador do pagamento
+ * - valor           -> valor (Double)
+ * - dataPagamento   -> data em que o pagamento ocorreu
+ * - formaPagamento  -> método (ex: PIX, cartão, etc.)
+ *
+ * Observação:
+ * - Não há anotações JPA (@Entity) nesta classe.
+ *   Portanto, pode estar como DTO/modelo conceitual ou ainda não persistida.
+ */
+
 import java.time.LocalDate;
+
 import java.util.Objects;
 
 public class Pagamento {

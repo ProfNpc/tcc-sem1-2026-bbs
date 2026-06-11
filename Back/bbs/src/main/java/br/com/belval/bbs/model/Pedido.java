@@ -1,6 +1,24 @@
 package br.com.belval.bbs.model;
 
+/*
+ * Pedido (MODEL)
+ * ------------------------------------------------------------
+ * Classe que “corresponde à tabela pedido”, conforme comentário original.
+ *
+ * Importante:
+ * - Não há anotações JPA (@Entity, @Id etc.) nessa classe.
+ *   Logo, o mapeamento para persistência pode não estar configurado aqui.
+ *
+ * Campos principais:
+ * - idPedido       -> identificador do pedido
+ * - clienteNome    -> nome do cliente (string) associado ao pedido
+ * - descricao       -> descrição textual do pedido
+ * - valorTotal      -> valor total (BigDecimal)
+ * - dataCriacao     -> momento de criação do pedido
+ */
+
 import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 

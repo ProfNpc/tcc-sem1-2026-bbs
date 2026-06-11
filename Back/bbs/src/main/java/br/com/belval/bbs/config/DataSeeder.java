@@ -13,6 +13,20 @@ import java.util.List;
 @Component
 public class DataSeeder implements ApplicationRunner {
 
+    /*
+     * ============================================================
+     * DataSeeder (BACK-END)
+     * ============================================================
+     * Função desta classe:
+     * - Durante a inicialização da aplicação (startup), popular o banco
+     *   com uma lista fixa de produtos de exemplo.
+     *
+     * Comportamento:
+     * - Antes de inserir, verifica se já existe dado (repository.count() > 0).
+     * - Se o banco estiver vazio, cria objetos Produto com dados pré-definidos
+     *   (nome, descrição, preço, estoque, tipo e URL de imagem) e salva tudo.
+     */
+
     private final ProdutoRepository repository;
 
     public DataSeeder(ProdutoRepository repository) {

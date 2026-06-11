@@ -1,6 +1,20 @@
 package br.com.belval.bbs.model;
- 
+
+/*
+ * Modelo (MODEL)
+ * ------------------------------------------------------------
+ * Representa um “modelo” (por exemplo, variante/linha/descrição) associado a algo do domínio.
+ *
+ * Campos:
+ * - idModelo -> identificador numérico do modelo
+ * - nome     -> descrição do modelo
+ *
+ * Observação:
+ * - Não possui anotações JPA (@Entity). Pode ser um DTO/conceito em fase inicial.
+ */
+
 import java.util.Objects;
+
  
 public class Modelo {
  

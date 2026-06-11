@@ -1,6 +1,24 @@
 package br.com.belval.bbs.model;
- 
+
+/*
+ * Cliente (MODEL)
+ * ------------------------------------------------------------
+ * Classe simples de domínio/entidade (POJO) que representa dados de um cliente.
+ *
+ * Observação:
+ * - Nesta implementação, não há anotações JPA (como @Entity).
+ *   Ou seja, do ponto de vista do backend atual, pode ser usada como DTO/modelo
+ *   de apoio (ou está incompleta para persistência no banco).
+ * - Campos principais:
+ *   idCliente  -> identificador do cliente
+ *   nome        -> nome do cliente
+ *   endereco    -> endereço do cliente
+ *   senha       -> senha (armanezenamento idealmente não deveria ser em texto puro)
+ *   comprasAnteriores -> histórico/descrição de compras anteriores
+ */
+
 import java.util.Objects;
+
  
 public class Cliente {
  

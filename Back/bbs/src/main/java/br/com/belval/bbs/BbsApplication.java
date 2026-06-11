@@ -10,6 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class BbsApplication {
 
 	/*
+	 * ============================================================
+	 * BbsApplication (BACK-END)
+	 * ============================================================
+	 * Papel desta classe:
+	 * - Marca o projeto como Spring Boot Application.
+	 * - Define o ponto de entrada (main) que inicia o Spring.
+	 * - Contém um endpoint simples de saúde/validação: GET /eco.
+	 */
+
+	/*
 	 * Ponto de entrada da aplicação Spring Boot.
 	 * Sobe o container e registra todos os controllers/endpoints.
 	 */

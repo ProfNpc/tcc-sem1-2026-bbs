@@ -5,6 +5,11 @@
 // ============================================================
 
 import { useState } from "react";
+
+// Observação: comentários do projeto
+// - App.jsx é o componente raiz (root) do React.
+// - Ele coordena a abertura/fechamento de telas (Checkout e Admin)
+//   e dispara recarregamento do catálogo quando Admin salva produtos.
 import Header from "./components/Header";
 import ProductList from "./components/ProductList";
 import Cart from "./components/Cart";

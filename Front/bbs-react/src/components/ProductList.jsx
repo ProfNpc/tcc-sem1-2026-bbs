@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import { listarProdutosAtivos } from "../services/produtosService.js"; // agora busca só os ativos
 import { useCart } from "../context/CartContext";
 
+// ProductList.jsx — tela pública (loja)
+// - Busca apenas produtos ativos no backend (GET /produtos/ativos)
+// - Agrupa/organiza por “tipo” (categoria)
+// - Renderiza cards com botão para adicionar ao carrinho
+// - O estado do carrinho e a função addToCart vêm do CartContext
+
 const CATEGORIAS = [
   { id: "gpu",      label: "Placas de Vídeo",  sub: "GPU · Graphics"         },
   { id: "cpu",      label: "Processadores",     sub: "CPU · Computing"        },

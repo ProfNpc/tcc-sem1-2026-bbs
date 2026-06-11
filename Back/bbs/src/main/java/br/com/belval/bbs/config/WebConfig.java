@@ -18,6 +18,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    /*
+     * ============================================================
+     * WebConfig (BACK-END)
+     * ============================================================
+     * Responsabilidade:
+     * - Configurar o Spring MVC para servir arquivos estáticos que estão
+     *   fisicamente no disco (pasta uploads/imagens).
+     *
+     * Efeito prático:
+     * - Arquivos salvos em: uploads/imagens/ARQUIVO.jpg
+     * - Podem ser acessados via HTTP em: http://localhost:8080/imagens/ARQUIVO.jpg
+     */
+
     @Value("${app.upload.dir:uploads/imagens}")
     private String uploadDir;
 

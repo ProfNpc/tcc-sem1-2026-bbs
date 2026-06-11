@@ -1,6 +1,33 @@
 package br.com.belval.bbs.controller;
 
+/*
+ * ============================================================
+ * ProdutoController (BACK-END)
+ * ============================================================
+ * Responsabilidade geral:
+ * - Expor endpoints HTTP REST com prefixo /produtos.
+ * - Realizar operações CRUD no banco usando ProdutoRepository (JPA).
+ * - Quando necessário, receber MultipartFile (upload de imagem),
+ *   salvar o arquivo em disco e retornar uma URL pública (imgUrl)
+ *   para o Front usar.
+ *
+ * Sobre a comunicação com o Front:
+ * - O Front chama rotas como:
+ *     GET    /produtos
+ *     GET    /produtos/ativos
+ *     GET    /produtos/{id}
+ *     GET    /produtos/buscar/{texto}
+ *     POST   /produtos (JSON)
+ *     PUT    /produtos/{id} (JSON)
+ *     PATCH  /produtos/{id}/status (alternar ativo)
+ *     DELETE /produtos/{id}
+ *     POST   /produtos/com-imagem (multipart)
+ *     PUT    /produtos/{id}/com-imagem (multipart)
+ * ============================================================
+ */
+
 import java.io.IOException;
+
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;

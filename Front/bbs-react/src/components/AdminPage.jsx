@@ -36,6 +36,11 @@ const fmt = v =>
   Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function AdminPage({ fechar }) {
+  // AdminPage: UI/Fluxo de CRUD de produtos
+  // - Carrega lista no montar (listarProdutos)
+  // - Permite criar/editar com ou sem upload de imagem
+  // - Permite alternar status (ativo/inativo) e deletar
+  // Integração com backend via produtosService.js.
   // ==========================
   // AdminPage (BBS Admin)
   // ==========================
